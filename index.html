@@ -8,24 +8,22 @@
     
     <style>
         :root {
-            /* Main Palette (70%) */
             --bright-orange: #FFA515;
             --deep-blue: #002863;
             --pure-white: #FFFFFF;
-            --solid-black: #000000;
-            /* Secondary Palette (30%) */
-            --red-orange: #EA4E3D;
-            --light-gray: #F4F4F4;
-            --charcoal: #606060;
-            --aqua-green: #42F4B0;
+            --bg-dark: #0a0f1a;       /* Deep rich blue-black base */
+            --bg-card: #151d2e;       /* Slightly lighter card background */
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-dark: #2d3748;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--pure-white);
-            color: var(--solid-black);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
             line-height: 1.6;
             padding-top: 80px;
         }
@@ -36,56 +34,52 @@
             align-items: center;
             padding: 0 40px;
             height: 80px;
-            background-color: var(--pure-white);
+            background-color: rgba(10, 15, 26, 0.95);
+            backdrop-filter: blur(10px);
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 100;
-            border-bottom: 2px solid var(--light-gray);
+            border-bottom: 1px solid var(--border-dark);
         }
 
-        /* Logo Area - Insert your image here */
-        .logo img { height: 40px; width: auto; }
+        .logo img { height: 40px; width: auto; filter: brightness(0) invert(1); } /* Makes your logo white if needed */
 
         nav { display: flex; align-items: center; gap: 25px; }
-        nav a { text-decoration: none; color: var(--deep-blue); font-weight: 600; font-size: 0.95rem; }
+        nav a { text-decoration: none; color: var(--text-light); font-weight: 500; font-size: 0.95rem; }
         nav a:hover { color: var(--bright-orange); }
 
         .btn-login {
-            background-color: var(--deep-blue);
-            color: var(--pure-white) !important;
+            background-color: var(--bright-orange);
+            color: var(--deep-blue) !important;
             padding: 10px 20px;
             border-radius: 4px;
+            font-weight: 700;
         }
 
-        .hero {
-            text-align: center;
-            padding: 80px 20px;
-            background-color: var(--light-gray);
-        }
-        .hero h1 { font-size: 3rem; color: var(--deep-blue); margin-bottom: 15px; }
-        .hero p { font-size: 1.2rem; color: var(--charcoal); max-width: 600px; margin: 0 auto 30px; }
+        .hero { text-align: center; padding: 80px 20px; background: linear-gradient(180deg, #151d2e 0%, #0a0f1a 100%); }
+        .hero h1 { font-size: 3rem; color: var(--pure-white); margin-bottom: 15px; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 30px; }
 
         .section-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
-        .section-title { color: var(--deep-blue); margin-bottom: 25px; border-left: 5px solid var(--bright-orange); padding-left: 15px; }
+        .section-title { color: var(--bright-orange); margin-bottom: 25px; border-left: 5px solid var(--bright-orange); padding-left: 15px; }
 
         .tool-card {
-            background: var(--pure-white);
-            border: 1px solid var(--light-gray);
+            background: var(--bg-card);
+            border: 1px solid var(--border-dark);
             padding: 25px;
             display: block;
             text-decoration: none;
-            color: var(--solid-black);
+            color: var(--text-light);
             border-radius: 8px;
             transition: 0.3s;
         }
-        .tool-card:hover { border-color: var(--bright-orange); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .tool-card:hover { border-color: var(--bright-orange); background: #1e293b; }
     </style>
 </head>
 <body>
 
     <header>
-        <!-- Place your logo file in your repo and update src below -->
         <a href="index.html" class="logo"><img src="fantasy_logo-3.png" alt="FantasyNow+ Logo"></a>
         <nav>
             <a href="rankings.html">Rankings</a>
@@ -106,14 +100,13 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
             <a href="tools.html" class="tool-card">
                 <h3>🎨 Roster Graphic Generator</h3>
-                <p style="color: var(--charcoal);">Generate your custom team graphics using your Sleeper or MFL username.</p>
+                <p style="color: var(--text-muted);">Generate your custom team graphics using your Sleeper or MFL username.</p>
             </a>
             <a href="rankings.html" class="tool-card">
                 <h3>📈 Expert Rankings</h3>
-                <p style="color: var(--charcoal);">Consolidated Redraft and Dynasty rankings from our team.</p>
+                <p style="color: var(--text-muted);">Consolidated Redraft and Dynasty rankings from our team.</p>
             </a>
         </div>
     </section>
-
 </body>
 </html>
