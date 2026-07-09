@@ -14,16 +14,12 @@ async function fetchNews() {
                 return `<a href="${item.link}" target="_blank">${item.title}</a>`;
             }).join(" ••• ");
             
-            // Force the innerHTML update
-            newsContainer.innerHTML = `<span>${newsItems}</span>`;
-            console.log("News successfully injected:", newsItems);
+            // Inject the content inside the ticker-content div
+            newsContainer.innerHTML = newsItems;
         }
     } catch (error) {
         console.error("Fetch Error:", error);
     }
 }
 
-// Ensure the function runs AFTER the HTML is fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-    fetchNews();
-});
+fetchNews();
