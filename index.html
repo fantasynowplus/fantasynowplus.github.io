@@ -3,221 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FantasyNow+ | Tournament Hub</title>
-    <!-- Modern crisp font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>FantasyNow+ | Content & Tools Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Exact Brand Colors mapped from your logo */
         :root {
-            --brand-navy: #00285e;     /* Deep Navy from logo text */
-            --brand-gold: #ffaa1d;     /* Vibrant Gold from logo icon */
-            --bg-light: #ffffff;       /* Main white background */
-            --bg-offset: #f8fafc;      /* Subtle off-white for cards/sections */
-            --text-dark: #0f172a;      /* Dark slate for high contrast text */
-            --text-muted: #64748b;     /* Muted gray for secondary descriptions */
-            --border-color: #e2e8f0;   /* Light gray borders */
+            /* Main Palette (70%) */
+            --bright-orange: #FFA515;
+            --deep-blue: #002863;
+            --pure-white: #FFFFFF;
+            --solid-black: #000000;
+            /* Secondary Palette (30%) */
+            --red-orange: #EA4E3D;
+            --light-gray: #F4F4F4;
+            --charcoal: #606060;
+            --aqua-green: #42F4B0;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
+            background-color: var(--pure-white);
+            color: var(--solid-black);
             line-height: 1.6;
-            overflow-x: hidden;
+            padding-top: 80px;
         }
 
-        /* Clean Header Navigation */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 40px;
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
+            padding: 0 40px;
+            height: 80px;
+            background-color: var(--pure-white);
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 100;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--light-gray);
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--brand-navy);
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
+        /* Logo Area - Insert your image here */
+        .logo img { height: 40px; width: auto; }
+
+        nav { display: flex; align-items: center; gap: 25px; }
+        nav a { text-decoration: none; color: var(--deep-blue); font-weight: 600; font-size: 0.95rem; }
+        nav a:hover { color: var(--bright-orange); }
+
+        .btn-login {
+            background-color: var(--deep-blue);
+            color: var(--pure-white) !important;
+            padding: 10px 20px;
+            border-radius: 4px;
         }
 
-        .logo span {
-            color: var(--brand-gold);
-            font-weight: 600;
-            margin-left: 1px;
-        }
-
-        /* Hero Main Viewport Container */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             text-align: center;
-            padding: 140px 20px 80px;
-            position: relative;
-            background: radial-gradient(circle at top, rgba(255, 170, 29, 0.04) 0%, rgba(255, 255, 255, 0) 50%);
+            padding: 80px 20px;
+            background-color: var(--light-gray);
         }
+        .hero h1 { font-size: 3rem; color: var(--deep-blue); margin-bottom: 15px; }
+        .hero p { font-size: 1.2rem; color: var(--charcoal); max-width: 600px; margin: 0 auto 30px; }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            letter-spacing: -1.5px;
-            color: var(--brand-navy);
-            margin-bottom: 15px;
-            line-height: 1.2;
-        }
+        .section-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .section-title { color: var(--deep-blue); margin-bottom: 25px; border-left: 5px solid var(--bright-orange); padding-left: 15px; }
 
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            max-width: 620px;
-            margin-bottom: 35px;
-            font-weight: 400;
-        }
-
-        /* Premium Brand Button */
-        .cta-group {
-            display: flex;
-            gap: 15px;
-        }
-
-        .btn-primary {
-            display: inline-block;
-            background-color: var(--brand-navy);
-            color: #ffffff;
-            padding: 14px 32px;
+        .tool-card {
+            background: var(--pure-white);
+            border: 1px solid var(--light-gray);
+            padding: 25px;
+            display: block;
             text-decoration: none;
+            color: var(--solid-black);
             border-radius: 8px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.2s ease-in-out;
-            box-shadow: 0 4px 12px rgba(0, 40, 94, 0.15);
-            border: 2px solid var(--brand-navy);
+            transition: 0.3s;
         }
-
-        .btn-primary:hover {
-            background-color: #001f4a;
-            border-color: #001f4a;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 40, 94, 0.2);
-        }
-
-        /* Structured Light Cards Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 1100px;
-            width: 100%;
-            margin: 80px auto 0;
-            padding: 0 20px;
-        }
-
-        .card {
-            background-color: var(--bg-offset);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 35px;
-            text-align: left;
-            transition: all 0.2s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            background-color: var(--bg-light);
-            border-color: var(--brand-gold);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-        }
-
-        .card-icon {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 45px;
-            height: 45px;
-            background-color: rgba(255, 170, 29, 0.15);
-            border-radius: 8px;
-            color: var(--brand-navy);
-        }
-
-        .card h3 {
-            font-size: 1.3rem;
-            color: var(--brand-navy);
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            font-weight: 400;
-        }
-
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .hero p { font-size: 1.1rem; }
-            header { padding: 20px; }
-            .cta-group { width: 100%; max-width: 300px; }
-            .btn-primary { text-align: center; width: 100%; }
-        }
+        .tool-card:hover { border-color: var(--bright-orange); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
-    <!-- Header Navigation -->
     <header>
-        <div class="logo">FantasyNow<span>+</span></div>
+        <!-- Place your logo file in your repo and update src below -->
+        <a href="index.html" class="logo"><img src="fantasy_logo-3.png" alt="FantasyNow+ Logo"></a>
+        <nav>
+            <a href="rankings.html">Rankings</a>
+            <a href="tools.html">Tools & Graphics</a>
+            <a href="about.html">About Us</a>
+            <a href="https://superleagueff.org" target="_blank">Super League ↗</a>
+            <a href="login.html" class="btn-login">Dashboard Login</a>
+        </nav>
     </header>
 
-    <!-- Hero Showcase Section -->
     <main class="hero">
-        <h1>The Ultimate Tournament Hub</h1>
-        <p>Take full control of your competitive leagues. Securely log in, manage your custom profile, and flawlessly sync up to your fantasy divisions.</p>
-        
-        <div class="cta-group">
-            <a href="login.html" class="btn-primary">Enter Tournament Dashboard</a>
-        </div>
-
-        <!-- Light Branded Feature Cards -->
-        <div class="features-grid">
-            <div class="card">
-                <div class="card-icon">🏈</div>
-                <h3>Profile Management</h3>
-                <p>Keep your user details, social handles, and primary fantasy usernames updated effortlessly in one central location.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🛡️</div>
-                <h3>Secure Authentication</h3>
-                <p>Powered with dedicated, reliable validation protocols protecting your personal metadata and tournament entries.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">⚡</div>
-                <h3>Instant League Claims</h3>
-                <p>Receive automatic invitations and claim your specified draft division matching links instantly upon entry.</p>
-            </div>
-        </div>
+        <h1>FantasyNow+</h1>
+        <p>Expert analytical content, custom franchise graphics, and strategic resources for the modern manager.</p>
     </main>
+
+    <section class="section-container">
+        <h2 class="section-title">Tools & Resources</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <a href="tools.html" class="tool-card">
+                <h3>🎨 Roster Graphic Generator</h3>
+                <p style="color: var(--charcoal);">Generate your custom team graphics using your Sleeper or MFL username.</p>
+            </a>
+            <a href="rankings.html" class="tool-card">
+                <h3>📈 Expert Rankings</h3>
+                <p style="color: var(--charcoal);">Consolidated Redraft and Dynasty rankings from our team.</p>
+            </a>
+        </div>
+    </section>
 
 </body>
 </html>
