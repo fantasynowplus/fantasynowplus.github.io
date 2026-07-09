@@ -9,16 +9,16 @@ async function fetchNews() {
         if (data.items && data.items.length > 0) {
             const newsContainer = document.getElementById('news-container');
             
-            // Map the items
+            // Format links with wide spacing to avoid clumping
             const newsItems = data.items.map(item => {
                 return `<a href="${item.link}" target="_blank">${item.title}</a>`;
-            }).join(" ••• ");
+            }).join(" &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ••• &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ");
             
-            // Inject the content inside the ticker-content div
             newsContainer.innerHTML = newsItems;
         }
     } catch (error) {
         console.error("Fetch Error:", error);
+        document.getElementById('news-container').innerHTML = "<span>Check back later for updates.</span>";
     }
 }
 
