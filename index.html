@@ -70,13 +70,17 @@
             z-index: 99;
             border-bottom: 1px solid var(--bright-orange);
         }
-        .ticker-content { display: inline-block; padding-left: 100%; animation: scroll 90s linear infinite; }
-        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
-
-        @media (prefers-reduced-motion: reduce) {
-           .ticker-content {
-                animation: none;
-            }
+        /* Ensure the links inside the ticker look like the rest of the text */
+        .ticker-content a {
+            color: var(--bright-orange);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        .ticker-content a:hover {
+            text-decoration: underline;
+            color: var(--pure-white);
+        }
         }
 
         /* Action Grid */
