@@ -1,0 +1,31 @@
+.sleeper-card { 
+    background: var(--bg-card); 
+    border: 1px solid var(--border-dark); 
+    border-radius: 8px; 
+    overflow: hidden; 
+    margin-bottom: 25px; 
+    width: 100%; 
+}
+
+.sleeper-header { 
+    background: var(--deep-blue); 
+    padding: 15px 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom: 2px solid var(--bright-orange); 
+}
+
+.sleeper-logo { color: var(--text-light); font-weight: 700; }
+
+.badge-add { color: #22c55e; border: 1px solid #22c55e; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
+.badge-drop { color: #ef4444; border: 1px solid #ef4444; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
+
+.sleeper-embed { background: #fff; padding: 5px; }
+
+.sleeper-embed iframe { 
+    border-radius: 4px; 
+    filter: saturate(0.9) contrast(1.1); 
+    width: 100%; 
+    display: block;
+}
