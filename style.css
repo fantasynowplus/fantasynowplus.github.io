@@ -97,11 +97,11 @@ nav a:hover { color: var(--bright-orange); }
     font-size: 1.9rem;                /* Adjust size as needed */
     color: var(--text-light);
     text-align: center;
-    margin: 0 0 25px 0;
+    margin: 10px 0 10px 0;
     text-transform: uppercase;
     
     /* This creates the 'tall and condensed' look */
-    transform: scaleY(2.4);           /* Stretches the height */
+    transform: scaleY(2.8);           /* Stretches the height */
     letter-spacing: -0.02em;          /* Pulls letters closer together */
     transform-origin: center;
 }
