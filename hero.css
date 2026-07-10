@@ -9,6 +9,7 @@
     position: relative;
     overflow: hidden;
     margin-bottom: 5px;
+    border-bottom: 1px solid var(--bright-orange);
 }
 
 .hero-content {
