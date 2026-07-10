@@ -32,23 +32,22 @@ nav a:hover { color: var(--bright-orange); }
 .action-card:hover { border-left: 4px solid var(--pure-white); transform: translateY(-5px); }
 .action-card h3 { margin-bottom: 10px; color: var(--bright-orange); }
 
-/* Ensure the container is set up */
-.social-links { 
-    display: flex; 
-    gap: 20px; 
-    justify-content: center; 
-    margin: 15px 0; 
-}
-
-/* Base style for icons: set a larger size and light gray color */
+.social-links { display: flex; gap: 15px; justify-content: center; margin: 15px 0; }
 .social-icon { 
-    color: #ffffff
-    font-size: 1.8rem; /* Larger size */
+    width: 40px; 
+    height: 40px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background-color: var(--bg-card); 
+    border-radius: 50%; 
+    color: var(--text-light); 
+    font-size: 1.2rem; 
     transition: all 0.3s ease; 
     text-decoration: none;
+    border: 1px solid var(--border-dark);
 }
 
-/* Platform-specific hover colors */
-.social-icon.youtube:hover { color: #FF0000 !important; }
-.social-icon.bluesky:hover { color: #0085FF !important; }
-.social-icon.discord:hover { color: #5865F2 !important; }
+.social-icon.youtube:hover { background-color: #FF0000; color: white; border-color: #FF0000; }
+.social-icon.bluesky:hover { background-color: #0085FF; color: white; border-color: #0085FF; }
+.social-icon.discord:hover { background-color: #5865F2; color: white; border-color: #5865F2; }
