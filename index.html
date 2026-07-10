@@ -43,17 +43,21 @@
 
         <!-- Right Sidebar: Rankings Widget -->
         <aside class="sidebar" id="rankings-widget">
-            <div class="fnp-nav">
-                <div class="bubble cat-bubble active" onclick="switchTab('draft', 12, this)">Draft</div>
-                <div class="bubble cat-bubble" onclick="switchTab('dynasty', 12, this)">Dynasty</div>
-                <div class="bubble cat-bubble" onclick="switchTab('rookie', 12, this)">Rookie</div>
-            </div>
-            <div class="fnp-nav">
-                <div class="bubble pos-bubble" onclick="switchTab(state.type, 0, this)">QB</div>
-                <div class="bubble pos-bubble" onclick="switchTab(state.type, 3, this)">RB</div>
-                <div class="bubble pos-bubble" onclick="switchTab(state.type, 6, this)">WR</div>
-                <div class="bubble pos-bubble" onclick="switchTab(state.type, 9, this)">TE</div>
-            </div>
+            <div class="fn-plus-container">
+                <div class="fn-plus-header">EXPERT RANKINGS</div>
+                
+                <div class="fnp-nav">
+                    <div class="bubble cat-bubble active" onclick="switchTab('draft', 12, this)">Draft</div>
+                    <div class="bubble cat-bubble" onclick="switchTab('dynasty', 12, this)">Dynasty</div>
+                    <div class="bubble cat-bubble" onclick="switchTab('rookie', 12, this)">Rookie</div>
+                </div>
+                <div class="fnp-nav">
+                    <div class="bubble pos-bubble" onclick="switchTab(state.type, 0, this)">QB</div>
+                    <div class="bubble pos-bubble" onclick="switchTab(state.type, 3, this)">RB</div>
+                    <div class="bubble pos-bubble" onclick="switchTab(state.type, 6, this)">WR</div>
+                    <div class="bubble pos-bubble" onclick="switchTab(state.type, 9, this)">TE</div>
+                </div>
+                
                 <div id="rank-list">Loading...</div>
             </div>
         </aside>
