@@ -19,8 +19,8 @@
 
 .sleeper-logo { color: var(--text-light); font-weight: 700; }
 
-.badge-add { color: #22c55e; border: 1px solid #22c55e; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
-.badge-drop { color: #f63c21; border: 1px solid #f63c21; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
+.badge-add { background: #22c55e; color: #fff; border: 1px solid #22c55e; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
+.badge-drop { background: #f63c21; color: #fff; border: 1px solid #f63c21; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
 
 .sleeper-body { padding: 10px; }
 .player-row { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border-dark); }
