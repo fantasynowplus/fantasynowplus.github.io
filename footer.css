@@ -31,14 +31,15 @@
 
 .footer-col a:hover { color: var(--bright-orange); }
 
-.footer-bottom { 
-    text-align: center; 
-    margin-top: 50px; 
-    padding-top: 20px;
-    border-top: 1px solid #1e2536;
-    font-size: 0.85rem; 
-    opacity: 0.6; 
+.footer-bottom {
+    text-align: center;
+    padding: 20px 0; /* Changed from padding-top to symmetrical padding */
+    font-size: 0.85rem;
+    opacity: 0.6;
     background: #000000;
+    width: 100%; /* Force full width */
+    margin-top: 0; /* Remove top margin so it sits flush */
+    border-top: 1px solid #1e2536;
 }
 
 .footer-logo {
