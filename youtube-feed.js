@@ -1,26 +1,27 @@
-// youtube-feed.js
-const CHANNEL_ID = 'UCCW6qFFB7ezwJk1cLPjPHDg';
-const RSS_URL = `https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
-
-async function fetchYoutubeFeed() {
-    const feedContainer = document.getElementById('youtube-feed');
-    try {
-        const response = await fetch(RSS_URL);
-        const data = await response.json();
-        const videos = data.items.slice(0, 3); // Gets your last 3 videos
+async function loadFeed(playlistId) {
+    // If it's your channel ID, use the channel RSS; otherwise use playlist RSS
+    const isChannel = playlistId === 'UCCW6qFFB7ezwJk1cLPjPHDg';
+    const rss = isChannel 
+        ? `https://www.youtube.com/feeds/videos.xml?channel_id=${playlistId}`
+        : `https://www.youtube.com/feeds/videos.xml?playlist_id=${playlistId}`;
         
-        let html = '';
-        videos.forEach(video => {
-            const videoId = video.guid.split('yt:video:')[1];
-            html += `
-                <div class="video-item">
-                    <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
-                    <a href="${video.link}" class="video-title" target="_blank">${video.title}</a>
-                </div>`;
-        });
-        feedContainer.innerHTML = html;
-    } catch (error) {
-        feedContainer.innerHTML = '<p>Unable to load videos.</p>';
-    }
+    const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rss}`);
+    const data = await response.json();
+    const videos = data.items.slice(0, 6); // Take the last 6
+
+    const container = document.getElementById('youtube-feed');
+    container.innerHTML = videos.map(v => `
+        <div class="video-card">
+            <a href="${v.link}" target="_blank">
+                <img src="${v.thumbnail}" class="thumbnail" alt="${v.title}">
+            </a>
+            <div class="video-info">
+                <h3 class="video-title">${v.title}</h3>
+                <p class="video-date">${new Date(v.pubDate).toLocaleDateString()}</p>
+            </div>
+        </div>
+    `).join('');
 }
-fetchYoutubeFeed();
+
+// Initial load
+loadFeed('UCCW6qFFB7ezwJk1cLPjPHDg');
