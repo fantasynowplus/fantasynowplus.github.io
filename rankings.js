@@ -22,7 +22,13 @@ async function init() {
         const c = row.split(',');
         if(c[0] && c[1]) { photoBank[c[0].trim()] = c[1].trim(); normalizedBank[normalize(c[0].trim())] = c[1].trim(); }
     });
+
+    const rankRes = await fetch(CONFIG.draft);
+    const rankText = await rankRes.text();
+    masterRankings = rankText.split('\n').map(r => r.split(','));
+    renderList(); 
 }
+init();
 
 window.switchTab = async function(type, col, el) {
     // If switching category, reset to Overall (12)
