@@ -1,6 +1,5 @@
-/* footer.css */
 .site-footer {
-    background-color: #0a0f1a; /* Matches your dashboard background */
+    background-color: #0a0f1a; 
     padding: 60px 20px 30px 20px;
     margin-top: 50px;
     border-top: 4px solid var(--bright-orange);
@@ -24,7 +23,7 @@
 
 .footer-col a { 
     display: block; 
-    color: #ffffff; /* Default to white */
+    color: #ffffff; 
     text-decoration: none; 
     margin-bottom: 10px; 
     transition: 0.3s ease; /* Smoother transition */
@@ -41,20 +40,19 @@
     opacity: 0.6; 
 }
 
-/* Fix icon centering and logo sizing */
 .footer-logo {
-    max-width: 20px;
+    max-width: 50px;
     height: auto;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .footer-social-container {
     display: flex;
     align-items: center;
     gap: 15px;
+    margin-top: 10px;
 }
 
-/* Force icons to be perfectly centered */
 .social-icon {
     display: inline-flex !important; /* Ensure flex is applied */
     align-items: center !important;
@@ -63,8 +61,19 @@
     line-height: 0; /* Helps center font-awesome icons */
 }
 
-/* Ensure font-awesome icons scale correctly */
 .social-icon i {
     margin: 0;
     padding: 0;
+}
+
+.brand-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns left */
+    margin-bottom: 20px;
+}
+
+.tagline {
+    margin: 0;
+    color: var(--text-light);
 }
