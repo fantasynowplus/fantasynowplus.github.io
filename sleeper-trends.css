@@ -21,7 +21,7 @@
 .sleeper-logo { color: var(--text-light); font-weight: 700; }
 
 .badge-add { color: #22c55e; border: 1px solid #22c55e; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
-.badge-drop { color: #ef4444; border: 1px solid #ef4444; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
+.badge-drop { color: #f63c21; border: 1px solid #f63c21; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
 
 /* The embed wrapper stays white so the Sleeper widget renders correctly */
 .sleeper-embed { 
