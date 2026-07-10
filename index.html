@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-<body onload="loadFeed('UCCW6qFFB7ezwJk1cLPjPHDg', document.getElementById('all-btn')); switchTab('draft', 15, document.querySelector('.cat-bubble'));">
+<body onload="loadFeed('UCCW6qFFB7ezwJk1cLPjPHDg', document.getElementById('all-btn')); setTimeout(() => { switchTab('draft', 15, document.querySelector('.cat-bubble')); }, 500);">
 
     <header>
         <a href="index.html" class="logo"><img src="fantasy_logo-3.png" alt="FantasyNow+ Logo"></a>
@@ -74,9 +74,9 @@
                 </div>
                 
                 <div class="fnp-nav">
-                    <div class="bubble cat-bubble active" onclick="switchTab('draft', 12, this)">Draft</div>
-                    <div class="bubble cat-bubble" onclick="switchTab('dynasty', 12, this)">Dynasty</div>
-                    <div class="bubble cat-bubble" onclick="switchTab('rookie', 12, this)">Rookie</div>
+                    <div id="draft-tab" class="bubble cat-bubble active" onclick="switchTab('draft', 15, this)">Draft</div>
+                    <div class="bubble cat-bubble" onclick="switchTab('dynasty', 15, this)">Dynasty</div>
+                    <div class="bubble cat-bubble" onclick="switchTab('rookie', 15, this)">Rookie</div>
                 </div>
                 <div class="fnp-nav">
                     <div class="bubble pos-bubble" onclick="switchTab(state.type, 0, this)">QB</div>
