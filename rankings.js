@@ -22,7 +22,6 @@ async function init() {
         const c = row.split(',');
         if(c[0] && c[1]) { photoBank[c[0].trim()] = c[1].trim(); normalizedBank[normalize(c[0].trim())] = c[1].trim(); }
     });
-    switchTab('draft', 15); // Initialize to Overall
 }
 
 window.switchTab = async function(type, col, el) {
@@ -52,7 +51,7 @@ window.switchTab = async function(type, col, el) {
 function renderList() {
     let html = ''; let count = 0;
     masterRankings.forEach(row => {
-        if (count >= 12 || !row[state.col]) return;
+        if (count >= 15 || !row[state.col]) return;
         const name = row[state.col].replace(/"/g, '').trim();
         // Use columns M(12), N(13), O(14) for Overall. Otherwise use current col + 1
         const team = (state.col === 12 ? row[13] : row[state.col+1])?.replace(/"/g, '').trim().toUpperCase();
