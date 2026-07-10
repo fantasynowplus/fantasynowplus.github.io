@@ -24,14 +24,13 @@
 
 .footer-col a { 
     display: block; 
-    color: #ffffff
-    hover: #a0a0a0; 
+    color: #ffffff; /* Default to white */
     text-decoration: none; 
     margin-bottom: 10px; 
-    transition: 0.2s;
+    transition: 0.3s ease; /* Smoother transition */
 }
 
-.footer-col a:hover { color: var(--text-light); }
+.footer-col a:hover { color: var(--bright-orange); }
 
 .footer-bottom { 
     text-align: center; 
@@ -44,7 +43,7 @@
 
 /* Fix icon centering and logo sizing */
 .footer-logo {
-    max-width: 200px;
+    max-width: 20px;
     height: auto;
     margin-bottom: 15px;
 }
