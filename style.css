@@ -34,14 +34,25 @@ nav a:hover { color: var(--bright-orange); }
 
 .social-links { 
     display: flex; 
-    gap: 12px; /* Reduced gap for tighter grouping */
-    justify-content: flex-end; /* Align to the right to match sidebar width */
-    margin: 0 0 20px 0; /* Removed top margin, added bottom margin */
-    padding-right: 5px; /* Fine-tune right-side alignment */
+    gap: 12px; 
+    justify-content: flex-end; 
+    align-items: center; /* Ensures text and icons are vertically centered */
+    margin: 0 0 20px 0; 
+    padding-right: 5px; 
 }
 
+.social-text {
+    font-size: 0.75rem; /* Small, clean font size */
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: 0.05rem;
+    margin-right: 5px; /* Adds space between text and the first icon */
+    opacity: 0.8;
+}
+
+/* Icons stay as defined previously */
 .social-icon { 
-    width: 35px; /* Slightly smaller for cleaner look */
+    width: 35px; 
     height: 35px; 
     display: flex; 
     align-items: center; 
@@ -49,7 +60,7 @@ nav a:hover { color: var(--bright-orange); }
     background-color: var(--bg-card);
     border-radius: 50%;
     color: var(--text-light); 
-    font-size: 1rem; /* Adjust icon size to fit circle better */
+    font-size: 1rem; 
     transition: all 0.3s ease; 
     text-decoration: none;
     border: 1px solid var(--border-dark);
