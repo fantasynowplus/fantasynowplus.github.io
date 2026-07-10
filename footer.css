@@ -38,6 +38,7 @@
     border-top: 1px solid #1e2536;
     font-size: 0.85rem; 
     opacity: 0.6; 
+    background: var(--bg-dark);
 }
 
 .footer-logo {
