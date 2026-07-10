@@ -41,9 +41,9 @@
 }
 
 .footer-logo {
-    max-width: 50px;
+    max-width: 40px;    
     height: auto;
-    margin-bottom: 10px;
+    margin-bottom: 0;    
 }
 
 .footer-social-container {
@@ -54,11 +54,11 @@
 }
 
 .social-icon {
-    display: inline-flex !important; /* Ensure flex is applied */
+    display: inline-flex !important; 
     align-items: center !important;
     justify-content: center !important;
     text-align: center;
-    line-height: 0; /* Helps center font-awesome icons */
+    line-height: 0; 
 }
 
 .social-icon i {
@@ -68,8 +68,9 @@
 
 .brand-header {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Aligns left */
+    flex-direction: row; 
+    align-items: center;  
+    gap: 15px;          
     margin-bottom: 20px;
 }
 
