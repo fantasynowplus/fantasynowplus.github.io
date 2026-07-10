@@ -42,7 +42,7 @@ nav a:hover { color: var(--bright-orange); }
 
 /* Base style for icons: set a larger size and light gray color */
 .social-icon { 
-    color: #fff
+    color: #ffffff
     font-size: 1.8rem; /* Larger size */
     transition: all 0.3s ease; 
     text-decoration: none;
