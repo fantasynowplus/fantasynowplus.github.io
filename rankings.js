@@ -22,7 +22,7 @@ async function init() {
         const c = row.split(',');
         if(c[0] && c[1]) { photoBank[c[0].trim()] = c[1].trim(); normalizedBank[normalize(c[0].trim())] = c[1].trim(); }
     });
-    switchTab('draft', 12); // Initialize to Overall
+    switchTab('draft', 15); // Initialize to Overall
 }
 
 window.switchTab = async function(type, col, el) {
