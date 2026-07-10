@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FantasyNow+ | Content & Tools Hub</title>
     
-    <!-- External Stylesheets -->
+    <!-- External CSS Files -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="sleeper-trends.css">
     
@@ -14,6 +14,7 @@
 </head>
 <body>
 
+    <!-- Navigation Header -->
     <header>
         <a href="index.html" class="logo"><img src="fantasy_logo-3.png" alt="FantasyNow+ Logo"></a>
         <nav>
@@ -25,38 +26,48 @@
         </nav>
     </header>
 
+    <!-- News Ticker -->
     <div class="ticker-wrap">
         <div class="ticker-move" id="news-container">Loading news...</div>
     </div>
 
-    <main class="action-grid">
-        <a href="tools.html" class="action-card"><h3>🎨 Roster Graphic Generator</h3><p>Generate your custom team graphics.</p></a>
-        <a href="rankings.html" class="action-card"><h3>📈 Expert Rankings</h3><p>Consolidated Redraft and Dynasty rankings.</p></a>
-        <a href="tools.html" class="action-card"><h3>🏈 Draft Guides</h3><p>Strategic resources for your next draft.</p></a>
+    <!-- Main Dashboard Layout -->
+    <main class="dashboard-container" style="max-width: 1200px; margin: 160px auto 40px auto; display: grid; grid-template-columns: 350px 1fr; gap: 40px; padding: 0 20px;">
+        
+        <!-- Left Sidebar: Sleeper Trends -->
+        <aside class="sidebar">
+            <div class="sleeper-card">
+                <div class="sleeper-header">
+                    <div class="sleeper-logo">Trending Adds</div>
+                    <div class="badge-add">SLEEPER</div>
+                </div>
+                <div class="sleeper-embed">
+                    <iframe src="https://sleeper.com/embed/players/nfl/trending/add?lookback_hours=24&limit=10" height="550" frameborder="0"></iframe>
+                </div>
+            </div>
+
+            <div class="sleeper-card">
+                <div class="sleeper-header">
+                    <div class="sleeper-logo">Trending Drops</div>
+                    <div class="badge-drop">SLEEPER</div>
+                </div>
+                <div class="sleeper-embed">
+                    <iframe src="https://sleeper.com/embed/players/nfl/trending/drop?lookback_hours=24&limit=10" height="550" frameborder="0"></iframe>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Right Content: Rankings Section -->
+        <section class="main-content">
+            <!-- This is where your FantasyPros rankings will go later -->
+            <div class="rankings-placeholder" style="background: var(--bg-card); height: 600px; border-radius: 8px; border: 1px solid var(--border-dark); display: flex; align-items: center; justify-content: center;">
+                <p style="color: var(--text-light);">FantasyPros Rankings Area (Coming Next)</p>
+            </div>
+        </section>
+
     </main>
 
-    <!-- Sleeper Trends -->
-    <section class="widget-section" style="max-width: 1200px; margin: 40px auto; display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
-        <div class="sleeper-card">
-            <div class="sleeper-header">
-                <div class="sleeper-logo">Trending Adds</div>
-                <div class="badge-add">SLEEPER</div>
-            </div>
-            <div class="sleeper-embed">
-                <iframe src="https://sleeper.com/embed/players/nfl/trending/add?lookback_hours=24&limit=10" height="550" frameborder="0"></iframe>
-            </div>
-        </div>
-        <div class="sleeper-card">
-            <div class="sleeper-header">
-                <div class="sleeper-logo">Trending Drops</div>
-                <div class="badge-drop">SLEEPER</div>
-            </div>
-            <div class="sleeper-embed">
-                <iframe src="https://sleeper.com/embed/players/nfl/trending/drop?lookback_hours=24&limit=10" height="550" frameborder="0"></iframe>
-            </div>
-        </div>
-    </section>
-
+    <!-- Scripts -->
     <script src="news-ticker.js"></script>
 </body>
 </html>
