@@ -1,20 +1,17 @@
-<!-- Navigation Bar for Rankings -->
-<div class="fnp-nav">
-  <div class="bubble active" onclick="loadRankings('draft', 0, this)">Draft</div>
-  <div class="bubble" onclick="loadRankings('dynasty', 0, this)">Dynasty</div>
-  <div class="bubble" onclick="loadRankings('rookie', 0, this)">Rookie</div>
-</div>
+<link rel="stylesheet" href="rankings.css">
 
-<!-- Position Selectors -->
-<div class="fnp-nav" id="pos-nav">
-  <div class="bubble active" onclick="updatePos(0, this)">QB</div>
-  <div class="bubble" onclick="updatePos(3, this)">RB</div>
-  <div class="bubble" onclick="updatePos(6, this)">WR</div>
-  <div class="bubble" onclick="updatePos(9, this)">TE</div>
-</div>
-
-<!-- Main Container -->
 <div class="fn-plus-container">
+  <div class="fnp-nav">
+    <div class="bubble active" onclick="switchTab('draft', 0, this)">Draft</div>
+    <div class="bubble" onclick="switchTab('dynasty', 0, this)">Dynasty</div>
+    <div class="bubble" onclick="switchTab('rookie', 0, this)">Rookie</div>
+  </div>
+  <div class="fnp-nav">
+    <div class="bubble active" onclick="switchTab(state.type, 0, this)">QB</div>
+    <div class="bubble" onclick="switchTab(state.type, 3, this)">RB</div>
+    <div class="bubble" onclick="switchTab(state.type, 6, this)">WR</div>
+    <div class="bubble" onclick="switchTab(state.type, 9, this)">TE</div>
+  </div>
   <div id="rank-list"></div>
 </div>
 
