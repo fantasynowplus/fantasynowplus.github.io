@@ -6,6 +6,7 @@
     <title>Fantasy Football Rankings | FantasyNow+</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="fp-rankings.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -26,9 +27,25 @@
     
     <main class="page-container">
         <h1>2026 Fantasy Football Rankings</h1>
-        <div id="full-rankings-content">
-            <p>Loading the latest rankings...</p>
+        
+        <div id="fp-widget" 
+             data-height="auto" 
+             data-width="100%" 
+             data-thead_color="#0a0f1a" 
+             data-thead_font="#ffffff" 
+             data-t_alt_row="#111827" 
+             data-link_color="#ffa515" 
+             data-pill_color="#ffa515" 
+             data-sport="NFL" 
+             data-wtype="ST" 
+             data-scoring="PPR" 
+             data-cards="false" 
+             data-format="table" 
+             data-title_header="false" 
+             data-positions="ALL:QB:RB:WR:TE:OP">
         </div>
+
+        <script src="https://cdn.fantasypros.com/js/fp-widget-2.0.js"></script>
     </main>
 
     <footer class="site-footer">
