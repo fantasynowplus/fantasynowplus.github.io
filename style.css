@@ -37,7 +37,7 @@ nav a:hover { color: var(--bright-orange); }
     gap: 12px; 
     justify-content: flex-end; 
     align-items: center; /* Ensures text and icons are vertically centered */
-    margin: 0 0 20px 0; 
+    margin: 0 0 18px 0; 
     padding-right: 5px; 
 }
 
@@ -73,7 +73,7 @@ nav a:hover { color: var(--bright-orange); }
 /* Underdog CSS */
 .partner-banner-link {
     display: block;
-    margin-bottom: 20px; /* Separates it from the rankings */
+    margin-bottom: 18px; /* Separates it from the rankings */
     border-radius: 8px;
     overflow: hidden;
     transition: transform 0.3s ease;
