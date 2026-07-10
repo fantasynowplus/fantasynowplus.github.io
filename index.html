@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="sleeper-trends.css">
     <link rel="stylesheet" href="rankings.css">
+    <link rel="stylesheer" href="youtube.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -38,7 +39,10 @@
 
         <!-- Middle Content -->
         <section class="main-content">
-            <!-- Central dashboard content goes here -->
+            <div class="youtube-feed-container">
+                <h2 class="section-title">Latest Videos</h2>
+                <div id="youtube-feed" class="video-grid">Loading videos...</div>
+            </div>
         </section>
 
         <!-- Right Sidebar: Rankings Widget -->
@@ -68,5 +72,6 @@
     <script src="news-ticker.js"></script>
     <script src="sleeper-data.js"></script>
     <script src="rankings.js"></script>
+    <script src="youtube-feed.js"></script>
 </body>
 </html>
