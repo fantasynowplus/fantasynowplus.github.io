@@ -69,6 +69,7 @@ nav a:hover { color: var(--bright-orange); }
 .social-icon.youtube:hover { background-color: #FF0000; color: white; border-color: #FF0000; }
 .social-icon.bluesky:hover { background-color: #0085FF; color: white; border-color: #0085FF; }
 .social-icon.discord:hover { background-color: #5865F2; color: white; border-color: #5865F2; }
+.social-icon.tiktok:hover { background-color: #fe2858; color: white; border-color: #fe2858; }
 
 /* Underdog CSS */
 .partner-banner-link {
