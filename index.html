@@ -47,8 +47,21 @@
         </aside>
 
         <section class="main-content">
-            <div class="rankings-placeholder" style="background: var(--bg-card); height: 600px; border-radius: 8px; border: 1px solid var(--border-dark); display: flex; align-items: center; justify-content: center;">
-                <p style="color: var(--text-light);">FantasyPros Rankings Area (Coming Next)</p>
+                    <div id="rankings-app">
+                <div class="fnp-nav">
+                    <div class="bubble active" onclick="switchTab('draft', 0, this)">Draft</div>
+                    <div class="bubble" onclick="switchTab('dynasty', 0, this)">Dynasty</div>
+                    <div class="bubble" onclick="switchTab('rookie', 0, this)">Rookie</div>
+                </div>
+                <div class="fnp-nav" style="border-bottom: none;">
+                    <div class="bubble active" onclick="switchTab(state.type, 0, this)">QB</div>
+                    <div class="bubble" onclick="switchTab(state.type, 3, this)">RB</div>
+                    <div class="bubble" onclick="switchTab(state.type, 6, this)">WR</div>
+                    <div class="bubble" onclick="switchTab(state.type, 9, this)">TE</div>
+                </div>
+                <div class="fn-plus-container">
+                    <div id="rank-list">Loading rankings...</div>
+                </div>
             </div>
         </section>
     </main>
