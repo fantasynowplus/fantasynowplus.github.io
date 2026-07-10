@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="youtube.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body onload="loadFeed('UCCW6qFFB7ezwJk1cLPjPHDg', document.getElementById('all-btn'))">
 
     <header>
         <a href="index.html" class="logo"><img src="fantasy_logo-3.png" alt="FantasyNow+ Logo"></a>
@@ -48,7 +48,7 @@
             <div class="youtube-feed-container">
         <!-- Category Navigation -->
                 <div class="feed-nav">
-                    <button class="nav-btn active" onclick="loadFeed('UCCW6qFFB7ezwJk1cLPjPHDg', this)">ALL</button>
+                    <button id="all-btn" class="nav-btn active" onclick="loadFeed('UCCW6qFFB7ezwJk1cLPjPHDg', this)">ALL</button>
                     <button class="nav-btn" onclick="loadFeed('PLX9LyZ57O4HC-uG3s0k7udo9vTY8RunU9', this)">OFFSEASON</button>
                     <button class="nav-btn" onclick="loadFeed('PLX9LyZ57O4HAPJ-s1PVL8YsYvhuhC079o', this)">2025 TEAM RECAPS</button>
                     <button class="nav-btn" onclick="loadFeed('PLX9LyZ57O4HBPdMYkX72ETD9uD5ZbVCoi', this)">2025 SEASON</button>
