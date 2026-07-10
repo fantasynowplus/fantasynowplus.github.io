@@ -94,7 +94,7 @@ nav a:hover { color: var(--bright-orange); }
 .sidebar-motto {
     font-family: 'Inter', sans-serif; /* Keep your existing font */
     font-weight: 800;                 /* Keep it bold */
-    font-size: 2.6rem;                /* Adjust size as needed */
+    font-size: 1.6rem;                /* Adjust size as needed */
     color: var(--text-light);
     text-align: center;
     margin: 0 0 25px 0;
