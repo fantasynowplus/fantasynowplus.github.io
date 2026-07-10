@@ -41,3 +41,31 @@
     font-size: 0.85rem; 
     opacity: 0.6; 
 }
+
+/* Fix icon centering and logo sizing */
+.footer-logo {
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.footer-social-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Force icons to be perfectly centered */
+.social-icon {
+    display: inline-flex !important; /* Ensure flex is applied */
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center;
+    line-height: 0; /* Helps center font-awesome icons */
+}
+
+/* Ensure font-awesome icons scale correctly */
+.social-icon i {
+    margin: 0;
+    padding: 0;
+}
