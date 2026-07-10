@@ -23,8 +23,28 @@ async function init() {
 }
 
 window.switchTab = async function(type, col, el) {
-    state.type = type; state.col = col;
-    if(el) { el.parentElement.querySelectorAll('.bubble').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
+    // 1. If we are switching categories, reset column to 0 (QB)
+    if (type !== state.type) {
+        state.type = type;
+        state.col = 0; 
+        
+        // Reset visual state for both navigation rows
+        document.querySelectorAll('.fnp-nav .bubble').forEach(b => b.classList.remove('active'));
+        
+        // Find and activate the correct buttons
+        const categoryBtn = document.querySelector(`[onclick*="'${type}'"]`);
+        const qbBtn = document.querySelector(`[onclick*="switchTab('${type}', 0"]`);
+        if (categoryBtn) categoryBtn.classList.add('active');
+        if (qbBtn) qbBtn.classList.add('active');
+    } else {
+        // Just switching positions within the same category
+        state.col = col;
+        // Reset only the position row's buttons
+        const posButtons = el.parentElement.querySelectorAll('.bubble');
+        posButtons.forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+    }
+
     const res = await fetch(CONFIG[type]);
     const text = await res.text();
     masterRankings = text.split('\n').map(r => r.split(','));
