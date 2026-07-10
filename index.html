@@ -34,28 +34,24 @@
     <!-- Main Dashboard Layout -->
     <main class="dashboard-container" style="max-width: 1200px; margin: 160px auto 40px auto; display: grid; grid-template-columns: 350px 1fr; gap: 40px; padding: 0 20px;">
         
-        <!-- Left Sidebar: Sleeper Trends -->
-        <aside class="sidebar">
-            <div class="sleeper-card">
-                <div class="sleeper-header">
-                    <div class="sleeper-logo">Trending Adds</div>
-                    <div class="badge-add">SLEEPER</div>
-                </div>
-                <div class="sleeper-embed">
-                    <iframe src="https://sleeper.com/embed/players/nfl/trending/add?lookback_hours=24&limit=10" height="550" frameborder="0"></iframe>
-                </div>
+    <!-- Sleeper Trends Sidebar -->
+    <aside class="sidebar">
+        <div id="trending-adds" class="sleeper-card">
+            <div class="sleeper-header">
+                <div class="sleeper-logo">Trending Adds</div>
+                <div class="badge-add">SLEEPER</div>
             </div>
-
-            <div class="sleeper-card">
-                <div class="sleeper-header">
-                    <div class="sleeper-logo">Trending Drops</div>
-                    <div class="badge-drop">SLEEPER</div>
-                </div>
-                <div class="sleeper-embed">
-                    <iframe src="https://sleeper.com/embed/players/nfl/trending/drop?lookback_hours=24&limit=10" height="550" frameborder="0"></iframe>
-                </div>
+            <div class="sleeper-body" id="adds-list">Loading...</div>
+        </div>
+    
+        <div id="trending-drops" class="sleeper-card">
+            <div class="sleeper-header">
+                <div class="sleeper-logo">Trending Drops</div>
+                <div class="badge-drop">SLEEPER</div>
             </div>
-        </aside>
+            <div class="sleeper-body" id="drops-list">Loading...</div>
+        </div>
+    </aside>
 
         <!-- Right Content: Rankings Section -->
         <section class="main-content">
