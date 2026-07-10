@@ -24,7 +24,8 @@
 
 .footer-col a { 
     display: block; 
-    color: #a0a0a0; 
+    color: #ffffff
+    hover: #a0a0a0; 
     text-decoration: none; 
     margin-bottom: 10px; 
     transition: 0.2s;
