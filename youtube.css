@@ -48,20 +48,26 @@
 .nav-btn { 
     background: #1f2937; 
     color: #fff; 
-    border: none; 
+    border: 2px solid transparent; /* Added border for definition */
     padding: 8px 20px; 
-    border-radius: 50px; /* Pill shape */
+    border-radius: 50px; 
     cursor: pointer; 
     font-size: 0.8rem;
     font-weight: 600;
     transition: 0.3s;
-    opacity: 0.6;
 }
 
-/* Color Mapping */
-.nav-btn:nth-child(1).active { background: #FFA515; opacity: 1; } /* Bright Orange */
-.nav-btn:nth-child(2).active { background: #EA4E3D; opacity: 1; } /* Vibrant Red-Orange */
-.nav-btn:nth-child(3).active { background: #42F4B0; opacity: 1; } /* Aqua Green */
-.nav-btn:nth-child(4).active { background: #60A5FA; opacity: 1; } /* Complementary Blue */
+/* Default state: show your brand colors */
+.nav-btn:nth-child(1) { border-color: #FFA515; } /* Orange */
+.nav-btn:nth-child(2) { border-color: #EA4E3D; } /* Red-Orange */
+.nav-btn:nth-child(3) { border-color: #42F4B0; } /* Aqua Green */
+.nav-btn:nth-child(4) { border-color: #60A5FA; } /* Blue */
+
+/* The Blue Active State: Applies to ANY button clicked */
+.nav-btn.active { 
+    background: #002863 !important; 
+    border-color: #fff !important; 
+    color: #ffffff;
+}
 
 .nav-btn:hover { opacity: 0.9; }
