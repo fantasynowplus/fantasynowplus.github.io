@@ -1,4 +1,3 @@
-// sleeper-data.js
 async function fetchTrending(type, containerId) {
     const container = document.getElementById(containerId);
     try {
@@ -16,7 +15,7 @@ async function fetchTrending(type, containerId) {
             </div>
         `).join('');
     } catch (err) {
-        container.innerHTML = '<p>Unable to load data.</p>';
+        container.innerHTML = '<p style="padding: 10px;">Unable to load data.</p>';
     }
 }
 
