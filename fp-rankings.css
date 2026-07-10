@@ -1,0 +1,41 @@
+/* fp-rankings.css */
+
+/* Force the widget container to match your theme */
+#fp-widget {
+    background-color: #0a0f1a !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+/* Force table cells and header to match theme */
+#fp-widget .fpw-table-wrapper table {
+    background-color: #0a0f1a !important;
+    border-collapse: collapse !important;
+}
+
+#fp-widget th {
+    background-color: #0a0f1a !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid #1e2536 !important;
+}
+
+#fp-widget td {
+    background-color: #0a0f1a !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid #1e2536 !important;
+}
+
+/* Highlight rows on hover */
+#fp-widget tr:hover td {
+    background-color: #1e2536 !important;
+}
+
+/* Fix link colors */
+#fp-widget a {
+    color: #ffa515 !important;
+}
+
+/* Hide the default white FP footer if you prefer */
+.fpw-footer {
+    display: none !important;
+}
