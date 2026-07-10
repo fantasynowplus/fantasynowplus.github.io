@@ -11,11 +11,14 @@ async function fetchTrending(type, containerId) {
         
         container.innerHTML = trendingData.map(t => {
             const p = allPlayers[t.player_id];
-            if (!p) return ''; // Skip if player not found
+            if (!p) return '';
             
             return `
                 <div class="player-row">
-                    <img src="https://sleepercdn.com/content/nfl/players/${t.player_id}.jpg" alt="${p.first_name}" class="player-img">
+                    <img src="https://sleepercdn.com/content/nfl/players/${t.player_id}.jpg" 
+                         alt="${p.first_name}" 
+                         class="player-img" 
+                         onerror="this.style.display='none';">
                     <div class="player-info">
                         <div class="player-name">${p.first_name} ${p.last_name}</div>
                         <div class="player-pos">${p.position} - ${p.team || 'FA'}</div>
@@ -23,7 +26,7 @@ async function fetchTrending(type, containerId) {
                     <div class="player-count">+${t.count}</div>
                 </div>
             `;
-        }).join('');
+}).join('');
     } catch (err) {
         console.error("Fetch Error:", err);
         container.innerHTML = '<p style="padding: 10px;">Error loading data.</p>';
