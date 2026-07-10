@@ -32,17 +32,24 @@ nav a:hover { color: var(--bright-orange); }
 .action-card:hover { border-left: 4px solid var(--pure-white); transform: translateY(-5px); }
 .action-card h3 { margin-bottom: 10px; color: var(--bright-orange); }
 
-.social-links { display: flex; gap: 15px; justify-content: center; margin: 15px 0; }
+.social-links { 
+    display: flex; 
+    gap: 12px; /* Reduced gap for tighter grouping */
+    justify-content: flex-end; /* Align to the right to match sidebar width */
+    margin: 0 0 20px 0; /* Removed top margin, added bottom margin */
+    padding-right: 5px; /* Fine-tune right-side alignment */
+}
+
 .social-icon { 
-    width: 40px; 
-    height: 40px; 
+    width: 35px; /* Slightly smaller for cleaner look */
+    height: 35px; 
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    background-color: var(--bg-card); 
-    border-radius: 50%; 
+    background-color: var(--bg-card);
+    border-radius: 50%;
     color: var(--text-light); 
-    font-size: 1.2rem; 
+    font-size: 1rem; /* Adjust icon size to fit circle better */
     transition: all 0.3s ease; 
     text-decoration: none;
     border: 1px solid var(--border-dark);
