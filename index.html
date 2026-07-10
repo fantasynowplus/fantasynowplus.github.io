@@ -5,16 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FantasyNow+ | Content & Tools Hub</title>
     
-    <!-- External CSS Files -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="sleeper-trends.css">
-    
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Navigation Header -->
     <header>
         <a href="index.html" class="logo"><img src="fantasy_logo-3.png" alt="FantasyNow+ Logo"></a>
         <nav>
@@ -26,44 +22,38 @@
         </nav>
     </header>
 
-    <!-- News Ticker -->
     <div class="ticker-wrap">
         <div class="ticker-move" id="news-container">Loading news...</div>
     </div>
 
-    <!-- Main Dashboard Layout -->
     <main class="dashboard-container" style="max-width: 1200px; margin: 160px auto 40px auto; display: grid; grid-template-columns: 350px 1fr; gap: 40px; padding: 0 20px;">
         
-    <!-- Sleeper Trends Sidebar -->
-    <aside class="sidebar">
-        <div id="trending-adds" class="sleeper-card">
-            <div class="sleeper-header">
-                <div class="sleeper-logo">Trending Adds</div>
-                <div class="badge-add">SLEEPER</div>
+        <aside class="sidebar">
+            <div id="trending-adds" class="sleeper-card">
+                <div class="sleeper-header">
+                    <div class="sleeper-logo">Trending Adds</div>
+                    <div class="badge-add">SLEEPER</div>
+                </div>
+                <div class="sleeper-body" id="adds-list">Loading...</div>
             </div>
-            <div class="sleeper-body" id="adds-list">Loading...</div>
-        </div>
-    
-        <div id="trending-drops" class="sleeper-card">
-            <div class="sleeper-header">
-                <div class="sleeper-logo">Trending Drops</div>
-                <div class="badge-drop">SLEEPER</div>
-            </div>
-            <div class="sleeper-body" id="drops-list">Loading...</div>
-        </div>
-    </aside>
 
-        <!-- Right Content: Rankings Section -->
+            <div id="trending-drops" class="sleeper-card">
+                <div class="sleeper-header">
+                    <div class="sleeper-logo">Trending Drops</div>
+                    <div class="badge-drop">SLEEPER</div>
+                </div>
+                <div class="sleeper-body" id="drops-list">Loading...</div>
+            </div>
+        </aside>
+
         <section class="main-content">
-            <!-- This is where your FantasyPros rankings will go later -->
             <div class="rankings-placeholder" style="background: var(--bg-card); height: 600px; border-radius: 8px; border: 1px solid var(--border-dark); display: flex; align-items: center; justify-content: center;">
                 <p style="color: var(--text-light);">FantasyPros Rankings Area (Coming Next)</p>
             </div>
         </section>
-
     </main>
 
-    <!-- Scripts -->
     <script src="news-ticker.js"></script>
+    <script src="sleeper-data.js"></script>
 </body>
 </html>
