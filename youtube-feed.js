@@ -11,7 +11,7 @@ async function loadFeed(playlistId, buttonElement) {
         
     const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rss}`);
     const data = await response.json();
-    const videos = data.items.slice(0, 6);
+    const videos = data.items.slice(0, 8);
 
     const container = document.getElementById('youtube-feed');
     container.innerHTML = videos.map(v => `
