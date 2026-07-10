@@ -58,10 +58,10 @@
 }
 
 /* Default state: show your brand colors */
-.nav-btn:nth-child(1) { border-color: #FFA515; } /* Orange */
-.nav-btn:nth-child(2) { border-color: #EA4E3D; } /* Red-Orange */
-.nav-btn:nth-child(3) { border-color: #42F4B0; } /* Aqua Green */
-.nav-btn:nth-child(4) { border-color: #60A5FA; } /* Blue */
+.nav-btn:nth-child(1) { background: #FFA515; } /* Orange */
+.nav-btn:nth-child(2) { background: #EA4E3D; } /* Red-Orange */
+.nav-btn:nth-child(3) { background: #42F4B0; } /* Aqua Green */
+.nav-btn:nth-child(4) { background: #60A5FA; } /* Blue */
 
 /* The Blue Active State: Applies to ANY button clicked */
 .nav-btn.active { 
