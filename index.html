@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FantasyNow+ | Content & Tools Hub</title>
+    
+    <!-- External Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="sleeper-trends.css">
+    
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* Essential Page-Specific Styles */
         :root {
             --bright-orange: #FFA515;
             --deep-blue: #002863;
@@ -62,6 +70,29 @@
         <a href="rankings.html" class="action-card"><h3>📈 Expert Rankings</h3><p>Consolidated Redraft and Dynasty rankings from our team.</p></a>
         <a href="tools.html" class="action-card"><h3>🏈 Draft Guides</h3><p>Strategic resources and high-upside sleepers for your next tournament draft.</p></a>
     </main>
+
+    <!-- Sleeper Trends Section -->
+    <section class="widget-section" style="max-width: 1200px; margin: 40px auto; display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+        <div class="sleeper-card">
+            <div class="sleeper-header">
+                <div class="sleeper-logo">Trending Adds</div>
+                <div class="badge-add">SLEEPER</div>
+            </div>
+            <div class="sleeper-embed">
+                <iframe src="https://sleeper.com/embed/players/nfl/trending/add?lookback_hours=24&limit=10" height="550" frameborder="0"></iframe>
+            </div>
+        </div>
+
+        <div class="sleeper-card">
+            <div class="sleeper-header">
+                <div class="sleeper-logo">Trending Drops</div>
+                <div class="badge-drop">SLEEPER</div>
+            </div>
+            <div class="sleeper-embed">
+                <iframe src="https://sleeper.com/embed/players/nfl/trending/drop?lookback_hours=24&limit=10" height="550" frameborder="0"></iframe>
+            </div>
+        </div>
+    </section>
 
     <script src="news-ticker.js"></script>
 </body>
