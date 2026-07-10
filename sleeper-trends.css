@@ -1,11 +1,12 @@
+/* sleeper-trends.css */
 .sleeper-card { 
-    background: var(--bg-card); 
+    background: var(--bg-card); /* This matches your dark site background */
     border: 1px solid var(--border-dark); 
     border-radius: 8px; 
     overflow: hidden; 
     margin-bottom: 25px; 
     width: 100%; 
-    color: var(--text-light); /* Sets text to light mode */
+    color: var(--text-light); 
 }
 
 .sleeper-header { 
@@ -19,21 +20,17 @@
 
 .sleeper-logo { color: var(--text-light); font-weight: 700; }
 
-.badge-add, .badge-drop { 
-    background: transparent; 
-    font-size: 0.7rem; 
-    padding: 2px 6px; 
-    border-radius: 4px; 
-}
-.badge-add { color: #22c55e; border: 1px solid #22c55e; }
-.badge-drop { color: #ef4444; border: 1px solid #ef4444; }
+.badge-add { color: #22c55e; border: 1px solid #22c55e; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
+.badge-drop { color: #ef4444; border: 1px solid #ef4444; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; }
 
-/* Ensures the embed container background is dark */
-.sleeper-embed { background: var(--bg-dark); padding: 5px; }
+/* The embed wrapper stays white so the Sleeper widget renders correctly */
+.sleeper-embed { 
+    background: #fff; 
+    padding: 1px; 
+}
 
 .sleeper-embed iframe { 
-    border-radius: 4px; 
-    filter: invert(1) hue-rotate(180deg) saturate(1.5); /* Inverts light-mode embed to dark-mode */
     width: 100%; 
     display: block;
+    border: none;
 }
