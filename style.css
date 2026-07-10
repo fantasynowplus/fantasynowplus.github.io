@@ -31,3 +31,7 @@ nav a:hover { color: var(--bright-orange); }
 .action-card { background: var(--bg-card); padding: 40px; border-left: 4px solid var(--bright-orange); text-decoration: none; color: var(--text-light); transition: 0.3s; }
 .action-card:hover { border-left: 4px solid var(--pure-white); transform: translateY(-5px); }
 .action-card h3 { margin-bottom: 10px; color: var(--bright-orange); }
+
+.social-links { display: flex; gap: 20px; justify-content: center; margin: 15px 0; }
+.social-links a { color: var(--text-light); font-size: 1.2rem; transition: color 0.3s; }
+.social-links a:hover { color: var(--bright-orange); }
