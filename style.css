@@ -110,3 +110,17 @@ nav a:hover { color: var(--bright-orange); }
 .sidebar-motto .highlight {
     color: var(--bright-orange);
 }    
+
+.page-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    min-height: 60vh; /* Keeps footer pushed to bottom */
+}
+
+.page-container h1 {
+    color: #ffffff;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--bright-orange);
+    padding-bottom: 10px;
+}
