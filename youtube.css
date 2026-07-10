@@ -1,0 +1,26 @@
+/* youtube.css */
+.youtube-feed-container { margin: 40px 0; }
+.section-title { color: #f9fafb; margin-bottom: 20px; font-size: 1.2rem; }
+.video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.video-item { 
+    background: #111827; 
+    border: 1px solid #374151; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    transition: transform 0.2s;
+}
+
+.video-item:hover { transform: translateY(-4px); }
+.video-item iframe { width: 100%; aspect-ratio: 16/9; display: block; border: none; }
+
+.video-title { 
+    padding: 12px; 
+    font-size: 0.85rem; 
+    font-weight: 600; 
+    color: #f9fafb; 
+    text-decoration: none; 
+    display: block; 
+}
+
+.video-title:hover { color: #ffa515; }
