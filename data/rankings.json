@@ -1,1 +1,1 @@
-{"message":"Invalid key=value pair (missing equal-sign) in Authorization header (hashed with SHA-256 and encoded with Base64): 'kE4eyXC6aMwvRLRRWbt18EJXKoIV+HeoEERxbAa9588='."}
+{"message":"Missing Authentication Token"}
