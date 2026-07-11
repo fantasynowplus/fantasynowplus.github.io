@@ -1,19 +1,21 @@
 name: Fetch Rankings
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * *' # Runs daily at midnight
   workflow_dispatch: 
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to allow the bot to push changes
     steps:
       - uses: actions/checkout@v3
       - name: Fetch and Save Data
         run: |
           mkdir -p data
-          curl "https://api.fantasypros.com/public/v2/nfl/rankings?scoring=PPR&api_key=${{ secrets.FANTASYPROS_API_KEY }}" \
-               > data/rankings.json
+          # Using single quotes for the URL prevents shell issues with the '?' and '&' characters
+          curl -sS 'https://api.fantasypros.com/public/v2/nfl/rankings?scoring=PPR&api_key=${{ secrets.FANTASYPROS_API_KEY }}' > data/rankings.json
       - name: Commit and Push
         run: |
           git config --global user.name 'GitHub Action'
