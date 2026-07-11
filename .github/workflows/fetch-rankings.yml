@@ -12,7 +12,7 @@ jobs:
       - name: Fetch and Save Data
         run: |
           mkdir -p data
-          curl -H "x-api-key: ${{ secrets.FANTASYPROS_API_KEY }}" \
+          curl -H "Authorization: Bearer ${{ secrets.FANTASYPROS_API_KEY }}" \
                "https://api.fantasypros.com/public/v2/nfl/rankings?scoring=PPR" \
                > data/rankings.json
       - name: Commit and Push
