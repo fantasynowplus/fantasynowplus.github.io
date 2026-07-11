@@ -1,0 +1,24 @@
+name: Fetch Rankings
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily
+  workflow_dispatch: 
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Fetch API Data
+        uses: JamesIves/fetch-api-data-action@v2.5.0
+        with:
+          endpoint: 'https://api.fantasypros.com/public/v2/nfl/rankings?scoring=PPR'
+          configuration: '{"method": "GET", "headers": {"Authorization": "Bearer ${{ secrets.FANTASYPROS_API_KEY }}"}}'
+          save-name: 'rankings'
+          target-folder: 'data'
+      - name: Commit and Push
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add data/rankings.json
+          git commit -m "Update rankings data"
+          git push
