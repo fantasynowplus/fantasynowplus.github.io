@@ -14,9 +14,10 @@ jobs:
       - name: Fetch and Save Data
         run: |
           mkdir -p data
-          # Using '|| true' ensures the workflow doesn't fail if the API returns an error
-          # This allows the error message to be saved into rankings.json for debugging
-          curl -sS "https://api.fantasypros.com/public/v2/nfl/rankings?scoring=PPR&api_key=${{ secrets.FANTASYPROS_API_KEY }}" > data/rankings.json || true
+          # Using -H to pass the key as a custom header
+          curl -sS -H "x-api-key: ${{ secrets.FANTASYPROS_API_KEY }}" \
+               "https://api.fantasypros.com/public/v2/nfl/rankings?scoring=PPR" \
+               > data/rankings.json
       - name: Commit and Push
         run: |
           git config --global user.name 'GitHub Action'
