@@ -14,8 +14,8 @@ jobs:
       - name: Fetch and Save Data
         run: |
           mkdir -p data
-          # This endpoint is managed and does not require complex auth headers
-          curl -sS "https://api.parse.bot/v1/fantasycalc/rankings" > data/rankings.json
+          # This is the direct, unauthenticated endpoint for FantasyCalc data
+          curl -sS "https://api.fantasycalc.com/values/current?isDynasty=false&numQbs=1&numTeams=12&ppr=1" > data/rankings.json
       - name: Commit and Push
         run: |
           git config --global user.name 'GitHub Action'
