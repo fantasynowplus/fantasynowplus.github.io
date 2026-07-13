@@ -1,17 +1,30 @@
-/* Force both rows AND cells to use your dark color */
+/* 1. Global Font Control */
+#fp-widget, #fp-widget table {
+    font-family: 'Inter', sans-serif !important; /* Matches your site font */
+    font-size: 14px !important;
+}
+
+/* 2. Header Customization (The white headers) */
+#fp-widget table thead tr th {
+    background-color: #05142e !important; /* Dark Blue Header */
+    color: #ffffff !important;           /* White Text */
+    text-transform: uppercase;           /* Optional: Makes it look cleaner */
+}
+
+/* 3. Row and Cell Backgrounds */
 #fp-widget table.table-striped tbody tr,
 #fp-widget table.table-striped tbody tr td {
     background-color: #1a2a40 !important;
     color: #ffffff !important;
 }
 
-/* Force the alternating stripes to match as well */
-#fp-widget table.table-striped tbody tr:nth-of-type(odd) td,
-#fp-widget table.table-striped tbody tr:nth-of-type(even) td {
-    background-color: #1a2a40 !important;
+/* 4. Link Color (The player names) */
+#fp-widget a {
+    color: #ffa515 !important; /* Your custom orange */
+    text-decoration: none;
 }
 
-/* Final cleanup for cell borders */
+/* 5. Clean Borders */
 #fp-widget table td, 
 #fp-widget table th {
     border-color: #374151 !important;
