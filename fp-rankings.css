@@ -1,0 +1,31 @@
+/* 1. Target the widget container background */
+#fp-widget {
+    background-color: #111827 !important;
+}
+
+/* 2. Force standard rows to match your site's dark background */
+#fp-widget .fpw-table-row {
+    background-color: #111827 !important;
+    color: #f9fafb !important;
+    border-bottom: 1px solid #374151 !important;
+}
+
+/* 3. Override the alternating (even) rows */
+#fp-widget .fpw-table-row.fpw-alt {
+    background-color: #1f2937 !important;
+}
+
+/* 4. Ensure headers and text remain readable */
+#fp-widget .fpw-table-head {
+    background-color: #002863 !important;
+    color: #ffffff !important;
+}
+
+#fp-widget .fpw-table-cell {
+    color: #f9fafb !important;
+}
+
+/* 5. Style links inside the widget */
+#fp-widget a {
+    color: #ffa515 !important;
+}
