@@ -33,7 +33,8 @@
         }
 
         .stars:hover {
-                
+                color: #ffcc00;
+        }
 
         .review {
             text-align: center; /* This centers the content, including the stars and text */
