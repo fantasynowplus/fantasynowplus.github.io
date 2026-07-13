@@ -42,6 +42,7 @@
     background-color: #1a2a40 !important;
     border: none !important;
     color: #ffffff !important;
+    margin: 2px !important;
 }
 
 /* 3. Style the "Active" tab (the one currently selected) */
