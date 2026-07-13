@@ -28,7 +28,8 @@
         .stars {
             display: block; /* Ensures the stars sit on their own line */
             margin-bottom: 10px;
-            font-size: 1.2em;
+            font-size: 1.5em;
+            color: #ffa515
         }
 
         .review {
