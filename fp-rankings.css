@@ -29,3 +29,27 @@
 #fp-widget table th {
     border-color: #374151 !important;
 }
+
+/* 1. Darken the background container for the navigation */
+#fp-widget .pills-wrap.feature-bg {
+    background-color: #0a0f1a !important;
+}
+
+/* 2. Target the individual navigation buttons (pills) */
+#fp-widget ul.pills li {
+    background-color: #1a2a40 !important;
+    border: 1px solid #374151 !important;
+    color: #ffffff !important;
+}
+
+/* 3. Style the "Active" tab (the one currently selected) */
+#fp-widget ul.pills li.active {
+    background-color: #ffa515 !important; /* Your custom orange */
+    color: #0a0f1a !important;
+    font-weight: bold;
+}
+
+/* 4. Ensure the text inside the pills is readable */
+#fp-widget ul.pills li a {
+    color: #ffffff !important;
+}
