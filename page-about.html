@@ -4,89 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us | FantasyNow+</title>
-    
-    <link rel="shortcut icon" href="social-logo.png">
+    <!-- Include your existing styles here -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
     <style>
-        .about-container { max-width: 1000px; margin: 40px auto; padding: 20px; line-height: 1.6; color: #ffffff; }
-        .about-container h2 { color: #ffa515; margin-bottom: 20px; text-align: center; }
-        .about-container h3 { color: #ffffff; border-bottom: 2px solid #ffa515; padding-bottom: 5px; margin-top: 40px; }
-        
-        .staff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
-        .staff-card { background: #1a2a40; padding: 20px; border-radius: 10px; text-align: center; }
-        .staff-card img { width: 120px; height: 120px; border-radius: 50%; background: #0a0f1a; margin-bottom: 15px; border: 2px solid #ffa515; }
-        .staff-card h3 { color: #ffa515; margin: 10px 0 5px; border: none; font-size: 1.2em; }
-        .staff-card p { font-size: 0.85em; margin: 2px 0; }
-        .shows { font-style: italic; color: #ccc; margin-top: 10px; display: block; font-size: 0.8em; }
+        /* Add specific styles for the new sections */
+        .section-padding { padding: 60px 20px; max-width: 1000px; margin: auto; }
+        .stars { color: #ffa515; }
+        .review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .team-slider { background: #1a2a40; padding: 40px; border-radius: 10px; text-align: center; }
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="index.html" class="logo"><img src="fantasy_logo-3.png" alt="FantasyNow+ Logo"></a>
-        <nav>
-            <div class="dropdown">
-                <a href="page-rankings.html">Rankings ▾</a>
-                <div class="dropdown-content">
-                    <a href="page-rankings.html">Redraft Rankings</a>
-                    <a href="subpage-rankings-dynasty.html">Dynasty Rankings</a>
-                    <a href="subpage-rankings-rookie.html">Rookie Rankings</a>
+    <!-- YOUR EXISTING HEADER -->
+    <header>...</header>
+    <div class="ticker-wrap"><div id="news-container" class="ticker-move"></div></div>
+
+    <main>
+        <!-- 1. MISSION STATEMENT -->
+        <section class="section-padding" style="text-align: center;">
+            <h1>Our Mission</h1>
+            <p style="font-size: 1.5em;">"To make fantasy football accessible, strategic, and fun for every manager."</p>
+        </section>
+
+        <!-- 2. BRAND STORY -->
+        <section class="section-padding" style="display: flex; gap: 40px;">
+            <div style="flex: 1;"><img src="your-brand-image.jpg" alt="Brand Story"></div>
+            <div style="flex: 1;">
+                <h2>Our Story</h2>
+                <p>Content goes here...</p>
+            </div>
+        </section>
+
+        <!-- 3. STRONG CTA -->
+        <section class="section-padding" style="text-align: center;">
+            <a href="page-login.html" class="btn-cta" style="background: #ffa515; padding: 15px 30px; text-decoration: none; color: #000;">Join the Community</a>
+        </section>
+
+        <!-- 4. CASE STUDY / SOCIAL PROOF -->
+        <section class="section-padding review-grid">
+            <div class="review">
+                <div class="stars">★★★★★</div>
+                <p>"Best rankings I've ever used."</p>
+            </div>
+            <!-- Repeat for 3 total reviews -->
+        </section>
+
+        <!-- 5. TEAM SLIDER -->
+        <section class="section-padding team-slider">
+            <h2>Meet the Team</h2>
+            <!-- Place your slider container here -->
+            <div class="slider-container">
+                <!-- Example Card Structure -->
+                <div class="staff-card">
+                    <img src="assets/headshots/Justin.png" alt="Justin">
+                    <h3>Justin Bauerle</h3>
+                    <p>CEO | Start/Sit Showdown</p>
+                    <a href="https://bsky.app/profile/YOUR-HANDLE"><i class="fa-brands fa-bluesky"></i></a>
                 </div>
             </div>
-            <a href="page-tools.html">Tools & Graphics</a>
-            <a href="page-about.html">About Us</a>
-            <a href="https://superleagueff.org" target="_blank">Super League ↗</a>
-            <a href="page-login.html" class="btn-login">Dashboard Login</a>
-        </nav>
-    </header>
-    
-    <div class="ticker-wrap"><div id="news-container" class="ticker-move"></div></div>
-    
-    <main class="about-container">
-        <h2>About FantasyNow+</h2>
-        <p>FantasyNow+ was founded on a simple premise: <span style="color: #ffa515; font-weight: bold;">fantasy football should be fun, not a full-time job.</span></p>
-        
-        <h2>The FantasyNow+ Team</h2>
+        </section>
 
-        <h3>Executive Board</h3>
-        <div class="staff-grid">
-            <div class="staff-card"><img src="assets/headshots/Justin.png" alt="Justin Bauerle" onerror="this.src='assets/headshots/placeholder.png';"><h3>Justin Bauerle</h3><p><strong>Chief Executive Officer / Co-Founder</strong></p><p>Team: Cincinnati Bengals</p><span class="shows">Shows: Start/Sit Showdown</span></div>
-            <div class="staff-card"><img src="assets/headshots/Josh.png" alt="Josh Kimmel" onerror="this.src='assets/headshots/placeholder.png';"><h3>Josh Kimmel</h3><p><strong>Chief People Officer / Co-Founder</strong></p><p>Team: Miami Dolphins</p><span class="shows">Shows: Cold Brews & Hot Takes, Start/Sit Showdown</span></div>
-            <div class="staff-card"><img src="assets/headshots/Shaun.png" alt="Shaun Evans" onerror="this.src='assets/headshots/placeholder.png';"><h3>Shaun Evans</h3><p><strong>Chief Operations Officer / Co-Founder</strong></p><p>Team: San Francisco 49ers</p><span class="shows">Shows: N/A</span></div>
-            <div class="staff-card"><img src="assets/headshots/BryanR.png" alt="Bryan Rockwood" onerror="this.src='assets/headshots/placeholder.png';"><h3>Bryan Rockwood</h3><p><strong>Content Director</strong></p><p>Team: New England Patriots</p><span class="shows">Shows: Get Tilted</span></div>
-        </div>
-
-        <h3>Content Team</h3>
-        <div class="staff-grid">
-            <div class="staff-card"><img src="assets/headshots/Sharlene.png" alt="Sharlene Ericson" onerror="this.src='assets/headshots/placeholder.png';"><h3>Sharlene Ericson</h3><p><strong>Senior Analyst</strong></p><p>Team: Denver Broncos</p><span class="shows">Shows: Priority Waivers</span></div>
-            <div class="staff-card"><img src="assets/headshots/Michael.png" alt="Michael Flores" onerror="this.src='assets/headshots/placeholder.png';"><h3>Michael Flores</h3><p><strong>Senior Rankings Analyst</strong></p><p>Team: Chicago Bears</p><span class="shows">Shows: Weekly Rankings Report</span></div>
-            <div class="staff-card"><img src="assets/headshots/Tim.png" alt="Tim Holstad" onerror="this.src='assets/headshots/placeholder.png';"><h3>Tim Holstad</h3><p><strong>Senior Underdog Analyst</strong></p><p>Team: Arizona Cardinals</p><span class="shows">Shows: Get Tilted, Dynasty in 30</span></div>
-            <div class="staff-card"><img src="assets/headshots/Topher.png" alt="Topher Kurt" onerror="this.src='assets/headshots/placeholder.png';"><h3>Topher Kurt</h3><p><strong>Senior Rankings Analyst</strong></p><p>Team: Green Bay Packers</p><span class="shows">Shows: Weekly Rankings Report</span></div>
-            <div class="staff-card"><img src="assets/headshots/Will.png" alt="Will Urion" onerror="this.src='assets/headshots/placeholder.png';"><h3>Will Urion</h3><p><strong>Senior Dynasty Analyst</strong></p><p>Team: N/A</p><span class="shows">Shows: Dynasty in 30</span></div>
-            <div class="staff-card"><img src="assets/headshots/Curtis.png" alt="Curtis Little" onerror="this.src='assets/headshots/placeholder.png';"><h3>Curtis Little</h3><p><strong>Contributor</strong></p><p>Team: Indianapolis Colts</p><span class="shows">Shows: N/A</span></div>
-            <div class="staff-card"><img src="assets/headshots/John.png" alt="John Romaker" onerror="this.src='assets/headshots/placeholder.png';"><h3>John Romaker</h3><p><strong>Contributor</strong></p><p>Team: San Francisco 49ers</p><span class="shows">Shows: N/A</span></div>
-        </div>
-
-        <h3>Administration</h3>
-        <div class="staff-grid">
-            <div class="staff-card"><img src="assets/headshots/Dan.png" alt="Dan Galvin" onerror="this.src='assets/headshots/placeholder.png';"><h3>Dan Galvin</h3><p><strong>Web Administrator</strong></p><p>Team: N/A</p><span class="shows">Shows: N/A</span></div>
-            <div class="staff-card"><img src="assets/headshots/BryanM.png" alt="Bryan Miracle" onerror="this.src='assets/headshots/placeholder.png';"><h3>Bryan Miracle</h3><p><strong>Recruiter</strong></p><p>Team: Miami Dolphins</p><span class="shows">Shows: N/A</span></div>
-            <div class="staff-card"><img src="assets/headshots/Jacob.png" alt="Jacob Mummert" onerror="this.src='assets/headshots/placeholder.png';"><h3>Jacob Mummert</h3><p><strong>Business Manager</strong></p><p>Team: Indianapolis Colts</p><span class="shows">Shows: N/A</span></div>
-        </div>
+        <!-- 6. JOIN US FORM -->
+        <section class="section-padding">
+            <h2>Join Our Team</h2>
+            <form>
+                <input type="text" placeholder="Name" required>
+                <input type="email" placeholder="Email" required>
+                <button type="submit">Apply Now</button>
+            </form>
+        </section>
     </main>
 
-    <footer class="site-footer">
-        <div class="footer-content">
-            <div class="footer-col"><h3>FantasyNow+</h3><p>Built for the casual fantasy manager</p></div>
-            <div class="footer-col"><h3>Tools & Resources</h3><a href="page-tools.html">Roster Graphic Generator</a><a href="page-rankings.html">Rankings</a></div>
-            <div class="footer-col"><h3>Support</h3><a href="mailto:fantasynowplus@gmail.com">Contact Us</a></div>
-        </div>
-    </footer>
-    
-    <script src="news-ticker.js"></script>
+    <!-- YOUR EXISTING FOOTER -->
+    <footer>...</footer>
 </body>
 </html>
