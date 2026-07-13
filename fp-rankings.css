@@ -1,41 +1,27 @@
-/* fp-rankings.css */
-
-/* Force the widget container to match your theme */
+/* Target the widget container */
 #fp-widget {
+    background-color: #0a0f1a !important; /* Matches your dark background */
+}
+
+/* Force standard table rows to be dark */
+#fp-widget table tr {
     background-color: #0a0f1a !important;
     color: #ffffff !important;
-    border: none !important;
 }
 
-/* Force table cells and header to match theme */
-#fp-widget .fpw-table-wrapper table {
-    background-color: #0a0f1a !important;
-    border-collapse: collapse !important;
+/* Override the white alternate row (the one you don't like) */
+#fp-widget table tr:nth-child(even) {
+    background-color: #1a2a40 !important; /* A subtle dark blue/grey contrast */
 }
 
-#fp-widget th {
-    background-color: #0a0f1a !important;
+/* Ensure text inside the widget is readable */
+#fp-widget table td, 
+#fp-widget table th {
     color: #ffffff !important;
-    border-bottom: 1px solid #1e2536 !important;
+    border-bottom: 1px solid #333 !important; /* Optional: adds subtle dividers */
 }
 
-#fp-widget td {
-    background-color: #0a0f1a !important;
-    color: #ffffff !important;
-    border-bottom: 1px solid #1e2536 !important;
-}
-
-/* Highlight rows on hover */
-#fp-widget tr:hover td {
-    background-color: #1e2536 !important;
-}
-
-/* Fix link colors */
+/* Style links if necessary */
 #fp-widget a {
-    color: #ffa515 !important;
-}
-
-/* Hide the default white FP footer if you prefer */
-.fpw-footer {
-    display: none !important;
+    color: #60a5fa !important; /* Change link color to a light blue */
 }
