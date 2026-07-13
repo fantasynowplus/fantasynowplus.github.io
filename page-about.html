@@ -4,71 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us | FantasyNow+</title>
-    <!-- Include your existing styles here -->
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="footer.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    
     <style>
-        /* Add specific styles for the new sections */
+        body { background: #0a0f1a; color: #ffffff; font-family: 'Inter', sans-serif; margin: 0; }
         .section-padding { padding: 60px 20px; max-width: 1000px; margin: auto; }
-        .stars { color: #ffa515; }
-        .review-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .team-slider { background: #1a2a40; padding: 40px; border-radius: 10px; text-align: center; }
+        
+        /* Brand Story */
+        .story-grid { display: flex; align-items: center; gap: 40px; }
+        
+        /* 3D Slider Styles */
+        .teamSwiper { width: 100%; padding: 50px 0; }
+        .swiper-slide { width: 300px; }
+        .staff-card { 
+            background: linear-gradient(145deg, #1a2a40, #0a0f1a);
+            padding: 30px; border-radius: 20px; text-align: center; border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .staff-card img { width: 120px; height: 120px; border-radius: 50%; border: 4px solid #ffa515; margin-bottom: 15px; }
+        .stars { color: #ffa515; font-size: 1.2em; margin-bottom: 10px; }
+        
+        /* Join Us Form */
+        form input { display: block; width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 5px; border: none; }
+        button { background: #ffa515; color: #000; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- YOUR EXISTING HEADER -->
-    <header>...</header>
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo"><img src="fantasy_logo-3.png" alt="FantasyNow+ Logo"></a>
+        <nav>
+            <a href="page-rankings.html">Rankings</a>
+            <a href="page-tools.html">Tools & Graphics</a>
+            <a href="page-about.html">About Us</a>
+            <a href="page-login.html" class="btn-login">Dashboard Login</a>
+        </nav>
+    </header>
     <div class="ticker-wrap"><div id="news-container" class="ticker-move"></div></div>
 
     <main>
-        <!-- 1. MISSION STATEMENT -->
+        <!-- 1. Mission -->
         <section class="section-padding" style="text-align: center;">
             <h1>Our Mission</h1>
-            <p style="font-size: 1.5em;">"To make fantasy football accessible, strategic, and fun for every manager."</p>
+            <p style="font-size: 1.5em; color: #ffa515;">"Fantasy football should be fun, not a full-time job."</p>
         </section>
 
-        <!-- 2. BRAND STORY -->
-        <section class="section-padding" style="display: flex; gap: 40px;">
-            <div style="flex: 1;"><img src="your-brand-image.jpg" alt="Brand Story"></div>
+        <!-- 2. Brand Story -->
+        <section class="section-padding story-grid">
+            <div style="flex: 1;"><img src="brand-story.jpg" alt="Our Story" style="width: 100%; border-radius: 10px;"></div>
             <div style="flex: 1;">
                 <h2>Our Story</h2>
-                <p>Content goes here...</p>
+                <p>We believe in simplifying the complexities of fantasy football so you can focus on the game you love.</p>
             </div>
         </section>
 
-        <!-- 3. STRONG CTA -->
+        <!-- 3. CTA -->
         <section class="section-padding" style="text-align: center;">
-            <a href="page-login.html" class="btn-cta" style="background: #ffa515; padding: 15px 30px; text-decoration: none; color: #000;">Join the Community</a>
+            <a href="page-login.html" style="background: #ffa515; padding: 15px 30px; text-decoration: none; color: #000; border-radius: 5px; font-weight: bold;">Join the Community</a>
         </section>
 
-        <!-- 4. CASE STUDY / SOCIAL PROOF -->
-        <section class="section-padding review-grid">
-            <div class="review">
-                <div class="stars">★★★★★</div>
-                <p>"Best rankings I've ever used."</p>
-            </div>
-            <!-- Repeat for 3 total reviews -->
+        <!-- 4. Social Proof -->
+        <section class="section-padding" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+            <div class="review"><div class="stars">★★★★★</div><p>"FantasyNow+ completely changed how I prep for my drafts."</p></div>
+            <div class="review"><div class="stars">★★★★★</div><p>"The roster tools are absolute game changers."</p></div>
+            <div class="review"><div class="stars">★★★★★</div><p>"Easy to use and incredibly accurate rankings."</p></div>
         </section>
 
-        <!-- 5. TEAM SLIDER -->
-        <section class="section-padding team-slider">
-            <h2>Meet the Team</h2>
-            <!-- Place your slider container here -->
-            <div class="slider-container">
-                <!-- Example Card Structure -->
-                <div class="staff-card">
-                    <img src="assets/headshots/Justin.png" alt="Justin">
-                    <h3>Justin Bauerle</h3>
-                    <p>CEO | Start/Sit Showdown</p>
-                    <a href="https://bsky.app/profile/YOUR-HANDLE"><i class="fa-brands fa-bluesky"></i></a>
+        <!-- 5. Team Slider -->
+        <section class="section-padding">
+            <h2 style="text-align: center;">Meet the Team</h2>
+            <div class="swiper teamSwiper">
+                <div class="swiper-wrapper">
+                    <!-- Cards -->
+                    <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/Justin.png" alt="Justin Bauerle" onerror="this.src='assets/headshots/placeholder.png';"><h3>Justin Bauerle</h3><p>CEO / Co-Founder</p><p>Shows: Start/Sit Showdown</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
+                    <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/Josh.png" alt="Josh Kimmel" onerror="this.src='assets/headshots/placeholder.png';"><h3>Josh Kimmel</h3><p>CPO / Co-Founder</p><p>Shows: Cold Brews & Hot Takes</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
+                    <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/Shaun.png" alt="Shaun Evans" onerror="this.src='assets/headshots/placeholder.png';"><h3>Shaun Evans</h3><p>COO / Co-Founder</p><p>Shows: N/A</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
+                    <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/BryanR.png" alt="Bryan Rockwood" onerror="this.src='assets/headshots/placeholder.png';"><h3>Bryan Rockwood</h3><p>Content Director</p><p>Shows: Get Tilted</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
+                    <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/Sharlene.png" alt="Sharlene Ericson" onerror="this.src='assets/headshots/placeholder.png';"><h3>Sharlene Ericson</h3><p>Senior Analyst</p><p>Shows: Priority Waivers</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
+                    <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/Michael.png" alt="Michael Flores" onerror="this.src='assets/headshots/placeholder.png';"><h3>Michael Flores</h3><p>Senior Rankings Analyst</p><p>Shows: Weekly Rankings Report</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
+                    <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/Tim.png" alt="Tim Holstad" onerror="this.src='assets/headshots/placeholder.png';"><h3>Tim Holstad</h3><p>Senior Underdog Analyst</p><p>Shows: Get Tilted, Dynasty in 30</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
+                    <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/Topher.png" alt="Topher Kurt" onerror="this.src='assets/headshots/placeholder.png';"><h3>Topher Kurt</h3><p>Senior Rankings Analyst</p><p>Shows: Weekly Rankings Report</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
+                    <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/Will.png" alt="Will Urion" onerror="this.src='assets/headshots/placeholder.png';"><h3>Will Urion</h3><p>Senior Dynasty Analyst</p><p>Shows: Dynasty in 30</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
+                    <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/Curtis.png" alt="Curtis Little" onerror="this.src='assets/headshots/placeholder.png';"><h3>Curtis Little</h3><p>Contributor</p><p>Shows: N/A</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
+                    <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/John.png" alt="John Romaker" onerror="this.src='assets/headshots/placeholder.png';"><h3>John Romaker</h3><p>Contributor</p><p>Shows: N/A</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
+                    <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/Dan.png" alt="Dan Galvin" onerror="this.src='assets/headshots/placeholder.png';"><h3>Dan Galvin</h3><p>Web Administrator</p><p>Shows: N/A</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
+                    <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/BryanM.png" alt="Bryan Miracle" onerror="this.src='assets/headshots/placeholder.png';"><h3>Bryan Miracle</h3><p>Recruiter</p><p>Shows: N/A</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
+                    <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/Jacob.png" alt="Jacob Mummert" onerror="this.src='assets/headshots/placeholder.png';"><h3>Jacob Mummert</h3><p>Business Manager</p><p>Shows: N/A</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
                 </div>
             </div>
         </section>
 
-        <!-- 6. JOIN US FORM -->
-        <section class="section-padding">
+        <!-- 6. Join Us -->
+        <section class="section-padding" style="background: #1a2a40; border-radius: 10px;">
             <h2>Join Our Team</h2>
             <form>
                 <input type="text" placeholder="Name" required>
@@ -78,7 +111,13 @@
         </section>
     </main>
 
-    <!-- YOUR EXISTING FOOTER -->
-    <footer>...</footer>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+      var swiper = new Swiper(".teamSwiper", {
+        effect: "coverflow", grabCursor: true, centeredSlides: true, slidesPerView: "auto",
+        coverflowEffect: { rotate: 50, stretch: 0, depth: 100, modifier: 1, slideShadows: true },
+      });
+    </script>
 </body>
 </html>
