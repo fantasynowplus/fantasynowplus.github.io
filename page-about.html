@@ -25,13 +25,18 @@
             padding: 40px 0;
         }
         .swiper-slide {
-            width: 300px; /* Consistent card width */
+            width: 300px !important;
             height: auto;
         }
         .staff-card { 
             background: linear-gradient(145deg, #1a2a40, #0a0f1a);
-            padding: 30px; border-radius: 20px; text-align: center; border: 1px solid #333;
+            padding: 30px; 
+            border-radius: 20px; 
+            text-align: center; 
+            border: 1px solid #333;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 350px;
+            margin: 0 auto;
         }
         .staff-card img { width: 120px; height: 120px; border-radius: 50%; border: 4px solid #ffa515; margin-bottom: 15px; }
         .stars { color: #ffa515; font-size: 1.2em; margin-bottom: 10px; }
@@ -140,8 +145,8 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
           var swiper = new Swiper(".teamSwiper", {
-            slidesPerView: 2.2,
-            spaceBetween: 30,
+            slidesPerView: 3.2,
+            spaceBetween: 20,
             centeredSlides: false,
             grabCursor: true,
             loop: true, // This makes it infinite rotation
