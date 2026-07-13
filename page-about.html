@@ -80,12 +80,26 @@
         </section>
 
         <!-- 6. Join Us -->
-        <section class="section-padding" style="background: #1a2a40; border-radius: 10px;">
+        <section class="section-padding" style="background: #1a2a40; border-radius: 10px; padding: 20px; color: white;">
             <h2>Join Our Team</h2>
-            <form>
-                <input type="text" placeholder="Name" required>
-                <input type="email" placeholder="Email" required>
-                <button type="submit">Apply Now</button>
+            <form action="https://formspree.io/f/maqrylal" method="POST">
+                
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required style="display: block; width: 100%; margin-bottom: 10px; padding: 8px; border-radius: 5px; border: none;">
+                
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required style="display: block; width: 100%; margin-bottom: 10px; padding: 8px; border-radius: 5px; border: none;">
+        
+                <label for="phone">Cell Phone:</label>
+                <input type="tel" id="phone" name="phone" required style="display: block; width: 100%; margin-bottom: 10px; padding: 8px; border-radius: 5px; border: none;">
+                
+                <label for="message">Why do you want to join?</label>
+                <textarea id="message" name="message" required style="display: block; width: 100%; margin-bottom: 10px; padding: 8px; border-radius: 5px; border: none;"></textarea>
+                
+                <!-- Submit Button -->
+                <button type="submit" style="background: #ffa515; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                    Apply Now
+                </button>
             </form>
         </section>
     </main>
