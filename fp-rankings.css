@@ -55,6 +55,14 @@
     border: none !important;
 }
 
+#fp-widget ul.pills li.active a {
+    background-color: #1a2a40 !important; /* Your desired dark color */
+    color: #ffa515 !important;           /* Orange text for the active state */
+    border-radius: 50px !important;      /* Maintains the pill shape */
+    padding: 5px 15px !important;
+    display: inline-block !important;
+    border: 1px solid #ffa515 !important;
+
 /* Ensure the text inside the pills is readable */
 #fp-widget ul.pills li a {
     color: #ffffff !important;
