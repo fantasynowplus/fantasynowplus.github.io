@@ -1,59 +1,61 @@
-/* 1. Global Font Control */
+/* Global Font Control */
 #fp-widget, #fp-widget table {
     font-family: 'Inter', sans-serif !important; /* Matches your site font */
     font-size: 14px !important;
 }
 
-/* 2. Header Customization (The white headers) */
+/* Header Customization (The white headers) */
 #fp-widget table thead tr th {
     background-color: #05142e !important; /* Dark Blue Header */
     color: #ffffff !important;           /* White Text */
     text-transform: uppercase;           /* Optional: Makes it look cleaner */
 }
 
-/* 3. Row and Cell Backgrounds */
+/* Row and Cell Backgrounds */
 #fp-widget table.table-striped tbody tr,
 #fp-widget table.table-striped tbody tr td {
     background-color: #1a2a40 !important;
     color: #ffffff !important;
 }
 
-/* 4. Link Color (The player names) */
+/* Link Color (The player names) */
 #fp-widget a {
     color: #ffa515 !important; /* Your custom orange */
     text-decoration: none;
 }
 
-/* 5. Clean Borders */
+/* Clean Borders */
 #fp-widget table td, 
 #fp-widget table th {
     border-color: #374151 !important;
 }
 
-/* 1. Darken the background container for the navigation */
+/* Darken the background container for the navigation */
 #fp-widget .pills-wrap.feature-bg {
     background-color: #0a0f1a !important; /* Same dark theme background */
     border-top: 1px solid #374151 !important; 
     border-bottom: 1px solid #374151 !important;
 }
 
-/* 2. Target the individual navigation buttons (pills) */
+/* Target the active pill to ensure it has a rounded pill shape */
+#fp-widget ul.pills li.active {
+    background-color: #ffa515 !important; /* Your brand orange */
+    color: #0a0f1a !important;            /* Dark text */
+    border-radius: 50px !important;       /* This creates the pill shape */
+    border: none !important;
+    background-image: none !important;    /* Removes any default widget patterns */
+    padding: 5px 15px !important;         /* Adjusts spacing inside the pill */
+}
+
+/* Ensure inactive pills also follow the rounded theme */
 #fp-widget ul.pills li {
-    background-color: #1a2a40 !important; /* Your dark row color */
+    border-radius: 50px !important;       /* Matches the rounded look */
+    background-color: #1a2a40 !important;
     color: #ffffff !important;
     border: none !important;
 }
 
-/* 3. Style the "Active" tab (the one currently selected) */
-#fp-widget ul.pills li.active {
-    background-color: #ffa515 !important;
-    color: #0a0f1a !important;
-    border-radius: 0px !important; /* Force rectangular corners */
-    border: none !important;
-    background-image: none !important; /* Removes potential background patterns */
-}
-
-/* 4. Ensure the text inside the pills is readable */
+/* Ensure the text inside the pills is readable */
 #fp-widget ul.pills li a {
     color: #ffffff !important;
 }
