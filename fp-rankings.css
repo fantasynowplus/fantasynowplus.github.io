@@ -47,7 +47,7 @@
 
 /* 3. Style the "Active" tab (the one currently selected) */
 #fp-widget ul.pills li.active {
-    background-color: #FFA515 !important;
+    background-color: #0a0f1a !important;
     color: #ffa515 !important;
     font-weight: bold;
 }
