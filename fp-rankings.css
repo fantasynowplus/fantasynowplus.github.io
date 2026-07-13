@@ -41,10 +41,8 @@
 #fp-widget ul.pills li.active {
     background-color: #ffa515 !important; /* Your brand orange */
     color: #0a0f1a !important;            /* Dark text */
-    border-radius: 50px !important;       /* This creates the pill shape */
     border: none !important;
     background-image: none !important;    /* Removes any default widget patterns */
-    padding: 5px 15px !important;         /* Adjusts spacing inside the pill */
 }
 
 /* Ensure inactive pills also follow the rounded theme */
