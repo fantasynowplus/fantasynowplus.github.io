@@ -97,6 +97,8 @@
                     <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/BryanM.png" alt="Bryan Miracle" onerror="this.src='assets/headshots/placeholder.png';"><h3>Bryan Miracle</h3><p>Recruiter</p><p>Shows: N/A</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
                     <div class="swiper-slide"><div class="staff-card"><img src="assets/headshots/Jacob.png" alt="Jacob Mummert" onerror="this.src='assets/headshots/placeholder.png';"><h3>Jacob Mummert</h3><p>Business Manager</p><p>Shows: N/A</p><a href="#"><i class="fa-brands fa-bluesky"></i></a></div></div>
                 </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
             </div>
         </section>
 
@@ -115,10 +117,24 @@
     <script src="news-ticker.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-      var swiper = new Swiper(".teamSwiper", {
-        effect: "coverflow", grabCursor: true, centeredSlides: true, slidesPerView: "auto",
-        coverflowEffect: { rotate: 50, stretch: 0, depth: 100, modifier: 1, slideShadows: true },
-      });
-    </script>
+  var swiper = new Swiper(".teamSwiper", {
+    effect: "coverflow", 
+    grabCursor: true, 
+    centeredSlides: true, 
+    slidesPerView: "auto",
+    // This enables the navigation arrows
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    coverflowEffect: { 
+      rotate: 50, 
+      stretch: 0, 
+      depth: 100, 
+      modifier: 1, 
+      slideShadows: true 
+    },
+  });
+</script>
 </body>
 </html>
