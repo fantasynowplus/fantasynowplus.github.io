@@ -11,8 +11,8 @@
             padding: 40px 0;
         }
         .swiper-slide {
-            width: 300px !important;
-            height: auto;
+            width: 200px !important;
+            height: 400px !important;
         }
         .staff-card { 
             background: linear-gradient(145deg, #1a2a40, #0a0f1a);
@@ -45,7 +45,6 @@
             background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
             padding: 30px 20px;
             border-radius: 5px;
-            top: 50%;
             margin-top: -22px;
         }
 
