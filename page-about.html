@@ -19,8 +19,15 @@
         .story-grid { display: flex; align-items: center; gap: 40px; }
         
         /* 3D Slider Styles */
-        .teamSwiper { width: 100%; padding: 50px 0; }
-        .swiper-slide { width: 400px; }
+        .teamSwiper {
+            width: 100%;
+            overflow: hidden; /* This keeps the "on deck" slide clean */
+            padding: 40px 0;
+        }
+        .swiper-slide {
+            width: 400px; /* Consistent card width */
+            height: auto;
+        }
         .staff-card { 
             background: linear-gradient(145deg, #1a2a40, #0a0f1a);
             padding: 30px; border-radius: 20px; text-align: center; border: 1px solid #333;
@@ -132,31 +139,29 @@
     <script src="news-ticker.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-      var swiper = new Swiper(".teamSwiper", {
-        effect: "coverflow",
-        grabCursor: true,
-        centeredSlides: false, // Set to false to align slides to the left
-        slidesPerView: 2.2,    // Shows 2 full slides and peeks the 3rd
-        spaceBetween: 20,      // Adjusts gap between cards
-        
-        // Auto-rotation settings
-        autoplay: {
-          delay: 3000,         // Time in ms between slides (3 seconds)
-          disableOnInteraction: false, // Keeps rotating after user clicks
-        },
-        
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-        coverflowEffect: {
-          rotate: 0,           // Set to 0 for a flatter, cleaner look
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows: false, // Turned off for better readability
-        },
-      });
-    </script>
+          var swiper = new Swiper(".teamSwiper", {
+            slidesPerView: 2.2,
+            spaceBetween: 30,
+            centeredSlides: false,
+            grabCursor: true,
+            loop: true, // This makes it infinite rotation
+            
+            autoplay: {
+              delay: 3000,
+              disableOnInteraction: false,
+            },
+            
+            navigation: {
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            },
+            
+            // Breakpoints make it look good on mobile too
+            breakpoints: {
+              320: { slidesPerView: 1, spaceBetween: 10 },
+              768: { slidesPerView: 2.2, spaceBetween: 30 }
+            }
+          });
+        </script>
 </body>
 </html>
