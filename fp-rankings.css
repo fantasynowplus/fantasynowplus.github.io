@@ -80,3 +80,31 @@
 #fp-widget #fp-widget-subDiv a {
     color: #ffffff !important;
 }
+
+.ranking-tabs {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.tab-link {
+    background-color: #1a2a40;
+    color: #ffffff;
+    border: 1px solid #374151;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 50px;
+    font-family: 'Inter', sans-serif;
+    transition: 0.3s;
+}
+
+.tab-link:hover {
+    background-color: #374151;
+}
+
+.tab-link.active {
+    background-color: #ffa515;
+    color: #0a0f1a;
+    font-weight: bold;
+    border: none;
+}
