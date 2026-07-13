@@ -1,39 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fantasy Football Rankings | FantasyNow+</title>
-    <link rel="shortcut icon" href="social-logo.png">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="footer.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="fp-rankings.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-
-    <header>
-        <a href="index.html" class="logo"><img src="fantasy_logo-3.png" alt="FantasyNow+ Logo"></a>
-        <nav>
-            <div class="dropdown">
-                <a href="page-rankings.html">Rankings</a>
-                <div class="dropdown-content">
-                    <a href="page-rankings.html">Redraft Rankings</a>
-                    <a href="subpage-rankings-dynasty.html">Dynasty Rankings</a>
-                    <a href="subpage-rankings-rookie.html">Rookie Rankings</a>
-                </div>
-            </div>
-            <a href="page-tools.html">Tools & Graphics</a>
-            <a href="page-about.html">About Us</a>
-            <a href="https://superleagueff.org" target="_blank">Super League ↗</a>
-            <a href="https://fantasynowplus.com" class="btn-login">Dashboard Login</a>
-        </nav>
-    </header>
-    
-    <div class="ticker-wrap">
-        <div id="news-container" class="ticker-move"></div>
-    </div>
+---
+layout: null
+---
+{% include header.html %}
     
     <main class="page-container" style="padding: 40px 20px; min-height: 800px;">
         <h2>2026 Rookie Fantasy Football Rankings</h2>
@@ -78,23 +46,4 @@
 
     </main>
 
-    <footer class="site-footer">
-        <div class="footer-content">
-            <div class="footer-col">
-                <h3>FantasyNow+</h3>
-                <p>Built for the casual fantasy manager</p>
-            </div>
-            <div class="footer-col">
-                <h3>Tools & Resources</h3>
-                <a href="page-tools.html">Roster Graphic Generator</a>
-                <a href="page-rankings.html">Rankings</a>
-            </div>
-            <div class="footer-col">
-                <h3>Support</h3>
-                <a href="mailto:fantasynowplus@gmail.com">Contact Us</a>
-            </div>
-        </div>
-    </footer>    
-    <script src="news-ticker.js"></script>
-</body>
-</html>
+{% include footer.html %}
