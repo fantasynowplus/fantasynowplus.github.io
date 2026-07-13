@@ -53,3 +53,17 @@
 #fp-widget ul.pills li a {
     color: #ffffff !important;
 }
+
+/* Darken the Scoring and Download bar */
+#fp-widget #fp-widget-subDiv {
+    background-color: #0a0f1a !important; /* Matches your main dark theme */
+    color: #ffffff !important;
+    border: none !important;
+}
+
+/* Ensure the text inside that bar is readable */
+#fp-widget #fp-widget-subDiv, 
+#fp-widget #fp-widget-subDiv label, 
+#fp-widget #fp-widget-subDiv a {
+    color: #ffffff !important;
+}
