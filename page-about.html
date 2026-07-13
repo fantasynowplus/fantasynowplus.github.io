@@ -1,30 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us | FantasyNow+</title>
-    
-    <!-- External CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="footer.css">
-    <link rel="stylesheet" href="about.css">
-</head>
-<body>
-
-    <!-- Header -->
-    <header>
-        <a href="index.html" class="logo"><img src="fantasy_logo-3.png" alt="FantasyNow+ Logo"></a>
-        <nav>
-            <a href="page-rankings.html">Rankings</a>
-            <a href="page-tools.html">Tools & Graphics</a>
-            <a href="page-about.html">About Us</a>
-            <a href="page-login.html" class="btn-login">Dashboard Login</a>
-        </nav>
-    </header>
-    <div class="ticker-wrap"><div id="news-container" class="ticker-move"></div></div>
+---
+layout: null
+---
+{% include header.html %}
 
     <main>
         <!-- 1. Mission -->
@@ -105,7 +82,6 @@
     </main>
 
     <!-- Scripts -->
-    <script src="news-ticker.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
       var swiper = new Swiper(".teamSwiper", {
@@ -133,40 +109,4 @@
         }
       });
     </script>
-    <footer class="site-footer">
-        <div class="footer-content">
-
-            <div class="footer-col">
-                <h3>FantasyNow+</h3>
-                <div class="brand-header">
-                    <p>Built for the casual fantasy manager</p>
-                </div>
-                <div class="footer-social-container">
-                    <div class="social-links">
-                        <a href="https://youtube.com/@fantasynowplus" target="_blank" class="social-icon youtube"><i class="fa-brands fa-youtube"></i></a>
-                        <a href="https://bsky.app/profile/fantasynowplus.com" target="_blank" class="social-icon bluesky"><i class="fa-brands fa-bluesky"></i></a>
-                        <a href="https://www.tiktok.com/@fantasynowplus" target="_blank" class="social-icon tiktok"><i class="fa-brands fa-tiktok"></i></a>
-                        <a href="https://discord.gg/EgZcDynavK" target="_blank" class="social-icon discord"><i class="fa-brands fa-discord"></i></a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-col">
-                <h3>Tools & Resources</h3>
-                <a href="page-tools.html">Roster Graphic Generator</a>
-                <a href="page-rankings.html">Rankings</a>
-                <a href="https://superleagueff.org" target="_blank">Super League</a>
-            </div>
-            
-            <div class="footer-col">
-                <h3>Support</h3>
-                <a href="mailto:fantasynowplus@gmail.com">Contact Us</a>
-                <p class="disclaimer">Partnered with Underdog Fantasy</p>
-            </div>
-        </div>
-    </footer>    
-    <div class="footer-bottom">
-        &copy; 2026 FantasyNow+. All rights reserved.
-    </div>
-</body>
-</html>
+{% include footer.html %}
