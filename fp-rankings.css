@@ -46,10 +46,11 @@
 
 /* 3. Style the "Active" tab (the one currently selected) */
 #fp-widget ul.pills li.active {
-    background-color: #ffa515 !important; /* Your brand orange */
-    color: #0a0f1a !important;            /* Dark text for contrast */
-    border: none !important;              /* Removes the yellow border */
-    border-radius: 4px !important;        /* Smooths the corners */
+    background-color: #ffa515 !important;
+    color: #0a0f1a !important;
+    border-radius: 0px !important; /* Force rectangular corners */
+    border: none !important;
+    background-image: none !important; /* Removes potential background patterns */
 }
 
 /* 4. Ensure the text inside the pills is readable */
