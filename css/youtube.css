@@ -1,0 +1,79 @@
+/* Container to keep it centered in the middle section */
+.video-feed-container {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+/* Two-column grid */
+.video-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; /* Exactly 2 columns */
+    gap: 20px; 
+    width: 100%;
+}
+
+.video-card { 
+    background: var(--bg-card); /* Using your root variable */
+    border-radius: 8px; 
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.thumbnail { 
+    width: 100%; 
+    aspect-ratio: 16 / 9; 
+    object-fit: cover; 
+    display: block;
+}
+
+.video-info { padding: 15px; }
+
+.video-title { 
+    font-size: 0.95rem; 
+    font-weight: 700; 
+    color: var(--text-light); /* Using your root variable */
+    margin-bottom: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Keeps title to 2 lines max */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.video-date { font-size: 0.8rem; color: #9ca3af; }
+
+/* Category Buttons */
+.feed-nav { 
+    display: flex; 
+    justify-content: center;
+    gap: 15px; 
+    margin-bottom: 20px; 
+    flex-wrap: wrap; 
+}
+
+.nav-btn { 
+    background: #1f2937; 
+    color: var(--bg-card); 
+    border: 2px solid transparent;
+    padding: 8px 20px; 
+    border-radius: 50px; 
+    cursor: pointer; 
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+/* Default state: show your brand colors */
+.nav-btn:nth-child(1) { background: #FFA515; } /* Orange */
+.nav-btn:nth-child(2) { background: #EA4E3D; } /* Red-Orange */
+.nav-btn:nth-child(3) { background: #42F4B0; } /* Aqua Green */
+.nav-btn:nth-child(4) { background: #60A5FA; } /* Blue */
+
+/* The Blue Active State: Applies to ANY button clicked */
+.nav-btn.active { 
+    background: #002863 !important; 
+    border-color: #fff !important; 
+    color: #ffffff;
+}
+
+.nav-btn:hover { opacity: 0.9; }
