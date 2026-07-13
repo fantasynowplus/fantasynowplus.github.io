@@ -46,8 +46,8 @@
 
 /* 3. Style the "Active" tab (the one currently selected) */
 #fp-widget ul.pills li.active {
-    background-color: #ffa515 !important; /* Your custom orange */
-    color: #0a0f1a !important;
+    background-color: none !important;
+    color: #ffa515 !important;
     font-weight: bold;
 }
 
