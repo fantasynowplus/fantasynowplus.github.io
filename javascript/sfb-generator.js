@@ -34,6 +34,10 @@ async function loadManagers() {
         return;
     }
 
+    // Force visibility to ensure user sees it is loading
+    mgrSel.innerHTML = '<option>Loading Managers...</option>';
+    mgrSel.style.display = 'block'; 
+
     const platform = sel.options[sel.selectedIndex].dataset.platform;
     
     try {
@@ -42,15 +46,10 @@ async function loadManagers() {
         
         mgrSel.innerHTML = '<option value="">-- Select Manager --</option>';
         managers.forEach(m => mgrSel.add(new Option(m.name, m.id)));
-        mgrSel.style.display = 'block'; 
     } catch (e) {
         console.error("Error fetching managers:", e);
+        mgrSel.innerHTML = '<option value="">Error loading managers</option>';
     }
-}
-
-// Helper to show/hide generate button
-function enableGenerate() {
-    document.getElementById('genBtn').style.display = 'block';
 }
 
 // 3. Generate Graphic
