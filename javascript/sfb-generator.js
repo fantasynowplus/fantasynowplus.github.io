@@ -146,7 +146,7 @@ function drawFooter(ctx) {
     ctx.fillRect(0, 550, 1000, footerHeightPx);
     
     const footerY = 582;
-    const mainText = "SFB16 Roster powered by ";
+    const mainText = "This SFB16 Roster was powered by ";
     const brandText = "FantasyNow";
     const plusText = "+";
     
