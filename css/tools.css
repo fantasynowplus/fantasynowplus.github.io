@@ -41,8 +41,6 @@
     font-weight: bold; 
 }
 
-/* css/tools.css */
-
 .input-group {
     display: flex;
     gap: 10px;
@@ -53,6 +51,14 @@
     margin: 20px auto;
 }
 
-/* Adjust button and input to behave well in the group */
-.tool-input { margin: 0; }
-.tool-btn { margin: 0; width: auto; min-width: 180px; }
+.tool-input { 
+    margin: 0; 
+    flex: 1; /* Allows the input to grow and take up remaining space */
+}
+
+.tool-btn { 
+    margin: 0; 
+    width: auto; /* Shrinks the button to fit its text */
+    flex: 0 0 auto; /* Prevents the button from stretching */
+    white-space: nowrap; /* Keeps the button text on one line */
+}
