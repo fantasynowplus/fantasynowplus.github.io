@@ -94,6 +94,13 @@ function draw(picks, teamNameLabel) {
     ctx.font = "bold 28px sans-serif";
     ctx.fillText(leagueName.toUpperCase() + " • 2026 DRAFT RECAP", margin, 160);
 
+    // Define colors for each position
+    const positionColors = {
+        "QB": "#ff3079", "RB": "#01ffc3", "WR": "#00b8ff", 
+        "TE": "#FFA515", "K": "#AF61ED", "DL": "#FF795A", 
+        "LB": "#6D7DF5", "DB": "#FF7CB6", "DEF": "#636b73" 
+    };
+
     // Draw Cards
     picks.forEach((p, i) => {
         const x = margin + (i % 3) * (cardW + gap);
@@ -102,9 +109,10 @@ function draw(picks, teamNameLabel) {
         ctx.fillStyle = "#2D5285"; 
         ctx.fillRect(x, y, cardW, cardH);
         
-        // Pos Stripe
-        ctx.fillStyle = "#FFA515"; 
-        ctx.fillRect(x, y, 10, cardH); 
+        // DYNAMIC POSITION COLOR LOOKUP
+        const posColor = positionColors[p.pos.toUpperCase()] || "#FFA515";
+        ctx.fillStyle = posColor; 
+        ctx.fillRect(x, y, 10, cardH); // Stripe
         
         // Player Info
         ctx.fillStyle = "#FFFFFF";
@@ -113,35 +121,6 @@ function draw(picks, teamNameLabel) {
         ctx.font = "bold 16px sans-serif";
         ctx.fillText(p.pos.toUpperCase() + " • PK " + p.pick + " (RD " + p.round + ")", x + 30, y + 80);
 
-        // Define colors for each position
-        const positionColors = {
-            "QB": "#ff3079", 
-            "RB": "#01ffc3", 
-            "WR": "#00b8ff", 
-            "TE": "#FFA515", 
-            "K":  "#AF61ED", 
-            "DL": "#FF795A",
-            "LB": "#6D7DF5",
-            "DB": "#FF7CB6",
-            "DEF": "#636b73" 
-        };
-
-        picks.forEach((p, i) => {
-        // ... existing card positioning code ...
-        
-        const x = margin + (i % 3) * (cardW + gap);
-        const y = 230 + Math.floor(i / 3) * (cardH + gap);
-        
-        ctx.fillStyle = "#2D5285"; 
-        ctx.fillRect(x, y, cardW, cardH);
-        
-        // DYNAMIC POSITION COLOR LOOKUP
-        
-        // Defaults to yellow if position isn't found in the map
-        const posColor = positionColors[p.pos.toUpperCase()] || "#FFA515";
-        ctx.fillStyle = posColor; 
-        ctx.fillRect(x, y, 10, cardH); // Stripe
-        
         // Divider
         ctx.strokeStyle = "rgba(255,255,255,0.15)";
         ctx.beginPath(); ctx.moveTo(x + 30, y + 100); ctx.lineTo(x + cardW - 30, y + 100); ctx.stroke();
