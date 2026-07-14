@@ -134,7 +134,7 @@ async function draw(data) {
       const x = sidePad + (colIdx * (cardW + gap));
       const y = headerH + (rowIdx * (cardH + gap));
       
-      ctx.fillStyle = "#2e5793";
+      ctx.fillStyle = "#2d5285";
       ctx.shadowColor = "rgba(0,0,0,0.1)"; ctx.shadowBlur = 4;
       ctx.beginPath(); ctx.roundRect(x, y, cardW, cardH, 6); ctx.fill();
       ctx.shadowBlur = 0;
