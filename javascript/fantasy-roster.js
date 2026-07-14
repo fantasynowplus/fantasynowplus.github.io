@@ -40,18 +40,29 @@ async function generate() {
         fetch(`https://api.sleeper.app/v1/league/${lId}/users`).then(r => r.json())
     ]);
     
-    // 2. Find the correct user and their specific roster
-    const user = users.find(u => u.display_name === username || u.username === username);
-    if (!user) { alert("User not found in this league."); return; }
+    // 2. Get YOUR user_id first (to ensure we have the correct identifier)
+    const userResponse = await fetch(`https://api.sleeper.app/v1/user/${username}`);
+    const userData = await userResponse.json();
+    const myUserId = userData.user_id;
+
+    // 3. Find the roster where owner_id matches your user_id
+    const myRoster = rosters.find(r => r.owner_id === myUserId);
     
-    const roster = rosters.find(r => r.owner_id === user.user_id);
-    if (!roster) { alert("Roster not found."); return; }
+    if (!myRoster) {
+        alert("Could not find a roster for your user ID in this league. Check that you are in this league for the 2026 season.");
+        return;
+    }
     
-    // 3. Map player IDs to full data and sort
-    const rosterPlayers = roster.players.map(id => players[id])
+    // 4. Map player IDs to full data and sort
+    const rosterPlayers = myRoster.players.map(id => players[id])
+        .filter(p => p !== undefined) // Extra safety check
         .sort((a, b) => POS_ORDER.indexOf(a.position) - POS_ORDER.indexOf(b.position));
     
-    draw(rosterPlayers, user.metadata.team_name || username);
+    // Find team name from user list
+    const leagueUser = users.find(u => u.user_id === myUserId);
+    const teamName = leagueUser?.metadata?.team_name || username;
+
+    draw(rosterPlayers, teamName);
 }
 
 function draw(players, teamName) {
