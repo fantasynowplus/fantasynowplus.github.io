@@ -53,7 +53,7 @@ function draw(picks, managerName, leagueName) {
     let imagesLoaded = 0;
     function imageLoadedCallback() {
         imagesLoaded++;
-        if (imagesLoaded === 2) { // Changed to 2 as sponsor logo is removed
+        if (imagesLoaded === 2) {
             renderBoard(ctx, picks, managerName, leagueName, sfbLogo, secondLogo);
             imgTag.src = canvas.toDataURL("image/png");
             imgTag.style.display = 'block';
@@ -65,12 +65,12 @@ function draw(picks, managerName, leagueName) {
     sfbLogo.onload = imageLoadedCallback;
     sfbLogo.onerror = () => { sfbLogo.failed = true; imageLoadedCallback(); };
 
-    secondLogo.src = "assets/images/fantasycares.png"; // Ensure this matches your file extension
+    secondLogo.src = "assets/images/fantasycares.org.png";
     secondLogo.onload = imageLoadedCallback;
     secondLogo.onerror = () => { secondLogo.failed = true; imageLoadedCallback(); };
 }
 
-// 4. Board Rendering (Updated to remove sponsor logo)
+// 4. Board Rendering
 function renderBoard(ctx, picks, manager, league, sfbLogo, secondLogo) {
     ctx.fillStyle = "#0f172a"; 
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -79,18 +79,11 @@ function renderBoard(ctx, picks, manager, league, sfbLogo, secondLogo) {
     const targetY = 15;
     let currentX = 25;
 
-    // Logo Rendering
     if (sfbLogo && !sfbLogo.failed) {
         const scale = targetHeight / sfbLogo.height;
         const logoWidth = sfbLogo.width * scale;
         ctx.drawImage(sfbLogo, currentX, targetY, logoWidth, targetHeight);
         currentX += logoWidth + 15; 
-    } else {
-        ctx.textAlign = "left";
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "normal 32px sans-serif";
-        ctx.fillText("SFB", currentX, targetY + 45);
-        currentX += 80;
     }
 
     if (secondLogo && !secondLogo.failed) {
@@ -115,7 +108,6 @@ function renderBoard(ctx, picks, manager, league, sfbLogo, secondLogo) {
     ctx.font = "normal 16px sans-serif";
     ctx.fillText(league, currentX, 74);
 
-    // Pick Loop
     if (picks && Array.isArray(picks)) {
         picks.forEach((p, i) => {
             if (!p || i >= 20) return; 
@@ -147,13 +139,37 @@ function renderBoard(ctx, picks, manager, league, sfbLogo, secondLogo) {
     drawFooter(ctx);
 }
 
+// 5. Stylized Footer
 function drawFooter(ctx) {
-    ctx.fillStyle = "#002863";
-    ctx.fillRect(0, 550, 1000, 50);
-    ctx.fillStyle = "#FFFFFF";
+    const footerHeightPx = 50;
+    ctx.fillStyle = "#0a0f1a"; 
+    ctx.fillRect(0, 550, 1000, footerHeightPx);
+    
+    const footerY = 582;
+    const mainText = "SFB16 Roster powered by ";
+    const brandText = "FantasyNow";
+    const plusText = "+";
+    
     ctx.font = "bold 20px sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("#SFB16 Roster powered by FantasyNow+", 500, 582);
+    ctx.textAlign = "left";
+    
+    const widthMain = ctx.measureText(mainText).width;
+    const widthBrand = ctx.measureText(brandText).width;
+    const widthPlus = ctx.measureText(plusText).width;
+    const totalWidth = widthMain + widthBrand + widthPlus;
+    
+    let currentX = (1000 - totalWidth) / 2;
+    
+    ctx.fillStyle = "#94a3b8"; 
+    ctx.fillText(mainText, currentX, footerY);
+    currentX += widthMain;
+    
+    ctx.fillStyle = "#FFFFFF"; 
+    ctx.fillText(brandText, currentX, footerY);
+    currentX += widthBrand;
+    
+    ctx.fillStyle = "#FFA515"; 
+    ctx.fillText(plusText, currentX, footerY);
 }
 
 function downloadImg() {
