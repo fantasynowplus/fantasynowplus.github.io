@@ -146,11 +146,11 @@ async function draw(data) {
       ctx.lineTo(x + cardW, y + cardH - 24);      
       ctx.lineTo(x + cardW, y + cardH - 8);       
       ctx.closePath(); ctx.fill();
-      ctx.fillStyle = "white"; ctx.font = "bold 12px sans-serif"; ctx.textAlign = "center";
+      ctx.fillStyle = "black"; ctx.font = "bold 12px sans-serif"; ctx.textAlign = "center";
       ctx.fillText(p.team || "FA", x + cardW - 28, y + cardH - 12);
-      ctx.textAlign = "left"; ctx.fillStyle = "#111"; ctx.font = "bold 17px sans-serif";
+      ctx.textAlign = "left"; ctx.fillStyle = "#FFFFFF"; ctx.font = "bold 17px sans-serif";
       ctx.fillText(p.name, x + 80, y + 28);
-      ctx.fillStyle = "#666"; ctx.font = "500 11px sans-serif";
+      ctx.fillStyle = "#FFFFFF"; ctx.font = "500 11px sans-serif";
       ctx.fillText(`${p.pos} | ${meta.n.toUpperCase()}`, x + 80, y + 46);
       
       ctx.save();
@@ -173,7 +173,7 @@ async function draw(data) {
       ctx.restore();
     }
     
-    ctx.fillStyle = "#002863"; 
+    ctx.fillStyle = "#0a0f1a"; 
     ctx.fillRect(0, canvas.height - footerHeightPx, canvas.width, footerHeightPx);
     
     const footerY = canvas.height - (footerHeightPx / 2) + 8;
