@@ -3,22 +3,28 @@ layout: null
 ---
 {% include header.html %}
 
-<main class="page-container" style="padding: 40px 20px; max-width: 1100px; margin: 40px auto;">
+<main class="page-container" style="padding: 40px 20px; max-width: 600px; margin: 40px auto; text-align: center;">
     <h1 style="text-align: center;">#SFB16 Drafted Roster</h1>
     
-    <div class="form-content" style="text-align: center; padding: 20px;">
-        <!-- Applied tools.css classes -->
-        <div class="input-group">
-            <select id="platformSelect" class="tool-select">
+    <div class="form-content" style="padding: 20px;">
+        <!-- Top Row: Dropdown and Input -->
+        <div class="input-group" style="margin-bottom: 15px;">
+            <select id="platformSelect" class="tool-select" style="max-width: 150px;">
+                <option value="">Select Platform</option>
                 <option value="sleeper">Sleeper</option>
                 <option value="mfl">MFL</option>
             </select>
-            <input type="text" id="username" class="tool-input" placeholder="Sleeper Username or MFL League ID">
-            <button class="tool-btn btn-find" onclick="generateGraphic()">GENERATE #SFB16 GRAPHIC</button>
+            <input type="text" id="username" class="tool-input" placeholder="Username or League ID">
         </div>
 
-        <div id="loader" class="loader">SYNCING DRAFT DATA...</div>
+        <!-- Bottom Row: Button -->
+        <button class="tool-btn btn-find" style="width: 100%;" onclick="generateGraphic()">
+            GENERATE #SFB16 GRAPHIC
+        </button>
 
+        <div id="loader" class="loader" style="margin-top: 20px;">SYNCING DRAFT DATA...</div>
+
+        <!-- Canvas and Output -->
         <div class="roster-canvas-container" style="margin-top: 20px;">
             <canvas id="canvas" style="display:none;"></canvas>
         </div>
