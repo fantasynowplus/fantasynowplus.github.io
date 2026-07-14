@@ -135,10 +135,10 @@ function draw(picks, teamNameLabel) {
     });
 
     // Footer
-    ctx.fillStyle = "#f8fafc"; 
+    ctx.fillStyle = "#0a0f1a"; 
     ctx.fillRect(0, canvas.height - footerH, canvas.width, footerH);
     
-    const footerY = canvas.height - 35;
+    const footerY = canvas.height - 25;
     ctx.font = "bold 22px sans-serif";
     
     // Define strings
@@ -160,7 +160,7 @@ function draw(picks, teamNameLabel) {
     ctx.fillText(mainText, currentX, footerY);
     currentX += w1;
     
-    ctx.fillStyle = "#002863";
+    ctx.fillStyle = "#002152";
     ctx.fillText(brandText, currentX, footerY);
     currentX += w2;
     
