@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base target="_top">
+    <link rel="stylesheet" href="tools.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header-title">FantasyRoster<span class="accent-text">+</span></div>
+        <input type="text" id="username" placeholder="Sleeper Username">
+        <button onclick="loadLeagues()">FIND MY LEAGUES</button>
+        
+        <div id="loader" style="display:none; color: #FFA515; margin: 15px;">PROCESSING...</div>
+        
+        <div id="step2" style="display:none;">
+            <select id="leagueSelect" onchange="generate()"></select>
+        </div>
+
+        <canvas id="canvas" style="display:none;"></canvas>
+        <img id="finalImage">
+        <button id="dlBtn" class="download-btn" onclick="downloadImg()">DOWNLOAD IMAGE</button>
+    </div>
+    <script src="fantasy-roster.js"></script>
+</body>
+</html>
