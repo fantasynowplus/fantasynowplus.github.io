@@ -128,14 +128,28 @@ function draw(picks, teamNameLabel) {
         ctx.strokeStyle = "rgba(255,255,255,0.15)";
         ctx.beginPath(); ctx.moveTo(x + 30, y + 100); ctx.lineTo(x + cardW - 30, y + 100); ctx.stroke();
     
-        // Next Picks
+        // Next Picks Section
+        ctx.fillStyle = "#FFFFFF"; // Changed to white
         ctx.font = "bold 12px sans-serif";
         ctx.fillText("SELECTED IMMEDIATELY AFTER:", x + 30, y + 125);
-        ctx.font = "14px sans-serif";
+        
         p.nextPicks.forEach((np, idx) => {
-            if (np) ctx.fillText((p.pick + idx + 1) + ". " + np.name + " (" + np.pos + ")", x + 30, y + 155 + (idx * 28));
+            if (np) {
+                const yOffset = y + 155 + (idx * 28);
+                const pickText = (p.pick + idx + 1) + ". " + np.name + " ";
+                const posText = "(" + np.pos.toUpperCase() + ")";
+                const posColor = positionColors[np.pos.toUpperCase()] || "#FFA515";
+        
+                // Draw pick number and name in white
+                ctx.fillStyle = "#FFFFFF";
+                ctx.font = "14px sans-serif";
+                ctx.fillText(pickText, x + 30, yOffset);
+        
+                // Draw position in color
+                ctx.fillStyle = posColor;
+                ctx.fillText(posText, x + 30 + ctx.measureText(pickText).width, yOffset);
+            }
         });
-    });
 
     // Footer
     ctx.fillStyle = "#0a0f1a"; 
