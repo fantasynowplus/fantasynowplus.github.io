@@ -1,5 +1,3 @@
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT_BP0MJYd9QseL_8gMK3YKNVRbZLut6CMBxcm06-BhAcUxmSJMBjpv8d8IHFEYv58YriwEYqKZ1sg3/pub?output=csv';
-
 const nflFull = {
     "FA": {n: "Free Agent", logo: ""},
     "ARI": {n: "Arizona Cardinals", logo: "https://sleepercdn.com/images/team_logos/nfl/ari.png"},
@@ -52,125 +50,81 @@ async function loadLeagues() {
     window.currentUserId = u.user_id;
 }
 
+async function preloadImages(players) {
+    return Promise.all(players.map(p => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.src = `https://sleepercdn.com/content/nfl/players/${p.player_id}.jpg`;
+            img.onload = () => resolve(img);
+            img.onerror = () => resolve(null);
+        });
+    }));
+}
+
 async function generate() {
     const lId = document.getElementById('leagueSelect').value;
     document.getElementById('loader').style.display = 'block';
 
-    // 1. Fetch data
-    const [rostersRes, usersRes, sheetRes] = await Promise.all([
+    const [rostersRes, usersRes, playersRes] = await Promise.all([
         fetch(`https://api.sleeper.app/v1/league/${lId}/rosters`).then(r => r.json()),
         fetch(`https://api.sleeper.app/v1/league/${lId}/users`).then(r => r.json()),
-        fetch(SHEET_URL).then(r => r.text())
+        fetch(`https://api.sleeper.app/v1/players/nfl`).then(r => r.json())
     ]);
 
-    // 2. Parse Sheet
-    const rows = sheetRes.split('\n').slice(1);
-    const playerMap = new Map();
-    rows.forEach(row => {
-        const [id, name, pos, img, team, score] = row.split(',');
-        if(id) playerMap.set(id.trim(), { name, pos, img, team, score: parseFloat(score) || 0 });
-    });
-
-    // 3. Map Roster
     const roster = rostersRes.find(r => r.owner_id === window.currentUserId);
     const user = usersRes.find(u => u.user_id === window.currentUserId);
-    const players = roster.players.map(id => playerMap.get(id) || { name: 'Unknown', pos: 'BN', img: '', team: 'FA', score: 0 });
+    const players = roster.players.map(id => ({ ...playersRes[id], player_id: id }));
 
-    // 4. Draw
-    await draw({ players, teamName: user.metadata.team_name || "MY TEAM" });
-    
+    const loadedImages = await preloadImages(players);
+
+    await draw({ players, teamName: user.metadata.team_name || "MY TEAM", images: loadedImages });
     document.getElementById('loader').style.display = 'none';
 }
 
 async function draw(data) {
     const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: false });
     const leagueName = document.getElementById('leagueSelect').selectedOptions[0].text;
     const username = document.getElementById('username').value;
-    const footerHeightPx = 50; 
-    const cols = 4, cardW = 300, cardH = 75, gap = 12, headerH = 180, sidePad = 40;
+    const footerHeightPx = 50, cols = 4, cardW = 300, cardH = 75, gap = 12, headerH = 180, sidePad = 40;
     const posOrder = ["QB", "RB", "WR", "TE", "K", "DEF", "DL", "LB", "DB"];
+    
     let sortedList = [];
     posOrder.forEach(pos => {
-      const group = data.players
-        .filter(p => p.pos === pos)
-        .sort((a, b) => { if (b.score !== a.score) return b.score - a.score; return a.name.localeCompare(b.name); });
-      sortedList.push(...group);
+        const group = data.players.filter(p => p.position === pos).sort((a, b) => a.first_name.localeCompare(b.first_name));
+        sortedList.push(...group);
     });
-    
+
     const rows = Math.ceil(sortedList.length / cols);
     canvas.width = (cardW * cols) + (gap * (cols - 1)) + (sidePad * 2);
     canvas.height = headerH + (rows * (cardH + gap)) + footerHeightPx + 20;
-    
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#002863";
-    ctx.font = "bold 80px sans-serif";
-    ctx.fillText(data.teamName.toUpperCase(), sidePad, 85);
-    ctx.fillStyle = "#FFA515"; 
-    ctx.font = "bold 24px sans-serif";
-    ctx.fillText(leagueName.toUpperCase() + " • " + username.toUpperCase() + " • 2026 ROSTER", sidePad, 125);
-    
+
+    ctx.fillStyle = "#FFFFFF"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#002863"; ctx.font = "bold 80px sans-serif"; ctx.fillText(data.teamName.toUpperCase(), sidePad, 85);
+    ctx.fillStyle = "#FFA515"; ctx.font = "bold 24px sans-serif"; ctx.fillText(leagueName.toUpperCase() + " • " + username.toUpperCase() + " • 2026 ROSTER", sidePad, 125);
+
     for (let i = 0; i < sortedList.length; i++) {
-      const p = sortedList[i];
-      const meta = nflFull[p.team] || nflFull["FA"];
-      const posColor = getPosColor(p.pos);
-      const colIdx = Math.floor(i / rows);
-      const rowIdx = i % rows;
-      const x = sidePad + (colIdx * (cardW + gap));
-      const y = headerH + (rowIdx * (cardH + gap));
-      
-      ctx.fillStyle = "#ffffff";
-      ctx.shadowColor = "rgba(0,0,0,0.1)"; ctx.shadowBlur = 4;
-      ctx.beginPath(); ctx.roundRect(x, y, cardW, cardH, 6); ctx.fill();
-      ctx.shadowBlur = 0;
-      ctx.fillStyle = posColor;
-      ctx.fillRect(x, y + cardH - 8, cardW, 8);
-      ctx.beginPath();
-      ctx.moveTo(x + cardW - 65, y + cardH - 8); 
-      ctx.lineTo(x + cardW - 55, y + cardH - 24); 
-      ctx.lineTo(x + cardW, y + cardH - 24);      
-      ctx.lineTo(x + cardW, y + cardH - 8);       
-      ctx.closePath(); ctx.fill();
-      ctx.fillStyle = "white"; ctx.font = "bold 12px sans-serif"; ctx.textAlign = "center";
-      ctx.fillText(p.team || "FA", x + cardW - 28, y + cardH - 12);
-      ctx.textAlign = "left"; ctx.fillStyle = "#111"; ctx.font = "bold 17px sans-serif";
-      ctx.fillText(p.name, x + 80, y + 28);
-      ctx.fillStyle = "#666"; ctx.font = "500 11px sans-serif";
-      ctx.fillText(`${p.pos} | ${meta.n.toUpperCase()}`, x + 80, y + 46);
-      
-      ctx.save();
-      ctx.beginPath(); ctx.arc(x + 38, y + 37, 30, 0, Math.PI*2); ctx.clip();
-      ctx.fillStyle = posColor;
-      ctx.beginPath(); ctx.arc(x + 38, y + 37, 30, 0, Math.PI*2); ctx.fill();
-      const imgUrl = (p.img && p.img !== "") ? p.img : meta.logo;
-      if(imgUrl) {
-        await new Promise(r => {
-          const img = new Image(); img.crossOrigin = "anonymous";
-          img.src = imgUrl + (imgUrl.includes('?') ? '&' : '?') + "t=" + Date.now();
-          img.onload = () => {
-            const sc = Math.max(60/img.width, 60/img.height);
-            ctx.drawImage(img, (x+38)-(img.width*sc)/2, (y+37)-(img.height*sc)/2, img.width*sc, img.height*sc);
-            r();
-          };
-          img.onerror = r;
-        });
-      }
-      ctx.restore();
+        const p = sortedList[i];
+        const img = data.images[i];
+        const meta = nflFull[p.team] || nflFull["FA"];
+        const posColor = getPosColor(p.position);
+        const colIdx = Math.floor(i / rows), rowIdx = i % rows;
+        const x = sidePad + (colIdx * (cardW + gap)), y = headerH + (rowIdx * (cardH + gap));
+
+        ctx.fillStyle = "#ffffff"; ctx.shadowColor = "rgba(0,0,0,0.1)"; ctx.shadowBlur = 4;
+        ctx.beginPath(); ctx.roundRect(x, y, cardW, cardH, 6); ctx.fill();
+        ctx.shadowBlur = 0; ctx.fillStyle = posColor; ctx.fillRect(x, y + cardH - 8, cardW, 8);
+        ctx.fillStyle = "#111"; ctx.font = "bold 17px sans-serif"; ctx.fillText(`${p.first_name} ${p.last_name}`, x + 80, y + 28);
+        ctx.fillStyle = "#666"; ctx.font = "500 11px sans-serif"; ctx.fillText(`${p.position} | ${(p.team || 'FA').toUpperCase()}`, x + 80, y + 46);
+
+        ctx.save();
+        ctx.beginPath(); ctx.arc(x + 38, y + 37, 30, 0, Math.PI * 2); ctx.clip();
+        ctx.fillStyle = posColor; ctx.fill();
+        if (img) ctx.drawImage(img, x + 8, y + 7, 60, 60);
+        ctx.restore();
     }
-    
-    ctx.fillStyle = "#002863"; 
-    ctx.fillRect(0, canvas.height - footerHeightPx, canvas.width, footerHeightPx);
-    const footerY = canvas.height - (footerHeightPx / 2) + 8;
-    ctx.font = "bold 20px sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillStyle = "#94a3b8"; 
-    ctx.fillText("FantasyRoster powered by ", canvas.width / 2 - 40, footerY);
-    ctx.fillStyle = "#FFFFFF"; 
-    ctx.fillText("FantasyNow", canvas.width / 2 + 75, footerY);
-    ctx.fillStyle = "#FFA515"; 
-    ctx.fillText("+", canvas.width / 2 + 135, footerY);
-    
+
     const finalImg = document.getElementById('finalImage');
     finalImg.src = canvas.toDataURL("image/png");
     finalImg.style.display = 'block';
