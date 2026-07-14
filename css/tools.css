@@ -4,7 +4,7 @@
     max-width: 400px;
     padding: 15px;
     margin: 10px 0;
-    border-radius: 30px;
+    border-radius: 5px;
     border: 1px solid #333;
     background: #1a2a40;
     color: #ffffff;
@@ -19,7 +19,7 @@
     max-width: 400px;
     padding: 15px;
     margin: 10px 0;
-    border-radius: 30px;
+    border-radius: 5px;
     border: none;
     font-weight: bold;
     cursor: pointer;
@@ -48,7 +48,13 @@
     align-items: center;
     width: 100%;
     max-width: 600px;
-    margin: 20px auto;
+    margin: 0 auto 10px auto;
+}
+
+.tool-select {
+    margin-top: 0; /* Ensures no extra gap above the dropdown */
+    width: 100%;
+    max-width: 600px; /* Aligned with input-group max-width */
 }
 
 .tool-input { 
