@@ -170,15 +170,35 @@ async function draw(data) {
     
     ctx.fillStyle = "#002863"; 
     ctx.fillRect(0, canvas.height - footerHeightPx, canvas.width, footerHeightPx);
+    
     const footerY = canvas.height - (footerHeightPx / 2) + 8;
+    const mainText = "FantasyRoster powered by ";
+    const brandText = "FantasyNow";
+    const plusText = "+";
+    
     ctx.font = "bold 20px sans-serif";
-    ctx.textAlign = "center";
+    
+    // Calculate total width first to center the group
+    const widthMain = ctx.measureText(mainText).width;
+    const widthBrand = ctx.measureText(brandText).width;
+    const widthPlus = ctx.measureText(plusText).width;
+    const totalWidth = widthMain + widthBrand + widthPlus;
+    
+    let currentX = (canvas.width - totalWidth) / 2;
+    
+    // Draw each part sequentially
+    ctx.textAlign = "left";
+    
     ctx.fillStyle = "#94a3b8"; 
-    ctx.fillText("FantasyRoster powered by ", canvas.width / 2 - 40, footerY);
+    ctx.fillText(mainText, currentX, footerY);
+    currentX += widthMain;
+    
     ctx.fillStyle = "#FFFFFF"; 
-    ctx.fillText("FantasyNow", canvas.width / 2 + 75, footerY);
+    ctx.fillText(brandText, currentX, footerY);
+    currentX += widthBrand;
+    
     ctx.fillStyle = "#FFA515"; 
-    ctx.fillText("+", canvas.width / 2 + 135, footerY);
+    ctx.fillText(plusText, currentX, footerY);
     
     const finalImg = document.getElementById('finalImage');
     finalImg.src = canvas.toDataURL("image/png");
