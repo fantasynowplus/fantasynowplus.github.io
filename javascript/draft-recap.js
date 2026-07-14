@@ -150,7 +150,8 @@ function draw(picks, teamNameLabel) {
                 ctx.fillText(posText, x + 30 + ctx.measureText(pickText).width, yOffset);
             }
         });
-
+    });
+    
     // Footer
     ctx.fillStyle = "#0a0f1a"; 
     ctx.fillRect(0, canvas.height - footerH, canvas.width, footerH);
