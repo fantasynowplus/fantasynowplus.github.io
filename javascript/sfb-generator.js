@@ -3,11 +3,11 @@ const CORS_PROXY = "https://corsproxy.io/?";
 
 // 1. Main trigger function (Updated for tools.css classes)
 async function generateGraphic() {
-    const username = document.getElementById('username').value;
     const platform = document.getElementById('platformSelect').value;
-    const loader = document.getElementById('loader');
-    
-    if (!username) return alert("Please enter a username or ID.");
+    const username = document.getElementById('username').value;
+
+    if (!platform) return alert("-- Select Platform --");
+    if (!username) return alert("Enter username or ID");
 
     loader.style.display = 'block';
     loader.innerText = "Syncing draft data...";
