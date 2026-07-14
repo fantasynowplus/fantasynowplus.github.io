@@ -65,7 +65,7 @@ function draw(picks, managerName, leagueName) {
     sfbLogo.onload = imageLoadedCallback;
     sfbLogo.onerror = () => { sfbLogo.failed = true; imageLoadedCallback(); };
 
-    secondLogo.src = "assets/images/fantasycares.org.png"; // Ensure this matches your file extension
+    secondLogo.src = "assets/images/fantasycares.png"; // Ensure this matches your file extension
     secondLogo.onload = imageLoadedCallback;
     secondLogo.onerror = () => { secondLogo.failed = true; imageLoadedCallback(); };
 }
