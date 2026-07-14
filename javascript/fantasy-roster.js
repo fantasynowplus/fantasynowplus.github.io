@@ -146,7 +146,7 @@ async function draw(data) {
       ctx.textAlign = "left"; ctx.fillStyle = "#111"; ctx.font = "bold 17px sans-serif";
       ctx.fillText(p.name, x + 80, y + 28);
       ctx.fillStyle = "#666"; ctx.font = "500 11px sans-serif";
-      ctx.fillText(`${p.pos} | ${meta.n.toUpperCase()}`, x + 80, y + 46);
+      ctx.fillText(`${p.pos} | ${p.team.toUpperCase()}`, x + 80, y + 46);
       
       ctx.save();
       ctx.beginPath(); ctx.arc(x + 38, y + 37, 30, 0, Math.PI*2); ctx.clip();
