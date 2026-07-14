@@ -7,18 +7,13 @@ layout: null
     <h1 style="text-align: center;">#SFB16 Drafted Roster</h1>
     
     <div class="form-content" style="text-align: center; padding: 20px;">
-        <div class="input-group" style="max-width: 500px; margin: 0 auto;">
-            <select id="leagueSelect" onchange="loadManagers()" class="tool-select">
-                <option value="">Loading Leagues...</option>
+        <div class="input-group">
+            <select id="platformSelect">
+                <option value="sleeper">Sleeper</option>
+                <option value="mfl">MFL</option>
             </select>
-            
-            <select id="managerSelect" onchange="enableGenerate()" class="tool-select" style="display:none; margin-top: 10px;">
-                <option value="">-- Select Manager --</option>
-            </select>
-            
-            <button id="genBtn" class="tool-btn btn-find" style="display:none; margin-top: 10px; width: 100%;" onclick="generate()">
-                GENERATE GRAPHIC
-            </button>
+            <input type="text" id="username" placeholder="Sleeper Username or MFL League ID">
+            <button onclick="generateGraphic()">GENERATE #SFB16 GRAPHIC</button>
         </div>
 
         <div id="loader" class="loader" style="display:none; margin-top: 20px;">SYNCING DRAFT DATA...</div>
