@@ -7,16 +7,17 @@ layout: null
     <h1 style="text-align: center;">#SFB16 Drafted Roster</h1>
     
     <div class="form-content" style="text-align: center; padding: 20px;">
+        <!-- Applied tools.css classes -->
         <div class="input-group">
-            <select id="platformSelect">
+            <select id="platformSelect" class="tool-select">
                 <option value="sleeper">Sleeper</option>
                 <option value="mfl">MFL</option>
             </select>
-            <input type="text" id="username" placeholder="Sleeper Username or MFL League ID">
-            <button onclick="generateGraphic()">GENERATE #SFB16 GRAPHIC</button>
+            <input type="text" id="username" class="tool-input" placeholder="Sleeper Username or MFL League ID">
+            <button class="tool-btn btn-find" onclick="generateGraphic()">GENERATE #SFB16 GRAPHIC</button>
         </div>
 
-        <div id="loader" class="loader" style="display:none; margin-top: 20px;">SYNCING DRAFT DATA...</div>
+        <div id="loader" class="loader">SYNCING DRAFT DATA...</div>
 
         <div class="roster-canvas-container" style="margin-top: 20px;">
             <canvas id="canvas" style="display:none;"></canvas>
