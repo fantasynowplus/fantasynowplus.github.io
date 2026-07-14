@@ -140,12 +140,32 @@ function draw(picks, teamNameLabel) {
     
     const footerY = canvas.height - 35;
     ctx.font = "bold 22px sans-serif";
+    
+    // Define strings
+    const mainText = "Draft Recap powered by ";
+    const brandText = "FantasyNow";
+    const plusText = "+";
+    
+    // Measure widths
+    const w1 = ctx.measureText(mainText).width;
+    const w2 = ctx.measureText(brandText).width;
+    const w3 = ctx.measureText(plusText).width;
+    const totalWidth = w1 + w2 + w3;
+    
+    // Calculate starting X to center
+    let currentX = (canvas.width - totalWidth) / 2;
+    
+    // Draw components
     ctx.fillStyle = "#A8B0BF";
-    ctx.fillText("Draft Recap powered by ", margin, footerY);
+    ctx.fillText(mainText, currentX, footerY);
+    currentX += w1;
+    
     ctx.fillStyle = "#002863";
-    ctx.fillText("FantasyNow", margin + 265, footerY);
+    ctx.fillText(brandText, currentX, footerY);
+    currentX += w2;
+    
     ctx.fillStyle = "#FFA515";
-    ctx.fillText("+", margin + 380, footerY);
+    ctx.fillText(plusText, currentX, footerY);
 
     // Display
     const img = document.getElementById('finalImage');
