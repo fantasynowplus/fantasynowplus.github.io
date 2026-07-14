@@ -68,3 +68,7 @@
     flex: 0 0 auto; /* Prevents the button from stretching */
     white-space: nowrap; /* Keeps the button text on one line */
 }
+.sfb-input-group .tool-select {
+    width: auto;
+    flex: 0 0 150px;
+}
