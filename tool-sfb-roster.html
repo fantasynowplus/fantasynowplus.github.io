@@ -3,36 +3,31 @@ layout: null
 ---
 {% include header.html %}
 
-<main class="page-container" style="padding: 40px 20px; max-width: 600px; margin: 40px auto; text-align: center;">
-    <h1 style="text-align: center;">#SFB16 Drafted Roster</h1>
+<main class="page-container" style="padding: 40px 20px; max-width: 800px; margin: 40px auto; text-align: center;">
+    <h1 style="text-align: center; color: white;">#SFB16 Drafted Roster</h1>
     
     <div class="form-content" style="padding: 20px;">
-        <!-- Top Row: Dropdown and Input -->
-        <div class="input-group" style="margin-bottom: 15px;">
+        <!-- Container for input row to allow centering -->
+        <div class="input-group" style="justify-content: center;">
             <select id="platformSelect" class="tool-select" style="max-width: 150px;">
-                <option value="">Select Platform</option>
                 <option value="sleeper">Sleeper</option>
                 <option value="mfl">MFL</option>
             </select>
-            <input type="text" id="username" class="tool-input" placeholder="Username or League ID">
+            <input type="text" id="username" class="tool-input" placeholder="Username" style="max-width: 250px;">
         </div>
 
-        <!-- Bottom Row: Button -->
-        <button class="tool-btn btn-find" style="width: 100%;" onclick="generateGraphic()">
+        <button class="tool-btn btn-find" style="max-width: 410px; margin: 15px auto;" onclick="generateGraphic()">
             GENERATE #SFB16 GRAPHIC
         </button>
 
-        <div id="loader" class="loader" style="margin-top: 20px;">SYNCING DRAFT DATA...</div>
+        <div id="loader" class="loader">SYNCING DRAFT DATA...</div>
 
-        <!-- Canvas and Output -->
-        <div class="roster-canvas-container" style="margin-top: 20px;">
-            <canvas id="canvas" style="display:none;"></canvas>
+        <!-- This container ensures the image stays clean and visible -->
+        <div id="resultContainer" style="margin-top: 30px;">
+            <img id="finalImage" style="max-width: 100%; display: none; border-radius: 8px; border: 1px solid #334155; box-shadow: 0 4px 12px rgba(0,0,0,0.5);" alt="Draft Recap Output">
         </div>
         
-        <img id="finalImage" style="margin-top: 30px; max-width: 100%; display: none; border-radius: 8px; border: 1px solid #FFA515;" alt="Draft Recap Output">
-        
-        <br>
-        <button id="downloadBtn" class="tool-btn btn-dl" style="display:none; margin-top: 20px;" onclick="downloadImg()">
+        <button id="downloadBtn" class="tool-btn btn-dl" style="display:none; margin: 20px auto; max-width: 410px;" onclick="downloadImg()">
             DOWNLOAD DRAFT IMAGE
         </button>
     </div>
