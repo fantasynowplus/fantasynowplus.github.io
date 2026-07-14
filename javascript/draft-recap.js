@@ -33,30 +33,49 @@ async function generate() {
     if (!lid) return;
     
     document.getElementById('loader').style.display = 'block';
+    console.log("Fetching data for league ID:", lid);
     
-    const [usersRes, draftsRes] = await Promise.all([
-        fetch(`https://api.sleeper.app/v1/league/${lid}/users`),
-        fetch(`https://api.sleeper.app/v1/league/${lid}/drafts`)
-    ]);
-    
-    const users = await usersRes.json();
-    const drafts = await draftsRes.json();
-    const draftId = drafts[0].draft_id;
-    
-    const picksRes = await fetch(`https://api.sleeper.app/v1/draft/${draftId}/picks`);
-    const allPicks = await picksRes.json();
-    
-    const currentUser = users.find(u => u.user_id === window.globalUserId);
-    const teamName = currentUser ? (currentUser.metadata.team_name || currentUser.display_name) : "My Team";
-    
-    const pickMap = {};
-    allPicks.forEach(p => pickMap[p.pick_no] = { name: `${p.metadata.first_name} ${p.metadata.last_name}`, pos: p.metadata.position });
-    
-    const userPicks = allPicks.filter(p => p.picked_by === window.globalUserId).map(p => ({
-        round: p.round, pick: p.pick_no, name: `${p.metadata.first_name} ${p.metadata.last_name}`, pos: p.metadata.position,
-        nextPicks: [pickMap[p.pick_no + 1], pickMap[p.pick_no + 2], pickMap[p.pick_no + 3]]
-    }));
+    try {
+        const [usersRes, draftsRes] = await Promise.all([
+            fetch(`https://api.sleeper.app/v1/league/${lid}/users`),
+            fetch(`https://api.sleeper.app/v1/league/${lid}/drafts`)
+        ]);
+        
+        if (!usersRes.ok || !draftsRes.ok) throw new Error("Failed to fetch league data");
+        
+        const users = await usersRes.json();
+        const drafts = await draftsRes.json();
+        
+        if (!drafts || drafts.length === 0) {
+            alert("No draft found for this league.");
+            return;
+        }
+        
+        const draftId = drafts[0].draft_id;
+        const picksRes = await fetch(`https://api.sleeper.app/v1/draft/${draftId}/picks`);
+        const allPicks = await picksRes.json();
+        
+        console.log("Picks received:", allPicks.length);
+        
+        const currentUser = users.find(u => u.user_id === window.globalUserId);
+        const teamName = currentUser ? (currentUser.metadata.team_name || currentUser.display_name) : "My Team";
+        
+        const pickMap = {};
+        allPicks.forEach(p => pickMap[p.pick_no] = { 
+            name: `${p.metadata.first_name || ''} ${p.metadata.last_name || ''}`, 
+            pos: p.metadata.position 
+        });
+        
+        const userPicks = allPicks.filter(p => p.picked_by === window.globalUserId).map(p => ({
+            round: p.round, pick: p.pick_no, name: `${p.metadata.first_name || ''} ${p.metadata.last_name || ''}`, pos: p.metadata.position,
+            nextPicks: [pickMap[p.pick_no + 1], pickMap[p.pick_no + 2], pickMap[p.pick_no + 3]]
+        }));
 
-    document.getElementById('loader').style.display = 'none';
-    draw(userPicks, teamName);
+        document.getElementById('loader').style.display = 'none';
+        draw(userPicks, teamName); // If this fails, the error will now appear in the Console
+    } catch (err) {
+        console.error("Error in generate():", err);
+        document.getElementById('loader').style.display = 'none';
+        alert("Something went wrong while generating the graphic. Check the console for details.");
+    }
 }
