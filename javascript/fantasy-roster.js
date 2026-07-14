@@ -111,9 +111,9 @@ async function draw(data) {
     canvas.width = (cardW * cols) + (gap * (cols - 1)) + (sidePad * 2);
     canvas.height = headerH + (rows * (cardH + gap)) + footerHeightPx + 20;
     
-    ctx.fillStyle = "#FFFFFF";
+    ctx.fillStyle = "#001c45";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#002863";
+    ctx.fillStyle = "#FFFFFF";
     ctx.font = "bold 80px sans-serif";
     ctx.fillText(data.teamName.toUpperCase(), sidePad, 85);
     ctx.fillStyle = "#FFA515"; 
@@ -129,7 +129,7 @@ async function draw(data) {
       const x = sidePad + (colIdx * (cardW + gap));
       const y = headerH + (rowIdx * (cardH + gap));
       
-      ctx.fillStyle = "#ffffff";
+      ctx.fillStyle = "#2e5793";
       ctx.shadowColor = "rgba(0,0,0,0.1)"; ctx.shadowBlur = 4;
       ctx.beginPath(); ctx.roundRect(x, y, cardW, cardH, 6); ctx.fill();
       ctx.shadowBlur = 0;
