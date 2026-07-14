@@ -20,8 +20,8 @@ async function generateGraphic() {
             alert("MFL requires a League ID. Please update input to League ID.");
         }
     } catch (e) {
-        console.error(e);
-        alert("Error fetching data. Check your inputs.");
+        console.error("Detailed Error:", e); // This will show the actual API error in your browser console (F12)
+        alert("Error fetching data: " + e.message); 
     } finally {
         loader.style.display = 'none';
     }
