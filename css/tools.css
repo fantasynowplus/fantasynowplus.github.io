@@ -68,18 +68,17 @@
     flex: 0 0 auto; /* Prevents the button from stretching */
     white-space: nowrap; /* Keeps the button text on one line */
 }
-/* Add this to tools.css */
-.sfb-input-group {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    align-items: center; /* Keeps them vertically aligned */
-}
-
-.sfb-input-group .tool-select {
-    flex: 1; /* 1/3 share */
-}
-
+/* SFB Tool */
+.sfb-input-group .tool-select, 
 .sfb-input-group .tool-input {
-    flex: 2; /* 2/3 share */
+    flex: 1;           
+    height: 50px;      /* Force them to be the exact same height */
+    padding: 0 15px;   /* Consistent internal padding */
+    margin: 0;
+    box-sizing: border-box; /* Ensures padding doesn't add to the height */
+    vertical-align: middle;
 }
+
+/* Force the 1/3 and 2/3 ratio */
+.sfb-input-group .tool-select { flex: 1; }
+.sfb-input-group .tool-input { flex: 2; }
