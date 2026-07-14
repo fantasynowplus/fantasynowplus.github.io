@@ -1,15 +1,17 @@
 const MFL_YEAR = '2026';
-const CORS_PROXY = "https://corsproxy.io/?"; // Public proxy to bypass MFL CORS blocks
+const CORS_PROXY = "https://corsproxy.io/?";
 
+// 1. Main trigger function
 async function generateGraphic() {
     const username = document.getElementById('username').value;
-    const platform = document.getElementById('platformSelect').value; // Add a select box for Sleeper/MFL
+    const platform = document.getElementById('platformSelect').value;
     
+    if (!username) return alert("Please enter a username or ID.");
+
     try {
         if (platform === 'sleeper') {
             await handleSleeper(username);
         } else {
-            // For MFL, you'd typically need the league ID since MFL doesn't have a global "username" lookup like Sleeper
             alert("MFL requires a League ID. Please update input to League ID.");
         }
     } catch (e) {
@@ -18,6 +20,7 @@ async function generateGraphic() {
     }
 }
 
+// 2. Fetch Logic
 async function handleSleeper(username) {
     const userRes = await fetch(`https://api.sleeper.app/v1/user/${username}`);
     const user = await userRes.json();
@@ -26,6 +29,7 @@ async function handleSleeper(username) {
     const leagues = await leaguesRes.json();
     
     const sfbLeague = leagues.find(l => l.name && l.name.startsWith("#SFB16"));
+    if (!sfbLeague) return alert("No #SFB16 league found for this user.");
     
     const picksRes = await fetch(`https://api.sleeper.app/v1/draft/${sfbLeague.draft_id}/picks`);
     const allPicks = await picksRes.json();
@@ -34,41 +38,143 @@ async function handleSleeper(username) {
     draw(myPicks, user.display_name, sfbLeague.name);
 }
 
-// Drawing logic remains the same as your preferred version
-function draw(picks, manager, league) {
+// 3. Drawing Controller
+function draw(picks, managerName, leagueName) {
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = 1000; canvas.height = 650;
+    const imgTag = document.getElementById('finalImage');
+
+    canvas.width = 1000;
+    canvas.height = 600; 
+
+    const sfbLogo = new Image();
+    const secondLogo = new Image();
+    const sponsorLogo = new Image();
     
-    ctx.fillStyle = "#0f172a";
-    ctx.fillRect(0, 0, 1000, 650);
+    let imagesLoaded = 0;
+    function imageLoadedCallback() {
+        imagesLoaded++;
+        if (imagesLoaded === 3) {
+            renderBoard(ctx, picks, managerName, leagueName, sfbLogo, secondLogo, sponsorLogo);
+            imgTag.src = canvas.toDataURL("image/png");
+            imgTag.style.display = 'block';
+            document.getElementById('downloadBtn').style.display = 'block';
+        }
+    }
 
-    // Draft Pick Rendering (Your preferred layout logic)
-    picks.forEach((p, i) => {
-        if (i >= 20) return;
-        const colX = (i >= 10) ? 500 : 0;
-        const y = 100 + ((i % 10) * 50);
-        
-        ctx.fillStyle = p.metadata.position === "QB" ? "#FCDAD7" : "#D2F4E2";
-        ctx.fillRect(colX, y, 500, 50);
-        
-        ctx.fillStyle = "#0f172a";
-        ctx.font = "bold 15px sans-serif";
-        ctx.textAlign = "left";
-        ctx.fillText(`${p.round}.${p.draft_slot}`, colX + 15, y + 33);
-        ctx.fillText(p.metadata.first_name + " " + p.metadata.last_name, colX + 135, y + 33);
-    });
+    sfbLogo.crossOrigin = "anonymous";
+    sfbLogo.src = "https://i.imgur.com/ubuKnv0.png?time=" + new Date().getTime(); 
+    sfbLogo.onload = imageLoadedCallback;
+    sfbLogo.onerror = () => { sfbLogo.failed = true; imageLoadedCallback(); };
 
-    drawFooter(ctx);
-    document.getElementById('finalImage').src = canvas.toDataURL("image/png");
-    document.getElementById('finalImage').style.display = 'block';
+    secondLogo.crossOrigin = "anonymous";
+    secondLogo.src = "https://i.imgur.com/KqrTWiV.png?time=" + new Date().getTime(); 
+    secondLogo.onload = imageLoadedCallback;
+    secondLogo.onerror = () => { secondLogo.failed = true; imageLoadedCallback(); };
+
+    sponsorLogo.crossOrigin = "anonymous";
+    sponsorLogo.src = "https://i.imgur.com/CouYtze.png?time=" + new Date().getTime();
+    sponsorLogo.onload = imageLoadedCallback;
+    sponsorLogo.onerror = () => { sponsorLogo.failed = true; imageLoadedCallback(); };
 }
 
+// 4. Board Rendering
+function renderBoard(ctx, picks, manager, league, sfbLogo, secondLogo, sponsorLogo) {
+    ctx.fillStyle = "#0f172a"; 
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    const targetHeight = 70; 
+    const targetY = 15;
+    let currentX = 25;
+
+    if (sfbLogo && !sfbLogo.failed) {
+        const scale = targetHeight / sfbLogo.height;
+        const logoWidth = sfbLogo.width * scale;
+        ctx.drawImage(sfbLogo, currentX, targetY, logoWidth, targetHeight);
+        currentX += logoWidth + 15; 
+    } else {
+        ctx.textAlign = "left";
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "normal 32px sans-serif";
+        ctx.fillText("SFB", currentX, targetY + 45);
+        currentX += 80;
+    }
+
+    if (secondLogo && !secondLogo.failed) {
+        const scale = targetHeight / secondLogo.height;
+        const secondWidth = secondLogo.width * scale;
+        ctx.drawImage(secondLogo, currentX, targetY, secondWidth, targetHeight);
+        currentX += secondWidth + 20; 
+    }
+
+    ctx.strokeStyle = "#334155";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(currentX, 20);
+    ctx.lineTo(currentX, 80);
+    ctx.stroke();
+    currentX += 25; 
+
+    ctx.textAlign = "left";
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "normal 34px sans-serif";
+    ctx.fillText(manager, currentX, 48); 
+    ctx.font = "normal 16px sans-serif";
+    ctx.fillText(league, currentX, 74);
+
+    if (sponsorLogo && !sponsorLogo.failed) {
+        const sponsorRightX = 975; 
+        const sponsorLogoHeight = 54; 
+        const sponsorScale = sponsorLogoHeight / sponsorLogo.height;
+        const sponsorWidth = sponsorLogo.width * sponsorScale;
+        const centeredY = (100 - sponsorLogoHeight) / 2;
+        ctx.drawImage(sponsorLogo, sponsorRightX - sponsorWidth, centeredY, sponsorWidth, sponsorLogoHeight);
+    }
+
+    if (picks && Array.isArray(picks)) {
+        picks.forEach((p, i) => {
+            if (!p || i >= 20) return; 
+            const isRightCol = i >= 10;
+            const colX = isRightCol ? 500 : 0;
+            const y = 100 + ((i % 10) * 50);
+            
+            const posRaw = p.metadata.position || "UNK";
+            let color = "#475569";
+            if (posRaw.includes("QB")) color = "#FCDAD7";       
+            else if (posRaw.includes("RB")) color = "#D2F4E2";  
+            else if (posRaw.includes("WR")) color = "#D2DCFF";  
+            else if (posRaw.includes("TE")) color = "#FFF3CD";  
+            else if (posRaw.includes("K") || posRaw.includes("DEF")) color = "#E9D5FF";
+
+            ctx.fillStyle = color;
+            ctx.fillRect(colX, y, 500, 50);
+            ctx.fillStyle = "#0f172a";
+            ctx.textAlign = "left";
+            ctx.font = "normal 14px sans-serif";
+            ctx.fillText(`${p.round}.${p.draft_slot}`, colX + 15, y + 33);
+            ctx.font = "bold 15px sans-serif";
+            ctx.fillText(posRaw, colX + 65, y + 33);
+            ctx.font = "normal 22px sans-serif"; 
+            ctx.fillText(p.metadata.first_name + " " + p.metadata.last_name, colX + 135, y + 33);
+        });
+    }
+
+    drawFooter(ctx);
+}
+
+// 5. Utilities
 function drawFooter(ctx) {
     ctx.fillStyle = "#002863";
-    ctx.fillRect(0, 600, 1000, 50);
+    ctx.fillRect(0, 550, 1000, 50);
     ctx.fillStyle = "#FFFFFF";
     ctx.font = "bold 20px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText("SFB16 Roster powered by FantasyNow+", 500, 632);
+    ctx.fillText("SFB16 Roster powered by FantasyNow+", 500, 582);
+}
+
+function downloadImg() {
+    const link = document.createElement('a');
+    link.download = 'DraftRecap.png';
+    link.href = document.getElementById('finalImage').src;
+    link.click();
 }
