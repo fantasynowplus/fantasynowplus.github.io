@@ -1,57 +1,67 @@
 // fantasy-roster.js
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT_BP0MJYd9QseL_8gMK3YKNVRbZLut6CMBxcm06-BhAcUxmSJMBjpv8d8IHFEYv58YriwEYqKZ1sg3/pub?output=csv'; // The link from Publish to Web
 
-// This replaces the logic that was in your Code.gs
 async function loadLeagues() {
     const user = document.getElementById('username').value;
-    if (!user) return alert("Enter username");
-
     document.getElementById('loader').style.display = 'block';
-    
-    // 1. Fetch User
     const uRes = await fetch(`https://api.sleeper.app/v1/user/${user}`);
     const u = await uRes.json();
-    
-    // 2. Fetch Leagues (2026)
     const lRes = await fetch(`https://api.sleeper.app/v1/user/${u.user_id}/leagues/nfl/2026`);
     const ls = await lRes.json();
-    
     const s = document.getElementById('leagueSelect');
-    s.innerHTML = '<option value="">-- Select Your League --</option>';
     ls.forEach(l => s.add(new Option(l.name, l.league_id)));
-    
     document.getElementById('step2').style.display = 'block';
     document.getElementById('loader').style.display = 'none';
+    window.currentUserId = u.user_id;
 }
 
 async function generate() {
     const lId = document.getElementById('leagueSelect').value;
-    const username = document.getElementById('username').value;
     
-    document.getElementById('loader').style.display = 'block';
-    document.getElementById('loader').innerText = "Syncing roster...";
+    // 1. Fetch live roster + Sheet data
+    const [rosters, sheetRes] = await Promise.all([
+        fetch(`https://api.sleeper.app/v1/league/${lId}/rosters`).then(r => r.json()),
+        fetch(SHEET_URL).then(r => r.text())
+    ]);
 
-    try {
-        // Fetch everything directly in the browser (Replacing UrlFetchApp)
-        const [rosters, players, users] = await Promise.all([
-            fetch(`https://api.sleeper.app/v1/league/${lId}/rosters`).then(r => r.json()),
-            fetch(`https://api.sleeper.app/v1/players/nfl`).then(r => r.json()),
-            fetch(`https://api.sleeper.app/v1/league/${lId}/users`).then(r => r.json())
-        ]);
-        
-        // Find your user and roster
-        const user = users.find(u => u.display_name === username || u.username === username);
-        const roster = rosters.find(r => r.owner_id === user.user_id);
-        
-        // POS_ORDER and Sorting Logic (exactly as you had it)
-        const POS_ORDER = ["QB", "RB", "WR", "TE", "K", "DEF", "DL", "LB", "DB"];
-        const playerData = roster.players.map(id => ({ ...players[id], id }))
-            .sort((a, b) => POS_ORDER.indexOf(a.position) - POS_ORDER.indexOf(b.position));
+    // 2. Parse Sheet CSV into a Map
+    const rows = sheetRes.split('\n').slice(1); // skip header
+    const playerMap = new Map();
+    rows.forEach(row => {
+        const [id, name, pos, img, team] = row.split(',');
+        if(id) playerMap.set(id.trim(), { name, pos, img, team });
+    });
 
-        // Draw (Your exact canvas engine)
-        draw(playerData, user.metadata.team_name || username);
-    } catch (e) {
-        alert("Generation failed: " + e.message);
-    } finally {
-        document.getElementById('loader').style.display = 'none';
-    }
+    const roster = rosters.find(r => r.owner_id === window.currentUserId);
+    const POS_ORDER = ["QB", "RB", "WR", "TE", "K", "DEF", "DL", "LB", "DB"];
+    
+    const players = roster.players.map(id => playerMap.get(id) || { name: 'Unknown', pos: 'BN', img: '', team: 'FA' })
+        .sort((a, b) => POS_ORDER.indexOf(a.pos) - POS_ORDER.indexOf(b.pos));
+
+    draw(players, "MY TEAM");
+}
+
+function draw(players, teamName) {
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 1200; canvas.height = 1000;
+    ctx.fillStyle = "#0B162A"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw grid exactly like your old index.html
+    players.forEach((p, i) => {
+        const x = 50 + ((i % 4) * 280);
+        const y = 150 + (Math.floor(i / 4) * 100);
+        
+        ctx.strokeStyle = "#FFA515"; ctx.strokeRect(x, y, 250, 80);
+        ctx.fillStyle = "#FFF"; ctx.fillText(p.name, x + 20, y + 45);
+        
+        // Load image from URL in sheet
+        if (p.img) {
+            const img = new Image();
+            img.src = p.img;
+            img.onload = () => ctx.drawImage(img, x, y, 50, 50);
+        }
+    });
+    canvas.style.display = 'block';
+    document.getElementById('dlBtn').style.display = 'block';
 }
