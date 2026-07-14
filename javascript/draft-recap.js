@@ -101,7 +101,7 @@ function draw(picks, teamNameLabel) {
         "LB": "#6D7DF5", "DB": "#FF7CB6", "DEF": "#636b73" 
     };
 
-    // Draw Cards
+// Draw Cards
     picks.forEach((p, i) => {
         const x = margin + (i % 3) * (cardW + gap);
         const y = 230 + Math.floor(i / 3) * (cardH + gap);
@@ -119,7 +119,7 @@ function draw(picks, teamNameLabel) {
         ctx.font = "bold 24px sans-serif";
         ctx.fillText(p.name, x + 30, y + 50);
         
-        const posColor = positionColors[p.pos.toUpperCase()] || "#FFA515";
+        // REMOVED 'const' HERE so it reuses the variable defined above
         ctx.fillStyle = posColor;
         ctx.font = "bold 16px sans-serif";
         ctx.fillText(p.pos.toUpperCase() + " • PK " + p.pick + " (RD " + p.round + ")", x + 30, y + 80);
@@ -127,7 +127,7 @@ function draw(picks, teamNameLabel) {
         // Divider
         ctx.strokeStyle = "rgba(255,255,255,0.15)";
         ctx.beginPath(); ctx.moveTo(x + 30, y + 100); ctx.lineTo(x + cardW - 30, y + 100); ctx.stroke();
-
+    
         // Next Picks
         ctx.font = "bold 12px sans-serif";
         ctx.fillText("SELECTED IMMEDIATELY AFTER:", x + 30, y + 125);
