@@ -6,82 +6,86 @@ const POS_COLORS = {
     "DB": "#FF7CB6", "K": "#AF61ED", "DEF": "#00b8ff" 
 };
 
-// 1. Fetch Leagues for Username
 async function loadLeagues() {
     const username = document.getElementById('username').value;
-    const response = await fetch(`https://api.sleeper.app/v1/user/${username}`);
-    const user = await response.json();
-    const leagues = await fetch(`https://api.sleeper.app/v1/user/${user.user_id}/leagues/nfl/2026`);
-    const leagueList = await leagues.json();
-    
-    const select = document.getElementById('leagueSelect');
-    select.innerHTML = '<option value="">Select League</option>';
-    leagueList.forEach(l => select.innerHTML += `<option value="${l.league_id}">${l.name}</option>`);
+    try {
+        const uRes = await fetch(`https://api.sleeper.app/v1/user/${username}`);
+        const user = await uRes.json();
+        
+        const lRes = await fetch(`https://api.sleeper.app/v1/user/${user.user_id}/leagues/nfl/2026`);
+        const leagues = await lRes.json();
+        
+        const s = document.getElementById('leagueSelect');
+        s.innerHTML = '<option value="">-- Select Your League --</option>';
+        leagues.forEach(l => {
+            let opt = document.createElement('option');
+            opt.value = l.league_id;
+            opt.innerHTML = l.name;
+            s.appendChild(opt);
+        });
+        document.getElementById('step2').style.display = 'block';
+    } catch (e) {
+        alert("Could not find user or leagues. Check your username.");
+    }
 }
 
-// 2. Fetch Roster and Draw Graphic
 async function generate() {
     const lId = document.getElementById('leagueSelect').value;
     const username = document.getElementById('username').value;
     
-    // Fetch data in parallel
+    // 1. Fetch data
     const [rosters, players, users] = await Promise.all([
         fetch(`https://api.sleeper.app/v1/league/${lId}/rosters`).then(r => r.json()),
         fetch(`https://api.sleeper.app/v1/players/nfl`).then(r => r.json()),
         fetch(`https://api.sleeper.app/v1/league/${lId}/users`).then(r => r.json())
     ]);
-
-    const user = users.find(u => u.display_name === username);
-    const roster = rosters.find(r => r.owner_id === user.user_id);
     
+    // 2. Find the correct user and their specific roster
+    const user = users.find(u => u.display_name === username || u.username === username);
+    if (!user) { alert("User not found in this league."); return; }
+    
+    const roster = rosters.find(r => r.owner_id === user.user_id);
+    if (!roster) { alert("Roster not found."); return; }
+    
+    // 3. Map player IDs to full data and sort
     const rosterPlayers = roster.players.map(id => players[id])
         .sort((a, b) => POS_ORDER.indexOf(a.position) - POS_ORDER.indexOf(b.position));
-
-    drawRoster(rosterPlayers, user.metadata.team_name || username);
+    
+    draw(rosterPlayers, user.metadata.team_name || username);
 }
 
-// 3. Canvas Drawing Logic
-function drawRoster(players, teamName) {
+function draw(players, teamName) {
     const canvas = document.getElementById('canvas');
+    canvas.width = 1200; canvas.height = 800; // Set dimensions
     const ctx = canvas.getContext('2d');
     
-    // Canvas setup
-    canvas.width = 1200;
-    canvas.height = 1000;
-    ctx.fillStyle = "#FFFFFF"; // Background
+    // Clear and Fill Background
+    ctx.fillStyle = "#0B162A"; 
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-    // Header
-    ctx.fillStyle = "#002863";
-    ctx.font = "bold 60px sans-serif";
-    ctx.fillText(teamName.toUpperCase(), 50, 80);
-    
-    // Render Grid
+    // Draw Players
     players.forEach((p, i) => {
-        const col = i % 4;
-        const row = Math.floor(i / 4);
-        const x = 50 + (col * 280);
-        const y = 150 + (row * 100);
+        const x = 50 + ((i % 4) * 280);
+        const y = 100 + (Math.floor(i / 4) * 100);
         
-        // Draw Card Container
-        ctx.strokeStyle = "#ddd";
-        ctx.lineWidth = 1;
-        ctx.strokeRect(x, y, 260, 80);
+        // Card Border
+        ctx.strokeStyle = "#FFA515";
+        ctx.strokeRect(x, y, 250, 80);
         
-        // Color Dot
-        ctx.fillStyle = POS_COLORS[p.position] || "#ccc";
+        // Position Dot
+        ctx.fillStyle = POS_COLORS[p.position] || "#fff";
         ctx.beginPath();
-        ctx.arc(x + 30, y + 40, 15, 0, Math.PI * 2);
+        ctx.arc(x + 30, y + 40, 10, 0, Math.PI * 2);
         ctx.fill();
         
-        // Player Name
-        ctx.fillStyle = "#000";
-        ctx.font = "bold 16px sans-serif";
-        ctx.fillText(`${p.first_name} ${p.last_name}`, x + 60, y + 45);
+        // Name Text
+        ctx.fillStyle = "#fff";
+        ctx.font = "14px sans-serif";
+        ctx.fillText(`${p.first_name} ${p.last_name}`, x + 50, y + 45);
     });
     
-    // Show final elements
-    document.getElementById('canvas').style.display = 'block';
+    // Finalize UI
+    canvas.style.display = 'block';
     document.getElementById('finalImage').src = canvas.toDataURL("image/png");
     document.getElementById('finalImage').style.display = 'block';
     document.getElementById('dlBtn').style.display = 'block';
