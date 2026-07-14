@@ -1,96 +1,83 @@
-let currentUserId = null;
-let nflPlayers = {};
+// javascript/fantasy-roster.js
+let currentId = null;
 
-// Load full player database once on startup
-async function init() {
-    const res = await fetch('https://api.sleeper.app/v1/players/nfl');
-    nflPlayers = await res.json();
-}
-init();
+// Replace this with the URL to your hosted player data file if you want to avoid live-fetching
+const PLAYER_DATA_URL = 'https://raw.githubusercontent.com/your-username/your-repo/main/data/players.json';
 
 async function loadLeagues() {
-    const username = document.getElementById('username').value;
-    if (!username) return alert("Please enter a username");
+    const user = document.getElementById('username').value;
+    if (!user) return alert("Please enter a username");
     
     document.getElementById('loader').style.display = 'block';
     
     try {
-        const userRes = await fetch(`https://api.sleeper.app/v1/user/${username}`);
-        const user = await userRes.json();
-        currentUserId = user.user_id;
+        // Fetch User ID
+        const uRes = await fetch(`https://api.sleeper.app/v1/user/${user}`);
+        const u = await uRes.json();
+        currentId = u.user_id;
 
-        const leagueRes = await fetch(`https://api.sleeper.app/v1/user/${currentUserId}/leagues/nfl/2026`);
-        const leagues = await leagueRes.json();
+        // Fetch Leagues
+        const lRes = await fetch(`https://api.sleeper.app/v1/user/${currentId}/leagues/nfl/2026`);
+        const ls = await lRes.json();
 
         document.getElementById('loader').style.display = 'none';
         const s = document.getElementById('leagueSelect');
         s.innerHTML = '<option value="">-- Select Your League --</option>';
-        leagues.forEach(l => s.add(new Option(l.name, l.league_id)));
+        ls.forEach(l => s.add(new Option(l.name, l.league_id)));
         document.getElementById('step2').style.display = 'block';
     } catch (e) {
-        alert("Failed to load leagues.");
-        document.getElementById('loader').style.display = 'none';
+        alert("Error finding leagues: " + e.message);
     }
 }
 
 async function generate() {
-    const leagueId = document.getElementById('leagueSelect').value;
-    if (!leagueId) return;
+    const lId = document.getElementById('leagueSelect').value;
+    if (!lId) return;
 
     document.getElementById('loader').style.display = 'block';
-    
+
     try {
-        const rosterRes = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/rosters`);
-        const rosters = await rosterRes.json();
-        const myRoster = rosters.find(r => r.owner_id === currentUserId);
+        // Fetch Sleeper Data
+        const [rRes, uRes, lRes] = await Promise.all([
+            fetch(`https://api.sleeper.app/v1/league/${lId}/rosters`),
+            fetch(`https://api.sleeper.app/v1/league/${lId}/users`),
+            fetch(`https://api.sleeper.app/v1/league/${lId}`)
+        ]);
         
-        // Map roster player IDs to metadata
-        const rosterData = myRoster.players.map(pId => {
-            const p = nflPlayers[pId];
+        const rosters = await rRes.json();
+        const users = await uRes.json();
+        const league = await lRes.json();
+        
+        const userRoster = rosters.find(r => r.owner_id === currentId);
+        const userData = users.find(u => u.user_id === currentId);
+
+        // Fetch your player mapping data (hosted on your GitHub repo)
+        // This replaces the Google Sheet data call
+        const playerMap = await fetch('data/players.json').then(r => r.json());
+
+        // Process players (Matches logic from your previous Code.gs)
+        const processed = userRoster.players.map(id => {
+            const info = playerMap[id] || {};
             return {
-                name: p ? p.full_name : "Unknown",
-                pos: p ? p.position : "N/A",
-                team: p ? p.team : "FA",
-                img: `https://sleepercdn.com/content/nfl/players/${pId}.jpg`
+                name: info.name || "Unknown",
+                pos: info.pos || "BN",
+                img: info.img || "",
+                team: info.team || "FA"
             };
         });
 
+        const data = {
+            players: processed,
+            teamName: userData.metadata.team_name || userData.display_name,
+            username: userData.display_name,
+            leagueName: league.name
+        };
+
         document.getElementById('loader').style.display = 'none';
-        draw(rosterData); 
+        draw(data);
     } catch (e) {
-        alert("Error fetching roster data.");
-        document.getElementById('loader').style.display = 'none';
+        alert("Error generating image: " + e.message);
     }
 }
 
-function draw(players) {
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    const sidePad = 40;
-    
-    canvas.width = 1000;
-    canvas.height = 800; // Adjust height based on roster size
-    
-    // Simple rendering logic
-    ctx.fillStyle = "#001C45";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    players.forEach((p, i) => {
-        const x = sidePad + (i % 4) * 230;
-        const y = 100 + Math.floor(i / 4) * 100;
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillText(p.name, x, y);
-    });
-
-    const finalImg = document.getElementById('finalImage');
-    finalImg.src = canvas.toDataURL("image/png");
-    finalImg.style.display = 'block';
-    document.getElementById('dlBtn').style.display = 'block';
-}
-
-function downloadImg() {
-    const link = document.createElement('a');
-    link.download = 'RosterVisual.png';
-    link.href = document.getElementById('finalImage').src;
-    link.click();
-}
+// ... Keep your existing 'draw' function logic here ...
