@@ -138,7 +138,7 @@ function draw(picks, teamNameLabel) {
     ctx.fillStyle = "#0a0f1a"; 
     ctx.fillRect(0, canvas.height - footerH, canvas.width, footerH);
     
-    const footerY = canvas.height - 25;
+    const footerY = canvas.height - 30;
     ctx.font = "bold 22px sans-serif";
     
     // Define strings
@@ -160,7 +160,7 @@ function draw(picks, teamNameLabel) {
     ctx.fillText(mainText, currentX, footerY);
     currentX += w1;
     
-    ctx.fillStyle = "#002152";
+    ctx.fillStyle = "#FFFFFF";
     ctx.fillText(brandText, currentX, footerY);
     currentX += w2;
     
