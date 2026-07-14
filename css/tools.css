@@ -68,7 +68,17 @@
     flex: 0 0 auto; /* Prevents the button from stretching */
     white-space: nowrap; /* Keeps the button text on one line */
 }
-.sfb-input-group .tool-select {
-    width: auto;
-    flex: 0 0 150px;
+/* Add this to tools.css */
+.sfb-input-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center; /* Keeps them vertically aligned */
+}
+
+.sfb-input-group .tool-select, 
+.sfb-input-group .tool-input {
+    flex: 1;           /* Both take equal share of space */
+    max-width: 200px;  /* Forces them to be the same size */
+    margin: 0;         /* Removes margin so they align perfectly */
 }
