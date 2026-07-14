@@ -1,4 +1,3 @@
-// fantasy-roster.js
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT_BP0MJYd9QseL_8gMK3YKNVRbZLut6CMBxcm06-BhAcUxmSJMBjpv8d8IHFEYv58YriwEYqKZ1sg3/pub?output=csv'; // The link from Publish to Web
 
 async function loadLeagues() {
