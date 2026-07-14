@@ -118,9 +118,12 @@ function draw(picks, teamNameLabel) {
         ctx.fillStyle = "#FFFFFF";
         ctx.font = "bold 24px sans-serif";
         ctx.fillText(p.name, x + 30, y + 50);
+        
+        const posColor = positionColors[p.pos.toUpperCase()] || "#FFA515";
+        ctx.fillStyle = posColor;
         ctx.font = "bold 16px sans-serif";
         ctx.fillText(p.pos.toUpperCase() + " • PK " + p.pick + " (RD " + p.round + ")", x + 30, y + 80);
-
+        
         // Divider
         ctx.strokeStyle = "rgba(255,255,255,0.15)";
         ctx.beginPath(); ctx.moveTo(x + 30, y + 100); ctx.lineTo(x + cardW - 30, y + 100); ctx.stroke();
