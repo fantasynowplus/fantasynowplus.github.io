@@ -1,0 +1,42 @@
+/* Input & Select Fields */
+.tool-input, .tool-select {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 30px;
+    border: 1px solid #333;
+    background: #1a2a40;
+    color: #ffffff;
+    font-size: 16px;
+    text-align: center;
+    box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+/* Primary Buttons */
+.tool-btn {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 30px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 16px;
+}
+
+.btn-find { background: #FFA515; color: #000; }
+.btn-find:hover { background: #e89410; }
+
+.btn-dl { background: #002863; color: #fff; border: 1px solid #FFA515; }
+.btn-dl:hover { background: #001C45; }
+
+/* Global loader for tools */
+.loader { 
+    color: #FFA515; 
+    display: none; 
+    margin: 15px; 
+    font-weight: bold; 
+}
