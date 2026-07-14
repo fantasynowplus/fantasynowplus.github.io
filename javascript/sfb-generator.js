@@ -153,7 +153,7 @@ function drawFooter(ctx) {
     ctx.fillStyle = "#FFFFFF";
     ctx.font = "bold 20px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText("SFB16 Roster powered by FantasyNow+", 500, 582);
+    ctx.fillText("#SFB16 Roster powered by FantasyNow+", 500, 582);
 }
 
 function downloadImg() {
