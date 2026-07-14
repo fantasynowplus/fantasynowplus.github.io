@@ -2,19 +2,24 @@ const LEAGUES_CSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS9LyrqxdoA
 
 // 1. Load Leagues from CSV
 async function init() {
-    const res = await fetch(LEAGUES_CSV);
-    const text = await res.text();
-    const rows = text.split('\n').slice(1); // skip header
-    const leagueSelect = document.getElementById('leagueSelect');
-    
-    rows.forEach(row => {
-        const [name, id, platform] = row.split(',');
-        if (id) {
-            const opt = new Option(name, id);
-            opt.dataset.platform = platform.trim();
-            leagueSelect.add(opt);
-        }
-    });
+    try {
+        const res = await fetch(LEAGUES_CSV);
+        const text = await res.text();
+        const rows = text.split('\n').slice(1);
+        const leagueSelect = document.getElementById('leagueSelect');
+        
+        leagueSelect.innerHTML = '<option value="">-- Select a League --</option>';
+        rows.forEach(row => {
+            const [name, id, platform] = row.split(',');
+            if (id && name) {
+                const opt = new Option(name.trim(), id.trim());
+                opt.dataset.platform = platform ? platform.trim() : 'sleeper';
+                leagueSelect.add(opt);
+            }
+        });
+    } catch (e) {
+        console.error("Error loading leagues:", e);
+    }
 }
 
 // 2. Load Managers based on Platform
@@ -23,47 +28,54 @@ async function loadManagers() {
     const mgrSel = document.getElementById('managerSelect');
     const lid = sel.value;
 
-    console.log("Selected League ID:", lid); // Debugging: Check if this logs
-
     if (!lid) {
         mgrSel.style.display = 'none';
+        document.getElementById('genBtn').style.display = 'none';
         return;
     }
 
     const platform = sel.options[sel.selectedIndex].dataset.platform;
     
     try {
-        // Ensure this URL matches your actual proxy endpoint
         const res = await fetch(`/api/managers?platform=${platform}&lid=${lid}`);
         const managers = await res.json();
         
-        console.log("Managers received:", managers); // Debugging: Check data structure
-
         mgrSel.innerHTML = '<option value="">-- Select Manager --</option>';
         managers.forEach(m => mgrSel.add(new Option(m.name, m.id)));
-        
-        // Ensure this is called to make it visible
         mgrSel.style.display = 'block'; 
     } catch (e) {
         console.error("Error fetching managers:", e);
     }
 }
+
+// Helper to show/hide generate button
+function enableGenerate() {
+    document.getElementById('genBtn').style.display = 'block';
 }
 
 // 3. Generate Graphic
 async function generate() {
-    const lid = document.getElementById('leagueSelect').value;
+    const sel = document.getElementById('leagueSelect');
+    const lid = sel.value;
+    const platform = sel.options[sel.selectedIndex].dataset.platform;
     const mid = document.getElementById('managerSelect').value;
+    
+    if(!mid) return;
+
     document.getElementById('loader').style.display = 'block';
 
-    const res = await fetch(`/api/draft?platform=${platform}&lid=${lid}&mid=${mid}`);
-    const picks = await res.json();
-    
-    draw(picks);
-    document.getElementById('loader').style.display = 'none';
+    try {
+        const res = await fetch(`/api/draft?platform=${platform}&lid=${lid}&mid=${mid}`);
+        const picks = await res.json();
+        draw(picks);
+    } catch (e) {
+        console.error("Error generating graphic:", e);
+    } finally {
+        document.getElementById('loader').style.display = 'none';
+    }
 }
 
-// 4. Drawing Logic
+// 4. Drawing Logic (unchanged from your logic)
 function draw(picks) {
     const canvas = document.getElementById('canvas');
     canvas.style.display = 'block';
@@ -71,17 +83,14 @@ function draw(picks) {
     canvas.width = 1000;
     canvas.height = 650;
 
-    // Background
     ctx.fillStyle = "#f8fafc";
     ctx.fillRect(0, 0, 1000, 650);
 
-    // Draft Pick Rows
     picks.forEach((p, i) => {
         if (i >= 20) return;
         const colX = (i >= 10) ? 500 : 0;
         const y = 100 + ((i % 10) * 50);
         
-        // Dynamic row coloring
         ctx.fillStyle = p.pos.includes("QB") ? "#FCDAD7" : (p.pos.includes("RB") ? "#D2F4E2" : "#D2DCFF");
         ctx.fillRect(colX, y, 500, 50);
         
@@ -98,6 +107,7 @@ function draw(picks) {
     drawFooter(ctx);
     document.getElementById('finalImage').src = canvas.toDataURL("image/png");
     document.getElementById('finalImage').style.display = 'block';
+    document.getElementById('downloadBtn').style.display = 'block';
 }
 
 function drawFooter(ctx) {
@@ -113,5 +123,5 @@ function drawFooter(ctx) {
     ctx.fillText("+", 615, 632);
 }
 
-// Initialize
+// Run init
 init();
