@@ -5,6 +5,7 @@ const CORS_PROXY = "https://corsproxy.io/?";
 async function generateGraphic() {
     const platform = document.getElementById('platformSelect').value;
     const username = document.getElementById('username').value;
+    const loader = document.getElementById('loader'); // Added missing declaration
 
     if (!platform) return alert("-- Select Platform --");
     if (!username) return alert("Enter username or ID");
