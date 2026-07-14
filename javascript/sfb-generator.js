@@ -1,12 +1,16 @@
 const MFL_YEAR = '2026';
 const CORS_PROXY = "https://corsproxy.io/?";
 
-// 1. Main trigger function
+// 1. Main trigger function (Updated for tools.css classes)
 async function generateGraphic() {
     const username = document.getElementById('username').value;
     const platform = document.getElementById('platformSelect').value;
+    const loader = document.getElementById('loader');
     
     if (!username) return alert("Please enter a username or ID.");
+
+    loader.style.display = 'block';
+    loader.innerText = "Syncing draft data...";
 
     try {
         if (platform === 'sleeper') {
@@ -17,6 +21,8 @@ async function generateGraphic() {
     } catch (e) {
         console.error(e);
         alert("Error fetching data. Check your inputs.");
+    } finally {
+        loader.style.display = 'none';
     }
 }
 
@@ -139,14 +145,14 @@ function renderBoard(ctx, picks, manager, league, sfbLogo, secondLogo) {
     drawFooter(ctx);
 }
 
-// 5. Stylized Footer
+// 5. Stylized Footer (Matches your Fantasy Roster footer)
 function drawFooter(ctx) {
     const footerHeightPx = 50;
     ctx.fillStyle = "#0a0f1a"; 
     ctx.fillRect(0, 550, 1000, footerHeightPx);
     
     const footerY = 582;
-    const mainText = "This SFB16 Roster was powered by ";
+    const mainText = "SFB16 Roster powered by ";
     const brandText = "FantasyNow";
     const plusText = "+";
     
