@@ -45,8 +45,16 @@ async function loadLeagues() {
     const u = await uRes.json();
     const lRes = await fetch(`https://api.sleeper.app/v1/user/${u.user_id}/leagues/nfl/2026`);
     const ls = await lRes.json();
+    
     const s = document.getElementById('leagueSelect');
+    s.innerHTML = ''; // Clear previous
+    
+    // Add default placeholder
+    const defaultOption = new Option("Select Your League", "");
+    s.add(defaultOption);
+    
     ls.forEach(l => s.add(new Option(l.name, l.league_id)));
+    
     document.getElementById('step2').style.display = 'block';
     document.getElementById('loader').style.display = 'none';
     window.currentUserId = u.user_id;
@@ -54,9 +62,12 @@ async function loadLeagues() {
 
 async function generate() {
     const lId = document.getElementById('leagueSelect').value;
-    // Set text to "Syncing Team..."
-    document.getElementById('loader').innerText = "Syncing Team...";
-    document.getElementById('loader').style.display = 'block';
+    if (!lId) return; // Don't run if default is selected
+
+    // Target the specific loader message element
+    const loaderMsg = document.getElementById('loader'); 
+    loaderMsg.innerText = "Syncing Team...";
+    loaderMsg.style.display = 'block';
 
     const [rostersRes, usersRes, sheetRes] = await Promise.all([
         fetch(`https://api.sleeper.app/v1/league/${lId}/rosters`).then(r => r.json()),
@@ -76,7 +87,8 @@ async function generate() {
     const players = roster.players.map(id => playerMap.get(id) || { name: 'Unknown', pos: 'BN', img: '', team: 'FA', score: 0 });
 
     await draw({ players, teamName: user.metadata.team_name || "MY TEAM" });
-    document.getElementById('loader').style.display = 'none';
+    loaderMsg.style.display = 'none';
+    loaderMsg.innerText = "Loading..."; // Reset text for next time
 }
 
 async function draw(data) {
