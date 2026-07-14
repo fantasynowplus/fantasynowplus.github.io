@@ -68,3 +68,25 @@
     flex: 0 0 auto; /* Prevents the button from stretching */
     white-space: nowrap; /* Keeps the button text on one line */
 }
+
+/* Specifics for the Roster Card container and branding */
+.roster-canvas-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+#canvas { 
+    display: none; 
+    max-width: 100%; 
+    height: auto; 
+    border-radius: 8px; 
+}
+
+.brand-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-weight: bold;
+}
