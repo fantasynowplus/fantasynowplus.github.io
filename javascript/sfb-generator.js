@@ -20,18 +20,34 @@ async function init() {
 // 2. Load Managers based on Platform
 async function loadManagers() {
     const sel = document.getElementById('leagueSelect');
-    const lid = sel.value;
-    const platform = sel.options[sel.selectedIndex].dataset.platform;
     const mgrSel = document.getElementById('managerSelect');
+    const lid = sel.value;
+
+    console.log("Selected League ID:", lid); // Debugging: Check if this logs
+
+    if (!lid) {
+        mgrSel.style.display = 'none';
+        return;
+    }
+
+    const platform = sel.options[sel.selectedIndex].dataset.platform;
     
-    // Fetch via your proxy endpoint
-    const res = await fetch(`/api/managers?platform=${platform}&lid=${lid}`);
-    const managers = await res.json();
-    
-    mgrSel.innerHTML = '<option value="">-- Select Manager --</option>';
-    managers.forEach(m => mgrSel.add(new Option(m.name, m.id)));
-    mgrSel.style.display = 'block';
-    document.getElementById('genBtn').style.display = 'block';
+    try {
+        // Ensure this URL matches your actual proxy endpoint
+        const res = await fetch(`/api/managers?platform=${platform}&lid=${lid}`);
+        const managers = await res.json();
+        
+        console.log("Managers received:", managers); // Debugging: Check data structure
+
+        mgrSel.innerHTML = '<option value="">-- Select Manager --</option>';
+        managers.forEach(m => mgrSel.add(new Option(m.name, m.id)));
+        
+        // Ensure this is called to make it visible
+        mgrSel.style.display = 'block'; 
+    } catch (e) {
+        console.error("Error fetching managers:", e);
+    }
+}
 }
 
 // 3. Generate Graphic
