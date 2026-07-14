@@ -76,9 +76,10 @@
     align-items: center; /* Keeps them vertically aligned */
 }
 
-.sfb-input-group .tool-select, 
+.sfb-input-group .tool-select {
+    flex: 1; /* 1/3 share */
+}
+
 .sfb-input-group .tool-input {
-    flex: 1;           /* Both take equal share of space */
-    max-width: 200px;  /* Forces them to be the same size */
-    margin: 0;         /* Removes margin so they align perfectly */
+    flex: 2; /* 2/3 share */
 }
