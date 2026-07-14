@@ -1,6 +1,5 @@
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT_BP0MJYd9QseL_8gMK3YKNVRbZLut6CMBxcm06-BhAcUxmSJMBjpv8d8IHFEYv58YriwEYqKZ1sg3/pub?output=csv';
 
-// Required for your draw function to display team names and logos
 const nflFull = {
     "FA": {n: "Free Agent", logo: ""},
     "ARI": {n: "Arizona Cardinals", logo: "https://sleepercdn.com/images/team_logos/nfl/ari.png"},
@@ -55,12 +54,16 @@ async function loadLeagues() {
 
 async function generate() {
     const lId = document.getElementById('leagueSelect').value;
+    document.getElementById('loader').style.display = 'block';
+
+    // 1. Fetch data
     const [rostersRes, usersRes, sheetRes] = await Promise.all([
         fetch(`https://api.sleeper.app/v1/league/${lId}/rosters`).then(r => r.json()),
         fetch(`https://api.sleeper.app/v1/league/${lId}/users`).then(r => r.json()),
         fetch(SHEET_URL).then(r => r.text())
     ]);
 
+    // 2. Parse Sheet
     const rows = sheetRes.split('\n').slice(1);
     const playerMap = new Map();
     rows.forEach(row => {
@@ -68,15 +71,17 @@ async function generate() {
         if(id) playerMap.set(id.trim(), { name, pos, img, team, score: parseFloat(score) || 0 });
     });
 
+    // 3. Map Roster
     const roster = rostersRes.find(r => r.owner_id === window.currentUserId);
     const user = usersRes.find(u => u.user_id === window.currentUserId);
-    
     const players = roster.players.map(id => playerMap.get(id) || { name: 'Unknown', pos: 'BN', img: '', team: 'FA', score: 0 });
 
+    // 4. Draw
     await draw({ players, teamName: user.metadata.team_name || "MY TEAM" });
+    
+    document.getElementById('loader').style.display = 'none';
 }
 
-// Your exact draw function
 async function draw(data) {
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -92,18 +97,20 @@ async function draw(data) {
         .sort((a, b) => { if (b.score !== a.score) return b.score - a.score; return a.name.localeCompare(b.name); });
       sortedList.push(...group);
     });
+    
     const rows = Math.ceil(sortedList.length / cols);
     canvas.width = (cardW * cols) + (gap * (cols - 1)) + (sidePad * 2);
     canvas.height = headerH + (rows * (cardH + gap)) + footerHeightPx + 20;
+    
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.textAlign = "left";
     ctx.fillStyle = "#002863";
     ctx.font = "bold 80px sans-serif";
     ctx.fillText(data.teamName.toUpperCase(), sidePad, 85);
     ctx.fillStyle = "#FFA515"; 
     ctx.font = "bold 24px sans-serif";
     ctx.fillText(leagueName.toUpperCase() + " • " + username.toUpperCase() + " • 2026 ROSTER", sidePad, 125);
+    
     for (let i = 0; i < sortedList.length; i++) {
       const p = sortedList[i];
       const meta = nflFull[p.team] || nflFull["FA"];
@@ -112,6 +119,7 @@ async function draw(data) {
       const rowIdx = i % rows;
       const x = sidePad + (colIdx * (cardW + gap));
       const y = headerH + (rowIdx * (cardH + gap));
+      
       ctx.fillStyle = "#ffffff";
       ctx.shadowColor = "rgba(0,0,0,0.1)"; ctx.shadowBlur = 4;
       ctx.beginPath(); ctx.roundRect(x, y, cardW, cardH, 6); ctx.fill();
@@ -130,6 +138,7 @@ async function draw(data) {
       ctx.fillText(p.name, x + 80, y + 28);
       ctx.fillStyle = "#666"; ctx.font = "500 11px sans-serif";
       ctx.fillText(`${p.pos} | ${meta.n.toUpperCase()}`, x + 80, y + 46);
+      
       ctx.save();
       ctx.beginPath(); ctx.arc(x + 38, y + 37, 30, 0, Math.PI*2); ctx.clip();
       ctx.fillStyle = posColor;
@@ -149,21 +158,19 @@ async function draw(data) {
       }
       ctx.restore();
     }
+    
     ctx.fillStyle = "#002863"; 
     ctx.fillRect(0, canvas.height - footerHeightPx, canvas.width, footerHeightPx);
     const footerY = canvas.height - (footerHeightPx / 2) + 8;
-    const mainText = "FantasyRoster powered by ";
-    const brandText = "FantasyNow";
-    const plusText = "+";
     ctx.font = "bold 20px sans-serif";
-    const totalWidth = ctx.measureText(mainText).width + ctx.measureText(brandText).width + ctx.measureText(plusText).width;
-    let currentX = (canvas.width - totalWidth) / 2;
-    ctx.textAlign = "left";
-    ctx.fillStyle = "#94a3b8"; ctx.fillText(mainText, currentX, footerY);
-    currentX += ctx.measureText(mainText).width;
-    ctx.fillStyle = "#FFFFFF"; ctx.fillText(brandText, currentX, footerY);
-    currentX += ctx.measureText(brandText).width;
-    ctx.fillStyle = "#FFA515"; ctx.fillText(plusText, currentX, footerY);
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#94a3b8"; 
+    ctx.fillText("FantasyRoster powered by ", canvas.width / 2 - 40, footerY);
+    ctx.fillStyle = "#FFFFFF"; 
+    ctx.fillText("FantasyNow", canvas.width / 2 + 75, footerY);
+    ctx.fillStyle = "#FFA515"; 
+    ctx.fillText("+", canvas.width / 2 + 135, footerY);
+    
     const finalImg = document.getElementById('finalImage');
     finalImg.src = canvas.toDataURL("image/png");
     finalImg.style.display = 'block';
