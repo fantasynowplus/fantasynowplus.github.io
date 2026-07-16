@@ -62,15 +62,15 @@ layout: null
                 </div>
                 
                 <div class="fnp-nav">
-                    <div id="draft-tab" class="bubble cat-bubble active" onclick="switchTab('draft', 15, this)">Draft</div>
-                    <div class="bubble cat-bubble" onclick="switchTab('dynasty', 15, this)">Dynasty</div>
-                    <div class="bubble cat-bubble" onclick="switchTab('rookie', 15, this)">Rookie</div>
+                    <div id="draft-tab" class="bubble cat-bubble active" onclick="switchTab('format', 'draft', this)">Draft</div>
+                    <div class="bubble cat-bubble" onclick="switchTab('format', 'dynasty', this)">Dynasty</div>
+                    <div class="bubble cat-bubble" onclick="switchTab('format', 'rookie', this)">Rookie</div>
                 </div>
                 <div class="fnp-nav">
-                    <div class="bubble pos-bubble" onclick="switchTab(state.type, 0, this)">QB</div>
-                    <div class="bubble pos-bubble" onclick="switchTab(state.type, 3, this)">RB</div>
-                    <div class="bubble pos-bubble" onclick="switchTab(state.type, 6, this)">WR</div>
-                    <div class="bubble pos-bubble" onclick="switchTab(state.type, 9, this)">TE</div>
+                    <div class="bubble pos-bubble active" onclick="switchTab('position', 'QB', this)">QB</div>
+                    <div class="bubble pos-bubble" onclick="switchTab('position', 'RB', this)">RB</div>
+                    <div class="bubble pos-bubble" onclick="switchTab('position', 'WR', this)">WR</div>
+                    <div class="bubble pos-bubble" onclick="switchTab('position', 'TE', this)">TE</div>
                 </div>
                 
                 <div id="rank-list">Loading...</div>
@@ -80,5 +80,6 @@ layout: null
 
     <script src="javascript/sleeper-data.js"></script>
     <script src="javascript/youtube-feed.js"></script>
+    <script src="javascript/rankings-widget.js"></script>
 
 {% include footer.html %}
