@@ -92,6 +92,11 @@
   .story-grid {
     flex-direction: column;
     text-align: center;
+    gap: 15px;
+  }
+
+  .section-padding {
+    padding: 30px 20px !important;
   }
 
   .dashboard-container {
