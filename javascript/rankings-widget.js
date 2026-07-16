@@ -12,8 +12,6 @@ const state = {
   position: "QB",  // 'QB' | 'RB' | 'WR' | 'TE'
 };
 
-// Simple in-memory cache so switching tabs back and forth doesn't
-// re-fetch data you already have for this page view.
 const cache = {};
 
 async function fetchRankings(format, position) {
@@ -27,6 +25,15 @@ async function fetchRankings(format, position) {
   const data = await response.json();
   cache[key] = data;
   return data;
+}
+
+function handleImgError(imgEl, fallbackUrl) {
+  if (fallbackUrl && imgEl.dataset.triedFallback !== "1") {
+    imgEl.dataset.triedFallback = "1";
+    imgEl.src = fallbackUrl;
+  } else {
+    imgEl.style.visibility = "hidden";
+  }
 }
 
 function renderRankings(data) {
@@ -44,10 +51,10 @@ function renderRankings(data) {
         <a href="${p.pageUrl || "#"}" target="_blank" class="fnp-row">
             <div class="fnp-rank">${i + 1}</div>
             <div class="photo-box">
-                <img src="${p.photoUrl || ""}"
+                <img src="${p.photoUrl || p.fallbackLogoUrl || ""}"
                      alt="${p.name}"
                      class="player-photo"
-                     onerror="this.style.visibility='hidden';">
+                     onerror="handleImgError(this, '${p.fallbackLogoUrl || ""}')">
             </div>
             <div>
                 <span class="fnp-name">${p.name}</span>
@@ -74,11 +81,6 @@ async function loadAndRender() {
   }
 }
 
-/**
- * Called from the HTML onclick handlers.
- *   switchTab('format', 'draft')   -> switches the Draft/Dynasty/Rookie tab
- *   switchTab('position', 'RB')    -> switches the QB/RB/WR/TE tab
- */
 function switchTab(kind, value, el) {
   if (kind === "format") {
     state.format = value;
