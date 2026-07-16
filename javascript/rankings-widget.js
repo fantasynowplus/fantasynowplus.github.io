@@ -3,7 +3,7 @@
  * ----------------------------
  * Replaces the old Google Sheets-based rankings script. Pulls from the
  * Cloudflare Worker proxy (never calls FantasyPros directly from the browser).
- 
+ */
 
 const WORKER_URL = "https://fantasynowplus-rankings-proxy.fantasynowplus.workers.dev/rankings";
 
