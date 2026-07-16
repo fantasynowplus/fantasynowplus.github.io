@@ -113,6 +113,7 @@ nav a:hover { color: var(--bright-orange); }
 
 .page-container {
     max-width: 1200px;
+    margin: 20px auto;
     padding: 0 20px;
     min-height: 60vh; /* Keeps footer pushed to bottom */
 }
