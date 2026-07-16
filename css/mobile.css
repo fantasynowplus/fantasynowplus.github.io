@@ -1,49 +1,46 @@
+
 /* ============ 900px — tablet ============ */
 @media (max-width: 900px) {
 
-  /* Homepage: stack Trending / Videos / Rankings into one column
-     instead of the fixed 300px 1fr 300px grid */
   .dashboard-container {
     grid-template-columns: 1fr !important;
     padding: 0 15px !important;
   }
 
-  /* Rankings widget: let it fill the available width instead of
-     being stuck at a fixed 300px */
-  .fn-plus-container {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
+  /* Makes both <aside class="sidebar"> wrappers "disappear" from layout
+     so their individual children can be freely reordered below, as if
+     everything were one flat list inside dashboard-container. */
+  .sidebar {
+    display: contents;
   }
 
-  .sidebar {
-    width: 100%;
-  }
+  /* Custom mobile stacking order, per your spec:
+     YouTube feed > Rankings > Underdog Graphic > Trending Adds/Drops > WIN YOUR LEAGUE
+     (Social icons tucked in last — move the number below if you want them elsewhere) */
+  .main-content        { order: 1; }
+  .fn-plus-container   { order: 2; width: 100%; max-width: 400px; margin: 0 auto; }
+  .partner-banner-link { order: 3; }
+  #trending-adds       { order: 4; }
+  #trending-drops      { order: 5; }
+  .social-links        { order: 6; justify-content: center; }
+  .sidebar-motto        { order: 7; }
 }
 
 /* ============ 600px — phone ============ */
 @media (max-width: 600px) {
 
   body {
-    padding-top: 100px; /* header + ticker will be shorter once nav is fixed in Pass 2 — revisit then */
+    padding-top: 100px; /* header + ticker height — revisit once nav gets a hamburger in Pass 2 */
   }
 
   header {
     padding: 0 15px !important;
   }
 
-  /* Hero banner: background-attachment:fixed is unreliable on iOS
-     Safari and the fixed 400px height is too tall on small screens */
+  /* Hero graphic is a wide, desktop-shaped banner — rather than crush it
+     into an awkward sliver, just skip it on phones. */
   .hero-banner {
-    height: 220px;
-    background-attachment: scroll !important;
-  }
-
-  .hero-graphic {
-    height: auto;
-    width: 100%;
-    max-height: 220px;
-    object-fit: contain;
+    display: none;
   }
 
   /* Video grid: 2 columns gets cramped under ~600px, drop to 1 */
