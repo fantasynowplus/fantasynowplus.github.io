@@ -1,1 +1,103 @@
+/* ============ 900px — tablet ============ */
+@media (max-width: 900px) {
 
+  /* Homepage: stack Trending / Videos / Rankings into one column
+     instead of the fixed 300px 1fr 300px grid */
+  .dashboard-container {
+    grid-template-columns: 1fr !important;
+    padding: 0 15px !important;
+  }
+
+  /* Rankings widget: let it fill the available width instead of
+     being stuck at a fixed 300px */
+  .fn-plus-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+}
+
+/* ============ 600px — phone ============ */
+@media (max-width: 600px) {
+
+  body {
+    padding-top: 100px; /* header + ticker will be shorter once nav is fixed in Pass 2 — revisit then */
+  }
+
+  header {
+    padding: 0 15px !important;
+  }
+
+  /* Hero banner: background-attachment:fixed is unreliable on iOS
+     Safari and the fixed 400px height is too tall on small screens */
+  .hero-banner {
+    height: 220px;
+    background-attachment: scroll !important;
+  }
+
+  .hero-graphic {
+    height: auto;
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+  }
+
+  /* Video grid: 2 columns gets cramped under ~600px, drop to 1 */
+  .video-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .feed-nav {
+    gap: 8px;
+  }
+
+  .nav-btn {
+    padding: 8px 14px;
+    font-size: 0.75rem;
+  }
+
+  /* Tool pages: stack input + button instead of forcing them
+     side-by-side on a narrow screen */
+  .input-group,
+  .sfb-input-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .input-group .tool-btn,
+  .sfb-input-group .tool-btn {
+    width: 100%;
+    max-width: none;
+  }
+
+  .sfb-input-group .tool-select,
+  .sfb-input-group .tool-input {
+    flex: 1 1 auto;
+  }
+
+  /* The stretched motto text can look extreme at narrow widths —
+     dial back the vertical stretch a bit */
+  .sidebar-motto {
+    font-size: 1.4rem;
+    transform: scaleY(2);
+  }
+
+  /* About page team slider — shrink cards so they fit comfortably
+     on a 320-375px screen with room to spare */
+  .swiper-slide {
+    width: 220px !important;
+    height: 220px !important;
+  }
+
+  .staff-card {
+    padding: 20px;
+  }
+
+  .page-container {
+    padding: 0 15px;
+  }
+}
