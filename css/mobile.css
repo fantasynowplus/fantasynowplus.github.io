@@ -7,16 +7,10 @@
     padding: 0 15px !important;
   }
 
-  /* Makes both <aside class="sidebar"> wrappers "disappear" from layout
-     so their individual children can be freely reordered below, as if
-     everything were one flat list inside dashboard-container. */
   .sidebar {
     display: contents;
   }
 
-  /* Custom mobile stacking order, per your spec:
-     YouTube feed > Rankings > Underdog Graphic > Trending Adds/Drops > WIN YOUR LEAGUE
-     (Social icons tucked in last — move the number below if you want them elsewhere) */
   .main-content        { order: 1; }
   .fn-plus-container   { order: 2; width: 100%; max-width: 400px; margin: 0 auto; }
   .partner-banner-link { order: 3; }
@@ -37,19 +31,17 @@
     padding: 0 15px !important;
   }
 
-  /* Hero graphic is a wide, desktop-shaped banner — rather than crush it
-     into an awkward sliver, just skip it on phones. */
   .hero-banner {
     display: none;
   }
 
-  /* Video grid: 2 columns gets cramped under ~600px, drop to 1 */
   .video-grid {
     grid-template-columns: 1fr !important;
   }
 
   .feed-nav {
     gap: 8px;
+    margin: 5px;
   }
 
   .nav-btn {
