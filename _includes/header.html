@@ -21,7 +21,7 @@
 
     <header>
         <a href="index.html" class="logo"><img src="assets/images/fantasy_logo-3.png" alt="FantasyNow+ Logo"></a>
-        <nav>
+        <nav class="desktop-nav">
             <div class="dropdown">
                 <a hred="index.html">Home</a>
                 <a href="page-rankings.html">Rankings</a>
@@ -36,8 +36,23 @@
             <a href="https://superleagueff.org" target="_blank">Super League ↗</a>
             <a href="page-login.html" class="btn-login">Dashboard Login</a>
         </nav>
+        <button id="hamburgerBtn" class="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     </header>
+<div id="mobileNavOverlay" class="mobile-nav-overlay"></div>
+    <nav id="mobileNav" class="mobile-nav">
+        <div class="mobile-nav-section-label">Rankings</div>
+        <a href="page-rankings.html">Redraft Rankings</a>
+        <a href="subpage-rankings-dynasty.html">Dynasty Rankings</a>
+        <a href="subpage-rankings-rookie.html">Rookie Rankings</a>
 
+        <div class="mobile-nav-section-label">More</div>
+        <a href="page-tools.html">Tools & Graphics</a>
+        <a href="page-about.html">About Us</a>
+        <a href="https://superleagueff.org" target="_blank">Super League ↗</a>
+        <a href="page-login.html" class="btn-login">Dashboard Login</a>
+    </nav>
     <div class="ticker-wrap">
         <div id="news-container" class="ticker-move"></div>
     </div>
