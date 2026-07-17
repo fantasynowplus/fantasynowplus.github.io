@@ -1,6 +1,37 @@
 const MFL_YEAR = '2026';
 const CORS_PROXY = "https://corsproxy.io/?";
 
+const MFL_LEAGUES = [
+    { name: "#SFB16 - Baseball Stars", id: "42801" },
+    { name: "#SFB16 - Crazy Taxi", id: "46308" },
+    { name: "#SFB16 - Double dragon", id: "23484" },
+    { name: "#SFB16 - Double dribble", id: "39518" },
+    { name: "#SFB16 - Duck Hunt", id: "54792" },
+    { name: "#SFB16 - Excitebike", id: "73136" },
+    { name: "#SFB16 - Frogger", id: "14494" },
+    { name: "#SFB16 - Ice Hockey", id: "61959" },
+    { name: "#SFB16 - Metroid", id: "43844" },
+    { name: "#SFB16 - Mutant League Football", id: "41323" },
+    { name: "#SFB16 - NBA Jam (Berry)", id: "65583" },
+    { name: "#SFB16 - NHL 2021", id: "15797" },
+    { name: "#SFB16 - Pitfall", id: "72117" },
+    { name: "#SFB16 - Pong", id: "55743" },
+    { name: "#SFB16 - Rampage", id: "25949" },
+    { name: "#SFB16 - Tetris", id: "44962" },
+    { name: "#SFB16 - Zelda", id: "38735" }
+];
+
+function updateInputPlaceholder() {
+    const platform = document.getElementById('platformSelect').value;
+    const input = document.getElementById('username');
+    
+    if (platform === 'sleeper') {
+        input.placeholder = "Sleeper Username";
+    } else if (platform === 'mfl') {
+        input.placeholder = "Franchise Name";
+    }
+}
+
 // 1. Main trigger function (Updated for tools.css classes)
 async function generateGraphic() {
     const platform = document.getElementById('platformSelect').value;
@@ -16,8 +47,8 @@ async function generateGraphic() {
     try {
         if (platform === 'sleeper') {
             await handleSleeper(username);
-        } else {
-            alert("MFL requires a League ID. Please update input to League ID.");
+        } else if (platform === 'mfl') {
+            await handleMFL(username);
         }
     } catch (e) {
         console.error("Detailed Error:", e); // This will show the actual API error in your browser console (F12)
@@ -43,6 +74,79 @@ async function handleSleeper(username) {
     const myPicks = allPicks.filter(p => p.picked_by === user.user_id);
     
     draw(myPicks, user.display_name, sfbLeague.name);
+}
+
+async function handleMFL(franchiseName) {
+    franchiseName = franchiseName.trim();
+    if (!franchiseName) return alert("Enter your franchise name");
+    
+    let found = false;
+    let leagueNameResult, leagueIdResult, franchiseIdResult, allPicksResult;
+    
+    for (const league of MFL_LEAGUES) {
+        try {
+            const franchisesUrl = `https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=franchise&LEAGUE_ID=${league.id}&JSON=1`;
+            const franchisesRes = await fetch(franchisesUrl);
+            if (!franchisesRes.ok) continue;
+            
+            const franchisesData = await franchisesRes.json();
+            if (!franchisesData.franchise) continue;
+            
+            const franchises = Array.isArray(franchisesData.franchise) 
+                ? franchisesData.franchise 
+                : [franchisesData.franchise];
+            
+            const myFranchise = franchises.find(f => 
+                f.name && f.name.toLowerCase() === franchiseName.toLowerCase()
+            );
+            
+            if (myFranchise) {
+                found = true;
+                leagueNameResult = league.name;
+                leagueIdResult = league.id;
+                franchiseIdResult = myFranchise.id;
+                
+                const draftUrl = `https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=draft&LEAGUE_ID=${league.id}&JSON=1`;
+                const draftRes = await fetch(draftUrl);
+                if (!draftRes.ok) return alert("Could not fetch draft data for " + league.name);
+                
+                const draftData = await draftRes.json();
+                if (!draftData.draft || !draftData.draft.picks) return alert("No draft data found in " + league.name);
+                
+                allPicksResult = draftData.draft.picks;
+                break;
+            }
+        } catch (e) {
+            console.error("Error checking league " + league.name, e);
+            continue;
+        }
+    }
+    
+    if (!found) {
+        return alert(`Franchise "${franchiseName}" not found in any #SFB16 league. Check your spelling and try again.`);
+    }
+    
+    const myPicks = allPicksResult.filter(p => p.franchise_id === franchiseIdResult);
+    if (myPicks.length === 0) return alert("No picks found for this franchise.");
+    
+    processMFLPicks(myPicks, franchiseName, leagueNameResult);
+}
+
+function processMFLPicks(picks, franchiseName, leagueName) {
+    const processedPicks = picks.map(p => ({
+        round: parseInt(p.round),
+        draft_slot: parseInt(p.overall),
+        picked_by: p.franchise_id,
+        metadata: {
+            position: p.position || "UNK",
+            first_name: p.first_name || "",
+            last_name: p.last_name || ""
+        }
+    }));
+    
+    processedPicks.sort((a, b) => a.draft_slot - b.draft_slot);
+    
+    draw(processedPicks, franchiseName, leagueName);
 }
 
 // 3. Drawing Controller
