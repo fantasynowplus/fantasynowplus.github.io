@@ -1,6 +1,6 @@
 const MFL_YEAR = '2026';
 const CORS_PROXY = "https://corsproxy.io/?";
-const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9LyrqxdoACV4VlaXiT9hCq5daoQjNoFkhSYkwQft3xmsPkorfiA4w8vY2ZCK8rUNeZDFKqUAPBwBl/export?format=csv&gid=1351376251';
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9LyrqxdoACV4VlaXiT9hCq5daoQjNoFkhSYkwQft3xmsPkorfiA4w8vY2ZCK8rUNeZDFKqUAPBwBl/pub?gid=1351376251&single=true&output=csv';
 
 let allLeagues = { sleeper: [], mfl: [] };
 let selectedLeagueData = null;
