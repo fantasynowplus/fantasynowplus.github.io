@@ -21,67 +21,201 @@ const MFL_LEAGUES = [
     { name: "#SFB16 - Zelda", id: "38735" }
 ];
 
-function updateInputPlaceholder() {
+let allSleeperLeagues = [];
+let selectedLeagueData = null;
+let selectedFranchiseData = null;
+
+async function handlePlatformChange() {
     const platform = document.getElementById('platformSelect').value;
-    const input = document.getElementById('username');
+    const leagueSelect = document.getElementById('leagueSelect');
+    const franchiseSelect = document.getElementById('franchiseSelect');
+    
+    leagueSelect.innerHTML = '<option value="">-- Select League --</option>';
+    franchiseSelect.innerHTML = '<option value="">-- Select Franchise --</option>';
+    franchiseSelect.style.display = 'none';
+    selectedLeagueData = null;
+    selectedFranchiseData = null;
+    
+    if (!platform) {
+        leagueSelect.style.display = 'none';
+        return;
+    }
+    
+    leagueSelect.style.display = 'block';
     
     if (platform === 'sleeper') {
-        input.placeholder = "Sleeper Username";
+        await loadSleeperLeagues();
     } else if (platform === 'mfl') {
-        input.placeholder = "Franchise Name";
+        loadMFLLeagues();
     }
 }
 
-// 1. Main trigger function (Updated for tools.css classes)
+async function loadSleeperLeagues() {
+    const leagueSelect = document.getElementById('leagueSelect');
+    
+    try {
+        const res = await fetch('https://api.sleeper.app/v1/league/nfl/2026');
+        const leagues = await res.json();
+        
+        const sfbLeagues = leagues.filter(l => l.name && l.name.startsWith('#SFB16'));
+        allSleeperLeagues = sfbLeagues;
+        
+        leagueSelect.innerHTML = '<option value="">-- Select League --</option>';
+        sfbLeagues.forEach((league, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = league.name;
+            leagueSelect.appendChild(option);
+        });
+    } catch (e) {
+        console.error("Error loading Sleeper leagues:", e);
+        alert("Error loading Sleeper leagues: " + e.message);
+    }
+}
+
+function loadMFLLeagues() {
+    const leagueSelect = document.getElementById('leagueSelect');
+    
+    leagueSelect.innerHTML = '<option value="">-- Select League --</option>';
+    MFL_LEAGUES.forEach((league, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = league.name;
+        leagueSelect.appendChild(option);
+    });
+}
+
+async function handleLeagueChange() {
+    const platform = document.getElementById('platformSelect').value;
+    const leagueSelect = document.getElementById('leagueSelect');
+    const franchiseSelect = document.getElementById('franchiseSelect');
+    
+    const leagueIndex = leagueSelect.value;
+    if (!leagueIndex) {
+        franchiseSelect.style.display = 'none';
+        franchiseSelect.innerHTML = '<option value="">-- Select Franchise --</option>';
+        selectedLeagueData = null;
+        selectedFranchiseData = null;
+        return;
+    }
+    
+    if (platform === 'sleeper') {
+        await loadSleeperFranchises(leagueIndex);
+    } else if (platform === 'mfl') {
+        await loadMFLFranchises(leagueIndex);
+    }
+}
+
+async function loadSleeperFranchises(leagueIndex) {
+    const league = allSleeperLeagues[leagueIndex];
+    const franchiseSelect = document.getElementById('franchiseSelect');
+    
+    try {
+        const res = await fetch(`https://api.sleeper.app/v1/league/${league.league_id}/rosters`);
+        const rosters = await res.json();
+        
+        franchiseSelect.innerHTML = '<option value="">-- Select Franchise --</option>';
+        rosters.forEach((roster, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = `${roster.display_name || 'Team ' + (index + 1)}`;
+            franchiseSelect.appendChild(option);
+        });
+        
+        selectedLeagueData = { type: 'sleeper', league: league, rosters: rosters };
+        franchiseSelect.style.display = 'block';
+    } catch (e) {
+        console.error("Error loading Sleeper franchises:", e);
+        alert("Error loading franchises: " + e.message);
+    }
+}
+
+async function loadMFLFranchises(leagueIndex) {
+    const league = MFL_LEAGUES[leagueIndex];
+    const franchiseSelect = document.getElementById('franchiseSelect');
+    
+    try {
+        const fetchOptions = {
+            headers: {
+                'User-Agent': 'fantasynowplus'
+            }
+        };
+        
+        const url = `${CORS_PROXY}https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=franchise&LEAGUE_ID=${league.id}&JSON=1`;
+        const res = await fetch(url, fetchOptions);
+        
+        if (!res.ok) throw new Error("Failed to fetch franchises");
+        
+        const data = await res.json();
+        if (!data.franchise) throw new Error("No franchise data returned");
+        
+        const franchises = Array.isArray(data.franchise) ? data.franchise : [data.franchise];
+        
+        console.log("MFL Franchises:", franchises);
+        
+        franchiseSelect.innerHTML = '<option value="">-- Select Franchise --</option>';
+        franchises.forEach((franchise, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = franchise.name || `Team ${franchise.id}`;
+            option.dataset.franchiseId = franchise.id;
+            franchiseSelect.appendChild(option);
+        });
+        
+        selectedLeagueData = { type: 'mfl', league: league, franchises: franchises };
+        franchiseSelect.style.display = 'block';
+    } catch (e) {
+        console.error("Error loading MFL franchises:", e);
+        alert("Error loading franchises: " + e.message);
+    }
+}
+
 async function generateGraphic() {
     const platform = document.getElementById('platformSelect').value;
-    const username = document.getElementById('username').value;
-    const loader = document.getElementById('loader'); // Added missing declaration
-
-    if (!platform) return alert("-- Select Platform --");
-    if (!username) return alert("Enter username or ID");
-
+    const leagueSelect = document.getElementById('leagueSelect').value;
+    const franchiseSelect = document.getElementById('franchiseSelect').value;
+    const loader = document.getElementById('loader');
+    
+    if (!platform) return alert("Select a platform");
+    if (!leagueSelect) return alert("Select a league");
+    if (!franchiseSelect) return alert("Select a franchise");
+    
     loader.style.display = 'block';
     loader.innerText = "Syncing draft data...";
-
+    
     try {
         if (platform === 'sleeper') {
-            await handleSleeper(username);
+            await generateSleeperGraphic(franchiseSelect);
         } else if (platform === 'mfl') {
-            await handleMFL(username);
+            await generateMFLGraphic(franchiseSelect);
         }
     } catch (e) {
-        console.error("Detailed Error:", e); // This will show the actual API error in your browser console (F12)
-        alert("Error fetching data: " + e.message); 
+        console.error("Error:", e);
+        alert("Error: " + e.message);
     } finally {
         loader.style.display = 'none';
     }
 }
 
-// 2. Fetch Logic
-async function handleSleeper(username) {
-    const userRes = await fetch(`https://api.sleeper.app/v1/user/${username}`);
-    const user = await userRes.json();
+async function generateSleeperGraphic(rosterIndex) {
+    const league = selectedLeagueData.league;
+    const rosters = selectedLeagueData.rosters;
+    const roster = rosters[rosterIndex];
     
-    const leaguesRes = await fetch(`https://api.sleeper.app/v1/user/${user.user_id}/leagues/nfl/2026`);
-    const leagues = await leaguesRes.json();
-    
-    const sfbLeague = leagues.find(l => l.name && l.name.startsWith("#SFB16"));
-    if (!sfbLeague) return alert("No #SFB16 league found for this user.");
-    
-    const picksRes = await fetch(`https://api.sleeper.app/v1/draft/${sfbLeague.draft_id}/picks`);
+    const picksRes = await fetch(`https://api.sleeper.app/v1/draft/${league.draft_id}/picks`);
     const allPicks = await picksRes.json();
-    const myPicks = allPicks.filter(p => p.picked_by === user.user_id);
     
-    draw(myPicks, user.display_name, sfbLeague.name);
+    const myPicks = allPicks.filter(p => p.picked_by === roster.owner_id);
+    
+    if (myPicks.length === 0) return alert("No picks found for this franchise");
+    
+    draw(myPicks, roster.display_name || `Team ${rosterIndex + 1}`, league.name);
 }
 
-async function handleMFL(franchiseName) {
-    franchiseName = franchiseName.trim();
-    if (!franchiseName) return alert("Enter your franchise name");
-    
-    let found = false;
-    let leagueNameResult, leagueIdResult, franchiseIdResult, allPicksResult;
+async function generateMFLGraphic(franchiseIndex) {
+    const league = selectedLeagueData.league;
+    const franchises = selectedLeagueData.franchises;
+    const franchise = franchises[franchiseIndex];
     
     const fetchOptions = {
         headers: {
@@ -89,67 +223,20 @@ async function handleMFL(franchiseName) {
         }
     };
     
-    for (const league of MFL_LEAGUES) {
-        try {
-            const franchisesUrl = `${CORS_PROXY}https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=franchise&LEAGUE_ID=${league.id}&JSON=1`;
-            const franchisesRes = await fetch(franchisesUrl, fetchOptions);
-            if (!franchisesRes.ok) continue;
-            
-            const franchisesData = await franchisesRes.json();
-            if (!franchisesData.franchise) continue;
-            
-            const franchises = Array.isArray(franchisesData.franchise) 
-                ? franchisesData.franchise 
-                : [franchisesData.franchise];
-            
-            console.log(`=== ${league.name} ===`);
-            franchises.forEach(f => {
-                console.log("Full franchise object:", f);
-                console.log("Name:", f.name, "| Owner:", f.owner, "| ID:", f.id);
-            });
-            
-            const myFranchise = franchises.find(f => {
-                const nameMatch = f.name && f.name.toLowerCase() === franchiseName.toLowerCase();
-                const ownerMatch = f.owner && f.owner.toLowerCase() === franchiseName.toLowerCase();
-                console.log(`Checking "${franchiseName}" against name="${f.name}" (match: ${nameMatch}) and owner="${f.owner}" (match: ${ownerMatch})`);
-                return nameMatch || ownerMatch;
-            });
-            
-            if (myFranchise) {
-                found = true;
-                console.log("FOUND! Franchise:", myFranchise);
-                leagueNameResult = league.name;
-                leagueIdResult = league.id;
-                franchiseIdResult = myFranchise.id;
-                
-                const draftUrl = `${CORS_PROXY}https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=draft&LEAGUE_ID=${league.id}&JSON=1`;
-                const draftRes = await fetch(draftUrl, fetchOptions);
-                if (!draftRes.ok) return alert("Could not fetch draft data for " + league.name);
-                
-                const draftData = await draftRes.json();
-                if (!draftData.draft || !draftData.draft.picks) return alert("No draft data found in " + league.name);
-                
-                allPicksResult = draftData.draft.picks;
-                break;
-            }
-        } catch (e) {
-            console.error("Error checking league " + league.name, e);
-            continue;
-        }
-    }
+    const draftUrl = `${CORS_PROXY}https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=draft&LEAGUE_ID=${league.id}&JSON=1`;
+    const draftRes = await fetch(draftUrl, fetchOptions);
     
-    if (!found) {
-        return alert(`Franchise "${franchiseName}" not found in any #SFB16 league. Check your spelling and try again.`);
-    }
+    if (!draftRes.ok) throw new Error("Could not fetch draft data");
     
-    const myPicks = allPicksResult.filter(p => p.franchise_id === franchiseIdResult);
-    if (myPicks.length === 0) return alert("No picks found for this franchise.");
+    const draftData = await draftRes.json();
+    if (!draftData.draft || !draftData.draft.picks) throw new Error("No draft data found");
     
-    processMFLPicks(myPicks, franchiseName, leagueNameResult);
-}
-
-function processMFLPicks(picks, franchiseName, leagueName) {
-    const processedPicks = picks.map(p => ({
+    const allPicks = draftData.draft.picks;
+    const myPicks = allPicks.filter(p => p.franchise_id === franchise.id);
+    
+    if (myPicks.length === 0) return alert("No picks found for this franchise");
+    
+    const processedPicks = myPicks.map(p => ({
         round: parseInt(p.round),
         draft_slot: parseInt(p.overall),
         picked_by: p.franchise_id,
@@ -162,10 +249,9 @@ function processMFLPicks(picks, franchiseName, leagueName) {
     
     processedPicks.sort((a, b) => a.draft_slot - b.draft_slot);
     
-    draw(processedPicks, franchiseName, leagueName);
+    draw(processedPicks, franchise.name, league.name);
 }
 
-// 3. Drawing Controller
 function draw(picks, managerName, leagueName) {
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -197,7 +283,6 @@ function draw(picks, managerName, leagueName) {
     secondLogo.onerror = () => { secondLogo.failed = true; imageLoadedCallback(); };
 }
 
-// 4. Board Rendering
 function renderBoard(ctx, picks, manager, league, sfbLogo, secondLogo, canvasHeight) {
     ctx.fillStyle = "#0f172a"; 
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -266,7 +351,6 @@ function renderBoard(ctx, picks, manager, league, sfbLogo, secondLogo, canvasHei
     drawFooter(ctx, canvasHeight);
 }
 
-// 5. Stylized Footer (Matches your Fantasy Roster footer)
 function drawFooter(ctx, canvasHeight) {
     const footerHeightPx = 50;
     const footerStartY = canvasHeight - footerHeightPx;
