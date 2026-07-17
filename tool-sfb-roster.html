@@ -15,7 +15,7 @@ layout: null
 
     <div class="input-group sfb-input-group" style="display: flex; justify-content: center; align-items: center; max-width: 410px; margin: 0 auto; gap: 10px; flex-direction: column;">
         
-        <select id="leagueSelect" class="tool-select" onchange="handleLeagueChange()" style="width: 100%; max-width: 410px; display: none;">
+        <select id="leagueSelect" class="tool-select" onchange="handleLeagueChange()" style="width: 100%; max-width: 410px;">
             <option value="">-- Select League --</option>
         </select>
 
@@ -43,5 +43,12 @@ layout: null
     </div> 
 </main>
 
-<script src="/javascript/sfb-generator.js"></script>
+<script src="javascript/sfb-generator.js"></script>
+<script>
+    // Initialize leagues on page load
+    document.addEventListener('DOMContentLoaded', async function() {
+        await loadLeaguesFromCSV();
+        populateLeagueSelect();
+    });
+</script>
 {% include footer.html %}
