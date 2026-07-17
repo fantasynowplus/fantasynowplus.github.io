@@ -85,7 +85,7 @@ async function handleMFL(franchiseName) {
     
     for (const league of MFL_LEAGUES) {
         try {
-            const franchisesUrl = `https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=franchise&LEAGUE_ID=${league.id}&JSON=1`;
+            const franchisesUrl = `${CORS_PROXY}https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=franchise&LEAGUE_ID=${league.id}&JSON=1`;
             const franchisesRes = await fetch(franchisesUrl);
             if (!franchisesRes.ok) continue;
             
@@ -96,9 +96,13 @@ async function handleMFL(franchiseName) {
                 ? franchisesData.franchise 
                 : [franchisesData.franchise];
             
-            const myFranchise = franchises.find(f => 
-                f.name && f.name.toLowerCase() === franchiseName.toLowerCase()
-            );
+            console.log(`League: ${league.name}`, franchises);
+            
+            const myFranchise = franchises.find(f => {
+                const nameMatch = f.name && f.name.toLowerCase() === franchiseName.toLowerCase();
+                const ownerMatch = f.owner && f.owner.toLowerCase() === franchiseName.toLowerCase();
+                return nameMatch || ownerMatch;
+            });
             
             if (myFranchise) {
                 found = true;
@@ -106,7 +110,7 @@ async function handleMFL(franchiseName) {
                 leagueIdResult = league.id;
                 franchiseIdResult = myFranchise.id;
                 
-                const draftUrl = `https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=draft&LEAGUE_ID=${league.id}&JSON=1`;
+                const draftUrl = `${CORS_PROXY}https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=draft&LEAGUE_ID=${league.id}&JSON=1`;
                 const draftRes = await fetch(draftUrl);
                 if (!draftRes.ok) return alert("Could not fetch draft data for " + league.name);
                 
