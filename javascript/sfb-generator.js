@@ -96,16 +96,22 @@ async function handleMFL(franchiseName) {
                 ? franchisesData.franchise 
                 : [franchisesData.franchise];
             
-            console.log(`League: ${league.name}`, franchises);
+            console.log(`=== ${league.name} ===`);
+            franchises.forEach(f => {
+                console.log("Full franchise object:", f);
+                console.log("Name:", f.name, "| Owner:", f.owner, "| ID:", f.id);
+            });
             
             const myFranchise = franchises.find(f => {
                 const nameMatch = f.name && f.name.toLowerCase() === franchiseName.toLowerCase();
                 const ownerMatch = f.owner && f.owner.toLowerCase() === franchiseName.toLowerCase();
+                console.log(`Checking "${franchiseName}" against name="${f.name}" (match: ${nameMatch}) and owner="${f.owner}" (match: ${ownerMatch})`);
                 return nameMatch || ownerMatch;
             });
             
             if (myFranchise) {
                 found = true;
+                console.log("FOUND! Franchise:", myFranchise);
                 leagueNameResult = league.name;
                 leagueIdResult = league.id;
                 franchiseIdResult = myFranchise.id;
