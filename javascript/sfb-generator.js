@@ -52,7 +52,7 @@ function draw(picks, managerName, leagueName) {
     const imgTag = document.getElementById('finalImage');
 
     canvas.width = 1000;
-    canvas.height = 620; 
+    canvas.height = 875; 
 
     const sfbLogo = new Image();
     const secondLogo = new Image();
@@ -61,7 +61,7 @@ function draw(picks, managerName, leagueName) {
     function imageLoadedCallback() {
         imagesLoaded++;
         if (imagesLoaded === 2) {
-            renderBoard(ctx, picks, managerName, leagueName, sfbLogo, secondLogo);
+            renderBoard(ctx, picks, managerName, leagueName, sfbLogo, secondLogo, canvas.height);
             imgTag.src = canvas.toDataURL("image/png");
             imgTag.style.display = 'block';
             document.getElementById('downloadBtn').style.display = 'block';
@@ -78,7 +78,7 @@ function draw(picks, managerName, leagueName) {
 }
 
 // 4. Board Rendering
-function renderBoard(ctx, picks, manager, league, sfbLogo, secondLogo) {
+function renderBoard(ctx, picks, manager, league, sfbLogo, secondLogo, canvasHeight) {
     ctx.fillStyle = "#0f172a"; 
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -143,16 +143,18 @@ function renderBoard(ctx, picks, manager, league, sfbLogo, secondLogo) {
         });
     }
 
-    drawFooter(ctx);
+    drawFooter(ctx, canvasHeight);
 }
 
 // 5. Stylized Footer (Matches your Fantasy Roster footer)
-function drawFooter(ctx) {
-    const footerHeightPx = 50;
-    ctx.fillStyle = "#0a0f1a"; 
-    ctx.fillRect(0, 570, 1000, footerHeightPx);
+function drawFooter(ctx, canvasHeight) {
+    const footerHeightPx = 80;
+    const footerStartY = canvasHeight - footerHeightPx;
+    const footerTextY = footerStartY + 32;
     
-    const footerY = 602;
+    ctx.fillStyle = "#0a0f1a"; 
+    ctx.fillRect(0, footerStartY, 1000, footerHeightPx);
+    
     const mainText = "SFB16 Roster powered by ";
     const brandText = "FantasyNow";
     const plusText = "+";
@@ -168,15 +170,15 @@ function drawFooter(ctx) {
     let currentX = (1000 - totalWidth) / 2;
     
     ctx.fillStyle = "#94a3b8"; 
-    ctx.fillText(mainText, currentX, footerY);
+    ctx.fillText(mainText, currentX, footerTextY);
     currentX += widthMain;
     
     ctx.fillStyle = "#FFFFFF"; 
-    ctx.fillText(brandText, currentX, footerY);
+    ctx.fillText(brandText, currentX, footerTextY);
     currentX += widthBrand;
     
     ctx.fillStyle = "#FFA515"; 
-    ctx.fillText(plusText, currentX, footerY);
+    ctx.fillText(plusText, currentX, footerTextY);
 }
 
 function downloadImg() {
