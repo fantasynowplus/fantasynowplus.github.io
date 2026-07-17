@@ -139,7 +139,7 @@ async function loadMFLFranchises(league) {
             }
         };
         
-        const url = `${CORS_PROXY}https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=franchise&LEAGUE_ID=${league.id}&JSON=1`;
+        const url = `https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=franchise&LEAGUE_ID=${league.id}&JSON=1`;
         console.log("Fetching MFL franchises from:", url);
         
         const res = await fetch(url, fetchOptions);
@@ -147,17 +147,7 @@ async function loadMFLFranchises(league) {
         
         if (!res.ok) throw new Error(`Failed to fetch franchises: ${res.status}`);
         
-        const text = await res.text();
-        console.log("Raw MFL text response:", text);
-        
-        let data;
-        try {
-            data = JSON.parse(text);
-        } catch (e) {
-            console.error("Failed to parse JSON:", e);
-            throw new Error("MFL response is not valid JSON");
-        }
-        
+        const data = await res.json();
         console.log("Parsed MFL response:", data);
         
         // Check if there's an error in the response
@@ -268,6 +258,10 @@ async function generateSleeperGraphic(userIndex) {
 }
 
 async function generateMFLGraphic(franchiseIndex) {
+    if (!selectedLeagueData || !selectedLeagueData.franchises) {
+        throw new Error("League data not properly loaded");
+    }
+    
     const league = selectedLeagueData.league;
     const franchises = selectedLeagueData.franchises;
     const franchise = franchises[franchiseIndex];
@@ -278,7 +272,7 @@ async function generateMFLGraphic(franchiseIndex) {
         }
     };
     
-    const draftUrl = `${CORS_PROXY}https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=draft&LEAGUE_ID=${league.id}&JSON=1`;
+    const draftUrl = `https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=draft&LEAGUE_ID=${league.id}&JSON=1`;
     const draftRes = await fetch(draftUrl, fetchOptions);
     
     if (!draftRes.ok) throw new Error("Could not fetch draft data");
@@ -306,7 +300,6 @@ async function generateMFLGraphic(franchiseIndex) {
     
     draw(processedPicks, franchise.name, league.name);
 }
-
 function draw(picks, managerName, leagueName) {
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
