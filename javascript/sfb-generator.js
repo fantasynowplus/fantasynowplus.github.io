@@ -159,19 +159,14 @@ async function loadMFLFranchises(league) {
         }
         
         console.log("Parsed MFL response:", data);
-        console.log("Data type:", typeof data);
-        console.log("Data keys:", Object.keys(data));
         
-        // Check all possible key names for franchise data
-        const franchiseKey = Object.keys(data).find(key => key.toLowerCase().includes('franchise'));
-        console.log("Franchise key found:", franchiseKey);
-        
-        if (!franchiseKey) {
-            console.log("Full data:", JSON.stringify(data, null, 2));
-            throw new Error("No franchise data found in response. Keys available: " + Object.keys(data).join(", "));
+        // Check if there's an error in the response
+        if (data.error) {
+            console.error("MFL API Error:", data.error);
+            throw new Error("MFL API Error: " + JSON.stringify(data.error));
         }
         
-        const franchises = Array.isArray(data[franchiseKey]) ? data[franchiseKey] : [data[franchiseKey]];
+        const franchises = Array.isArray(data.franchise) ? data.franchise : [data.franchise];
         console.log("Parsed franchises:", franchises);
         
         if (!franchises || franchises.length === 0) {
@@ -194,6 +189,7 @@ async function loadMFLFranchises(league) {
         alert("Error loading franchises: " + e.message);
     }
 }
+
 async function generateGraphic() {
     const platform = document.getElementById('platformSelect').value;
     const leagueSelect = document.getElementById('leagueSelect').value;
