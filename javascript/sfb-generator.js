@@ -108,18 +108,20 @@ async function loadSleeperFranchises(league) {
     const franchiseSelect = document.getElementById('franchiseSelect');
     
     try {
-        const res = await fetch(`https://api.sleeper.app/v1/league/${league.id}/rosters`);
-        const rosters = await res.json();
+        const res = await fetch(`https://api.sleeper.app/v1/league/${league.id}/users`);
+        const users = await res.json();
+        console.log("Sleeper users:", users);
         
         franchiseSelect.innerHTML = '<option value="">-- Select Franchise --</option>';
-        rosters.forEach((roster, index) => {
+        users.forEach((user, index) => {
+            const displayName = user.display_name || user.username || `User ${index + 1}`;
             const option = document.createElement('option');
             option.value = index;
-            option.textContent = roster.display_name || `Team ${index + 1}`;
+            option.textContent = displayName;
             franchiseSelect.appendChild(option);
         });
         
-        selectedLeagueData = { type: 'sleeper', league: league, rosters: rosters };
+        selectedLeagueData = { type: 'sleeper', league: league, users: users };
         franchiseSelect.style.display = 'block';
     } catch (e) {
         console.error("Error loading Sleeper franchises:", e);
@@ -199,19 +201,25 @@ async function generateGraphic() {
     }
 }
 
-async function generateSleeperGraphic(rosterIndex) {
+async function generateSleeperGraphic(userIndex) {
+    if (!selectedLeagueData || !selectedLeagueData.users) {
+        throw new Error("League data not properly loaded");
+    }
+    
     const league = selectedLeagueData.league;
-    const rosters = selectedLeagueData.rosters;
-    const roster = rosters[rosterIndex];
+    const users = selectedLeagueData.users;
+    const user = users[userIndex];
     
     const picksRes = await fetch(`https://api.sleeper.app/v1/draft/${league.id}/picks`);
     const allPicks = await picksRes.json();
+    console.log("All picks:", allPicks);
     
-    const myPicks = allPicks.filter(p => p.picked_by === roster.owner_id);
+    const myPicks = allPicks.filter(p => p.picked_by === user.user_id);
     
     if (myPicks.length === 0) return alert("No picks found for this franchise");
     
-    draw(myPicks, roster.display_name || `Team ${rosterIndex + 1}`, league.name);
+    const managerName = user.display_name || user.username || `User ${userIndex + 1}`;
+    draw(myPicks, managerName, league.name);
 }
 
 async function generateMFLGraphic(franchiseIndex) {
