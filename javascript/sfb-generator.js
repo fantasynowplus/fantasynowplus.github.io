@@ -346,4 +346,50 @@ function renderBoard(ctx, picks, manager, league, sfbLogo, secondLogo, canvasHei
             ctx.font = "bold 15px sans-serif";
             ctx.fillText(posRaw, colX + 65, y + 33);
             ctx.font = "normal 22px sans-serif"; 
-            ctx.fillText(p.metadata.first_name + " " + p.metadata.last_name, colX + 135, y
+            ctx.fillText(p.metadata.first_name + " " + p.metadata.last_name, colX + 135, y + 33);
+        });
+    }
+
+    drawFooter(ctx, canvasHeight);
+}
+
+function drawFooter(ctx, canvasHeight) {
+    const footerHeightPx = 50;
+    const footerStartY = canvasHeight - footerHeightPx;
+    const footerTextY = footerStartY + 32;
+    
+    ctx.fillStyle = "#0a0f1a"; 
+    ctx.fillRect(0, footerStartY, 1000, footerHeightPx);
+    
+    const mainText = "SFB16 Roster powered by ";
+    const brandText = "FantasyNow";
+    const plusText = "+";
+    
+    ctx.font = "bold 20px sans-serif";
+    ctx.textAlign = "left";
+    
+    const widthMain = ctx.measureText(mainText).width;
+    const widthBrand = ctx.measureText(brandText).width;
+    const widthPlus = ctx.measureText(plusText).width;
+    const totalWidth = widthMain + widthBrand + widthPlus;
+    
+    let currentX = (1000 - totalWidth) / 2;
+    
+    ctx.fillStyle = "#94a3b8"; 
+    ctx.fillText(mainText, currentX, footerTextY);
+    currentX += widthMain;
+    
+    ctx.fillStyle = "#FFFFFF"; 
+    ctx.fillText(brandText, currentX, footerTextY);
+    currentX += widthBrand;
+    
+    ctx.fillStyle = "#FFA515"; 
+    ctx.fillText(plusText, currentX, footerTextY);
+}
+
+function downloadImg() {
+    const link = document.createElement('a');
+    link.download = 'DraftRecap.png';
+    link.href = document.getElementById('finalImage').src;
+    link.click();
+}
