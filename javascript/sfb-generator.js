@@ -72,6 +72,8 @@ async function handlePlatformChange() {
         option.textContent = league.name;
         leagueSelect.appendChild(option);
     });
+}
+
 async function handleLeagueChange() {
     const platform = document.getElementById('platformSelect').value;
     const leagueSelect = document.getElementById('leagueSelect');
