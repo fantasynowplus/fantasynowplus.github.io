@@ -139,10 +139,12 @@ async function loadMFLFranchises(league) {
             }
         };
         
-        const url = `https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=franchise&LEAGUE_ID=${league.id}&JSON=1`;
-        console.log("Fetching MFL franchises from:", url);
+        const apiUrl = `https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=franchise&LEAGUE_ID=${league.id}&JSON=1`;
+        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
         
-        const res = await fetch(url, fetchOptions);
+        console.log("Fetching MFL franchises from:", proxyUrl);
+        
+        const res = await fetch(proxyUrl, fetchOptions);
         console.log("MFL response status:", res.status);
         
         if (!res.ok) throw new Error(`Failed to fetch franchises: ${res.status}`);
@@ -150,7 +152,6 @@ async function loadMFLFranchises(league) {
         const data = await res.json();
         console.log("Parsed MFL response:", data);
         
-        // Check if there's an error in the response
         if (data.error) {
             console.error("MFL API Error:", data.error);
             throw new Error("MFL API Error: " + JSON.stringify(data.error));
@@ -272,8 +273,10 @@ async function generateMFLGraphic(franchiseIndex) {
         }
     };
     
-    const draftUrl = `https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=draft&LEAGUE_ID=${league.id}&JSON=1`;
-    const draftRes = await fetch(draftUrl, fetchOptions);
+    const apiUrl = `https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=draft&LEAGUE_ID=${league.id}&JSON=1`;
+    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
+    
+    const draftRes = await fetch(proxyUrl, fetchOptions);
     
     if (!draftRes.ok) throw new Error("Could not fetch draft data");
     
@@ -300,6 +303,7 @@ async function generateMFLGraphic(franchiseIndex) {
     
     draw(processedPicks, franchise.name, league.name);
 }
+
 function draw(picks, managerName, leagueName) {
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
