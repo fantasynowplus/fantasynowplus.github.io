@@ -210,13 +210,27 @@ async function generateSleeperGraphic(userIndex) {
     const users = selectedLeagueData.users;
     const user = users[userIndex];
     
+    console.log("Generating for user:", user);
+    console.log("League ID:", league.id);
+    
     const picksRes = await fetch(`https://api.sleeper.app/v1/draft/${league.id}/picks`);
+    console.log("Picks response status:", picksRes.status);
+    
+    if (!picksRes.ok) {
+        throw new Error(`Failed to fetch picks: ${picksRes.status} ${picksRes.statusText}`);
+    }
+    
     const allPicks = await picksRes.json();
     console.log("All picks:", allPicks);
     
-    const myPicks = allPicks.filter(p => p.picked_by === user.user_id);
+    if (!allPicks || allPicks.length === 0) {
+        throw new Error("No picks found in response");
+    }
     
-    if (myPicks.length === 0) return alert("No picks found for this franchise");
+    const myPicks = allPicks.filter(p => p.picked_by === user.user_id);
+    console.log("My picks:", myPicks);
+    
+    if (myPicks.length === 0) return alert("No picks found for this user");
     
     const managerName = user.display_name || user.username || `User ${userIndex + 1}`;
     draw(myPicks, managerName, league.name);
