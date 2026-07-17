@@ -1,33 +1,24 @@
 const MFL_YEAR = '2026';
-const CORS_PROXY = "https://corsproxy.io/?";
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9LyrqxdoACV4VlaXiT9hCq5daoQjNoFkhSYkwQft3xmsPkorfiA4w8vY2ZCK8rUNeZDFKqUAPBwBl/pub?gid=1351376251&single=true&output=csv';
 
-let allLeagues = { sleeper: [], mfl: [] };
+let allLeagues = { sleeper: [] };
 let selectedLeagueData = null;
-let selectedFranchiseData = null;
 
 async function loadLeaguesFromCSV() {
     try {
         const res = await fetch(CSV_URL);
         const csv = await res.text();
-        console.log("Raw CSV text:", csv);
         const lines = csv.trim().split('\n');
-        console.log("CSV Lines:", lines);
         
         allLeagues.sleeper = [];
-        allLeagues.mfl = [];
         
         for (let i = 1; i < lines.length; i++) {
             const cols = lines[i].split(',');
-            console.log(`Line ${i}:`, cols);
-            
             if (cols.length < 3) continue;
             
             const name = cols[0].trim().replace(/^"(.+)"$/, '$1');
             const id = cols[1].trim().replace(/^"(.+)"$/, '$1');
             const platform = cols[2].trim().toLowerCase().replace(/^"(.+)"$/, '$1');
-            
-            console.log(`Parsed: name="${name}", id="${id}", platform="${platform}"`);
             
             if (!name || !id || !platform) continue;
             
@@ -35,12 +26,10 @@ async function loadLeaguesFromCSV() {
             
             if (platform === 'sleeper') {
                 allLeagues.sleeper.push(league);
-            } else if (platform === 'myfantasyleague') {
-                allLeagues.mfl.push(league);
             }
         }
         
-        console.log("Final loaded leagues:", allLeagues);
+        console.log("Loaded Sleeper leagues:", allLeagues.sleeper);
     } catch (e) {
         console.error("Error loading CSV:", e);
         alert("Error loading league data: " + e.message);
@@ -48,7 +37,7 @@ async function loadLeaguesFromCSV() {
 }
 
 async function handlePlatformChange() {
-    const platform = document.getElementById('platformSelect').value;
+    // Auto-load Sleeper leagues since it's the only option
     const leagueSelect = document.getElementById('leagueSelect');
     const franchiseSelect = document.getElementById('franchiseSelect');
     
@@ -56,20 +45,14 @@ async function handlePlatformChange() {
     franchiseSelect.innerHTML = '<option value="">-- Select Franchise --</option>';
     franchiseSelect.style.display = 'none';
     selectedLeagueData = null;
-    selectedFranchiseData = null;
-    
-    if (!platform) {
-        leagueSelect.style.display = 'none';
-        return;
-    }
     
     leagueSelect.style.display = 'block';
     
-    if (allLeagues.sleeper.length === 0 && allLeagues.mfl.length === 0) {
+    if (allLeagues.sleeper.length === 0) {
         await loadLeaguesFromCSV();
     }
     
-    const leagues = platform === 'sleeper' ? allLeagues.sleeper : allLeagues.mfl;
+    const leagues = allLeagues.sleeper;
     
     leagueSelect.innerHTML = '<option value="">-- Select League --</option>';
     leagues.forEach((league, index) => {
@@ -81,7 +64,6 @@ async function handlePlatformChange() {
 }
 
 async function handleLeagueChange() {
-    const platform = document.getElementById('platformSelect').value;
     const leagueSelect = document.getElementById('leagueSelect');
     const franchiseSelect = document.getElementById('franchiseSelect');
     
@@ -90,18 +72,13 @@ async function handleLeagueChange() {
         franchiseSelect.style.display = 'none';
         franchiseSelect.innerHTML = '<option value="">-- Select Franchise --</option>';
         selectedLeagueData = null;
-        selectedFranchiseData = null;
         return;
     }
     
-    const leagues = platform === 'sleeper' ? allLeagues.sleeper : allLeagues.mfl;
+    const leagues = allLeagues.sleeper;
     const league = leagues[leagueIndex];
     
-    if (platform === 'sleeper') {
-        await loadSleeperFranchises(league);
-    } else if (platform === 'mfl') {
-        await loadMFLFranchises(league);
-    }
+    await loadSleeperFranchises(league);
 }
 
 async function loadSleeperFranchises(league) {
@@ -129,77 +106,20 @@ async function loadSleeperFranchises(league) {
     }
 }
 
-async function loadMFLFranchises(league) {
-    const franchiseSelect = document.getElementById('franchiseSelect');
-    
-    try {
-        const fetchOptions = {
-            headers: {
-                'User-Agent': 'fantasynowplus'
-            }
-        };
-        
-        const apiUrl = `https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=franchise&LEAGUE_ID=${league.id}&JSON=1`;
-        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
-        
-        console.log("Fetching MFL franchises from:", proxyUrl);
-        
-        const res = await fetch(proxyUrl, fetchOptions);
-        console.log("MFL response status:", res.status);
-        
-        if (!res.ok) throw new Error(`Failed to fetch franchises: ${res.status}`);
-        
-        const data = await res.json();
-        console.log("Parsed MFL response:", data);
-        
-        if (data.error) {
-            console.error("MFL API Error:", data.error);
-            throw new Error("MFL API Error: " + JSON.stringify(data.error));
-        }
-        
-        const franchises = Array.isArray(data.franchise) ? data.franchise : [data.franchise];
-        console.log("Parsed franchises:", franchises);
-        
-        if (!franchises || franchises.length === 0) {
-            throw new Error("No franchises in response");
-        }
-        
-        franchiseSelect.innerHTML = '<option value="">-- Select Franchise --</option>';
-        franchises.forEach((franchise, index) => {
-            const option = document.createElement('option');
-            option.value = index;
-            option.textContent = franchise.name || `Team ${franchise.id}`;
-            option.dataset.franchiseId = franchise.id;
-            franchiseSelect.appendChild(option);
-        });
-        
-        selectedLeagueData = { type: 'mfl', league: league, franchises: franchises };
-        franchiseSelect.style.display = 'block';
-    } catch (e) {
-        console.error("Error loading MFL franchises:", e);
-        alert("Error loading franchises: " + e.message);
-    }
-}
-
 async function generateGraphic() {
-    const platform = document.getElementById('platformSelect').value;
     const leagueSelect = document.getElementById('leagueSelect').value;
     const franchiseSelect = document.getElementById('franchiseSelect').value;
     const loader = document.getElementById('loader');
     
-    if (!platform) return alert("Select a platform");
     if (!leagueSelect) return alert("Select a league");
     if (!franchiseSelect) return alert("Select a franchise");
+    if (!selectedLeagueData) return alert("League data not loaded. Try selecting the league again.");
     
     loader.style.display = 'block';
     loader.innerText = "Syncing draft data...";
     
     try {
-        if (platform === 'sleeper') {
-            await generateSleeperGraphic(franchiseSelect);
-        } else if (platform === 'mfl') {
-            await generateMFLGraphic(franchiseSelect);
-        }
+        await generateSleeperGraphic(franchiseSelect);
     } catch (e) {
         console.error("Error:", e);
         alert("Error: " + e.message);
@@ -256,52 +176,6 @@ async function generateSleeperGraphic(userIndex) {
     
     const managerName = user.display_name || user.username || `User ${userIndex + 1}`;
     draw(myPicks, managerName, league.name);
-}
-
-async function generateMFLGraphic(franchiseIndex) {
-    if (!selectedLeagueData || !selectedLeagueData.franchises) {
-        throw new Error("League data not properly loaded");
-    }
-    
-    const league = selectedLeagueData.league;
-    const franchises = selectedLeagueData.franchises;
-    const franchise = franchises[franchiseIndex];
-    
-    const fetchOptions = {
-        headers: {
-            'User-Agent': 'fantasynowplus'
-        }
-    };
-    
-    const apiUrl = `https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=draft&LEAGUE_ID=${league.id}&JSON=1`;
-    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
-    
-    const draftRes = await fetch(proxyUrl, fetchOptions);
-    
-    if (!draftRes.ok) throw new Error("Could not fetch draft data");
-    
-    const draftData = await draftRes.json();
-    if (!draftData.draft || !draftData.draft.picks) throw new Error("No draft data found");
-    
-    const allPicks = draftData.draft.picks;
-    const myPicks = allPicks.filter(p => p.franchise_id === franchise.id);
-    
-    if (myPicks.length === 0) return alert("No picks found for this franchise");
-    
-    const processedPicks = myPicks.map(p => ({
-        round: parseInt(p.round),
-        draft_slot: parseInt(p.overall),
-        picked_by: p.franchise_id,
-        metadata: {
-            position: p.position || "UNK",
-            first_name: p.first_name || "",
-            last_name: p.last_name || ""
-        }
-    }));
-    
-    processedPicks.sort((a, b) => a.draft_slot - b.draft_slot);
-    
-    draw(processedPicks, franchise.name, league.name);
 }
 
 function draw(picks, managerName, leagueName) {
