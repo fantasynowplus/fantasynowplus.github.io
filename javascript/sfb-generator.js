@@ -1,29 +1,45 @@
 const MFL_YEAR = '2026';
 const CORS_PROXY = "https://corsproxy.io/?";
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9LyrqxdoACV4VlaXiT9hCq5daoQjNoFkhSYkwQft3xmsPkorfiA4w8vY2ZCK8rUNeZDFKqUAPBwBl/export?format=csv';
 
-const MFL_LEAGUES = [
-    { name: "#SFB16 - Baseball Stars", id: "42801" },
-    { name: "#SFB16 - Crazy Taxi", id: "46308" },
-    { name: "#SFB16 - Double dragon", id: "23484" },
-    { name: "#SFB16 - Double dribble", id: "39518" },
-    { name: "#SFB16 - Duck Hunt", id: "54792" },
-    { name: "#SFB16 - Excitebike", id: "73136" },
-    { name: "#SFB16 - Frogger", id: "14494" },
-    { name: "#SFB16 - Ice Hockey", id: "61959" },
-    { name: "#SFB16 - Metroid", id: "43844" },
-    { name: "#SFB16 - Mutant League Football", id: "41323" },
-    { name: "#SFB16 - NBA Jam (Berry)", id: "65583" },
-    { name: "#SFB16 - NHL 2021", id: "15797" },
-    { name: "#SFB16 - Pitfall", id: "72117" },
-    { name: "#SFB16 - Pong", id: "55743" },
-    { name: "#SFB16 - Rampage", id: "25949" },
-    { name: "#SFB16 - Tetris", id: "44962" },
-    { name: "#SFB16 - Zelda", id: "38735" }
-];
-
-let allSleeperLeagues = [];
+let allLeagues = { sleeper: [], mfl: [] };
 let selectedLeagueData = null;
 let selectedFranchiseData = null;
+
+async function loadLeaguesFromCSV() {
+    try {
+        const res = await fetch(CSV_URL);
+        const csv = await res.text();
+        const lines = csv.trim().split('\n');
+        
+        allLeagues.sleeper = [];
+        allLeagues.mfl = [];
+        
+        for (let i = 1; i < lines.length; i++) {
+            const cols = lines[i].split(',');
+            if (cols.length < 3) continue;
+            
+            const name = cols[0].trim().replace(/^"(.+)"$/, '$1');
+            const id = cols[1].trim().replace(/^"(.+)"$/, '$1');
+            const platform = cols[2].trim().toLowerCase().replace(/^"(.+)"$/, '$1');
+            
+            if (!name || !id || !platform) continue;
+            
+            const league = { name, id };
+            
+            if (platform === 'sleeper') {
+                allLeagues.sleeper.push(league);
+            } else if (platform === 'mfl') {
+                allLeagues.mfl.push(league);
+            }
+        }
+        
+        console.log("Loaded leagues:", allLeagues);
+    } catch (e) {
+        console.error("Error loading CSV:", e);
+        alert("Error loading league data: " + e.message);
+    }
+}
 
 async function handlePlatformChange() {
     const platform = document.getElementById('platformSelect').value;
@@ -43,55 +59,26 @@ async function handlePlatformChange() {
     
     leagueSelect.style.display = 'block';
     
-    if (platform === 'sleeper') {
-        await loadSleeperLeagues();
-    } else if (platform === 'mfl') {
-        loadMFLLeagues();
+    if (allLeagues.sleeper.length === 0 && allLeagues.mfl.length === 0) {
+        await loadLeaguesFromCSV();
     }
-}
-
-async function loadSleeperLeagues() {
-    const leagueSelect = document.getElementById('leagueSelect');
     
-    try {
-        const res = await fetch('https://api.sleeper.app/v1/league/nfl/2026');
-        const leagues = await res.json();
-        
-        const sfbLeagues = leagues.filter(l => l.name && l.name.startsWith('#SFB16'));
-        allSleeperLeagues = sfbLeagues;
-        
-        leagueSelect.innerHTML = '<option value="">-- Select League --</option>';
-        sfbLeagues.forEach((league, index) => {
-            const option = document.createElement('option');
-            option.value = index;
-            option.textContent = league.name;
-            leagueSelect.appendChild(option);
-        });
-    } catch (e) {
-        console.error("Error loading Sleeper leagues:", e);
-        alert("Error loading Sleeper leagues: " + e.message);
-    }
-}
-
-function loadMFLLeagues() {
-    const leagueSelect = document.getElementById('leagueSelect');
+    const leagues = platform === 'sleeper' ? allLeagues.sleeper : allLeagues.mfl;
     
     leagueSelect.innerHTML = '<option value="">-- Select League --</option>';
-    MFL_LEAGUES.forEach((league, index) => {
+    leagues.forEach((league, index) => {
         const option = document.createElement('option');
         option.value = index;
         option.textContent = league.name;
         leagueSelect.appendChild(option);
     });
-}
-
 async function handleLeagueChange() {
     const platform = document.getElementById('platformSelect').value;
     const leagueSelect = document.getElementById('leagueSelect');
     const franchiseSelect = document.getElementById('franchiseSelect');
     
     const leagueIndex = leagueSelect.value;
-    if (!leagueIndex) {
+    if (!leagueIndex && leagueIndex !== '0') {
         franchiseSelect.style.display = 'none';
         franchiseSelect.innerHTML = '<option value="">-- Select Franchise --</option>';
         selectedLeagueData = null;
@@ -99,26 +86,28 @@ async function handleLeagueChange() {
         return;
     }
     
+    const leagues = platform === 'sleeper' ? allLeagues.sleeper : allLeagues.mfl;
+    const league = leagues[leagueIndex];
+    
     if (platform === 'sleeper') {
-        await loadSleeperFranchises(leagueIndex);
+        await loadSleeperFranchises(league);
     } else if (platform === 'mfl') {
-        await loadMFLFranchises(leagueIndex);
+        await loadMFLFranchises(league);
     }
 }
 
-async function loadSleeperFranchises(leagueIndex) {
-    const league = allSleeperLeagues[leagueIndex];
+async function loadSleeperFranchises(league) {
     const franchiseSelect = document.getElementById('franchiseSelect');
     
     try {
-        const res = await fetch(`https://api.sleeper.app/v1/league/${league.league_id}/rosters`);
+        const res = await fetch(`https://api.sleeper.app/v1/league/${league.id}/rosters`);
         const rosters = await res.json();
         
         franchiseSelect.innerHTML = '<option value="">-- Select Franchise --</option>';
         rosters.forEach((roster, index) => {
             const option = document.createElement('option');
             option.value = index;
-            option.textContent = `${roster.display_name || 'Team ' + (index + 1)}`;
+            option.textContent = roster.display_name || `Team ${index + 1}`;
             franchiseSelect.appendChild(option);
         });
         
@@ -130,8 +119,7 @@ async function loadSleeperFranchises(leagueIndex) {
     }
 }
 
-async function loadMFLFranchises(leagueIndex) {
-    const league = MFL_LEAGUES[leagueIndex];
+async function loadMFLFranchises(league) {
     const franchiseSelect = document.getElementById('franchiseSelect');
     
     try {
@@ -147,7 +135,13 @@ async function loadMFLFranchises(leagueIndex) {
         if (!res.ok) throw new Error("Failed to fetch franchises");
         
         const data = await res.json();
-        if (!data.franchise) throw new Error("No franchise data returned");
+        console.log("Raw MFL response:", data);
+        console.log("Data keys:", Object.keys(data));
+        
+        if (!data.franchise) {
+            console.log("No franchise key found. Full data:", JSON.stringify(data, null, 2));
+            throw new Error("No franchise data returned");
+        }
         
         const franchises = Array.isArray(data.franchise) ? data.franchise : [data.franchise];
         
@@ -202,7 +196,7 @@ async function generateSleeperGraphic(rosterIndex) {
     const rosters = selectedLeagueData.rosters;
     const roster = rosters[rosterIndex];
     
-    const picksRes = await fetch(`https://api.sleeper.app/v1/draft/${league.draft_id}/picks`);
+    const picksRes = await fetch(`https://api.sleeper.app/v1/draft/${league.id}/picks`);
     const allPicks = await picksRes.json();
     
     const myPicks = allPicks.filter(p => p.picked_by === roster.owner_id);
