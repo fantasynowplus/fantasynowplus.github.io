@@ -10,18 +10,24 @@ async function loadLeaguesFromCSV() {
     try {
         const res = await fetch(CSV_URL);
         const csv = await res.text();
+        console.log("Raw CSV text:", csv);
         const lines = csv.trim().split('\n');
+        console.log("CSV Lines:", lines);
         
         allLeagues.sleeper = [];
         allLeagues.mfl = [];
         
         for (let i = 1; i < lines.length; i++) {
             const cols = lines[i].split(',');
+            console.log(`Line ${i}:`, cols);
+            
             if (cols.length < 3) continue;
             
             const name = cols[0].trim().replace(/^"(.+)"$/, '$1');
             const id = cols[1].trim().replace(/^"(.+)"$/, '$1');
             const platform = cols[2].trim().toLowerCase().replace(/^"(.+)"$/, '$1');
+            
+            console.log(`Parsed: name="${name}", id="${id}", platform="${platform}"`);
             
             if (!name || !id || !platform) continue;
             
@@ -34,7 +40,7 @@ async function loadLeaguesFromCSV() {
             }
         }
         
-        console.log("Loaded leagues:", allLeagues);
+        console.log("Final loaded leagues:", allLeagues);
     } catch (e) {
         console.error("Error loading CSV:", e);
         alert("Error loading league data: " + e.message);
