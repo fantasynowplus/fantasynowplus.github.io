@@ -4,38 +4,18 @@ const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS9LyrqxdoACV4V
 let allLeagues = { sleeper: [] };
 let selectedLeagueData = null;
 
-async function loadLeaguesFromCSV() {
-    try {
-        const res = await fetch(CSV_URL);
-        const csv = await res.text();
-        const lines = csv.trim().split('\n');
-        
-        allLeagues.sleeper = [];
-        
-        for (let i = 1; i < lines.length; i++) {
-            const cols = lines[i].split(',');
-            if (cols.length < 3) continue;
-            
-            const name = cols[0].trim().replace(/^"(.+)"$/, '$1');
-            const id = cols[1].trim().replace(/^"(.+)"$/, '$1');
-            const platform = cols[2].trim().toLowerCase().replace(/^"(.+)"$/, '$1');
-            
-            if (!name || !id || !platform) continue;
-            
-            const league = { name, id };
-            
-            if (platform === 'sleeper') {
-                allLeagues.sleeper.push(league);
-            }
-        }
-        
-        console.log("Loaded Sleeper leagues:", allLeagues.sleeper);
-    } catch (e) {
-        console.error("Error loading CSV:", e);
-        alert("Error loading league data: " + e.message);
-    }
+function populateLeagueSelect() {
+    const leagueSelect = document.getElementById('leagueSelect');
+    const leagues = allLeagues.sleeper;
+    
+    leagueSelect.innerHTML = '<option value="">-- Select League --</option>';
+    leagues.forEach((league, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = league.name;
+        leagueSelect.appendChild(option);
+    });
 }
-
 async function handlePlatformChange() {
     // Auto-load Sleeper leagues since it's the only option
     const leagueSelect = document.getElementById('leagueSelect');
