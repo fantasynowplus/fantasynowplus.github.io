@@ -140,22 +140,43 @@ async function loadMFLFranchises(league) {
         };
         
         const url = `${CORS_PROXY}https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=franchise&LEAGUE_ID=${league.id}&JSON=1`;
+        console.log("Fetching MFL franchises from:", url);
+        
         const res = await fetch(url, fetchOptions);
+        console.log("MFL response status:", res.status);
         
-        if (!res.ok) throw new Error("Failed to fetch franchises");
+        if (!res.ok) throw new Error(`Failed to fetch franchises: ${res.status}`);
         
-        const data = await res.json();
-        console.log("Raw MFL response:", data);
-        console.log("Data keys:", Object.keys(data));
+        const text = await res.text();
+        console.log("Raw MFL text response:", text);
         
-        if (!data.franchise) {
-            console.log("No franchise key found. Full data:", JSON.stringify(data, null, 2));
-            throw new Error("No franchise data returned");
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (e) {
+            console.error("Failed to parse JSON:", e);
+            throw new Error("MFL response is not valid JSON");
         }
         
-        const franchises = Array.isArray(data.franchise) ? data.franchise : [data.franchise];
+        console.log("Parsed MFL response:", data);
+        console.log("Data type:", typeof data);
+        console.log("Data keys:", Object.keys(data));
         
-        console.log("MFL Franchises:", franchises);
+        // Check all possible key names for franchise data
+        const franchiseKey = Object.keys(data).find(key => key.toLowerCase().includes('franchise'));
+        console.log("Franchise key found:", franchiseKey);
+        
+        if (!franchiseKey) {
+            console.log("Full data:", JSON.stringify(data, null, 2));
+            throw new Error("No franchise data found in response. Keys available: " + Object.keys(data).join(", "));
+        }
+        
+        const franchises = Array.isArray(data[franchiseKey]) ? data[franchiseKey] : [data[franchiseKey]];
+        console.log("Parsed franchises:", franchises);
+        
+        if (!franchises || franchises.length === 0) {
+            throw new Error("No franchises in response");
+        }
         
         franchiseSelect.innerHTML = '<option value="">-- Select Franchise --</option>';
         franchises.forEach((franchise, index) => {
@@ -173,7 +194,6 @@ async function loadMFLFranchises(league) {
         alert("Error loading franchises: " + e.message);
     }
 }
-
 async function generateGraphic() {
     const platform = document.getElementById('platformSelect').value;
     const leagueSelect = document.getElementById('leagueSelect').value;
