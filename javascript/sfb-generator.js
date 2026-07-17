@@ -83,10 +83,16 @@ async function handleMFL(franchiseName) {
     let found = false;
     let leagueNameResult, leagueIdResult, franchiseIdResult, allPicksResult;
     
+    const fetchOptions = {
+        headers: {
+            'User-Agent': 'fantasynowplus'
+        }
+    };
+    
     for (const league of MFL_LEAGUES) {
         try {
             const franchisesUrl = `${CORS_PROXY}https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=franchise&LEAGUE_ID=${league.id}&JSON=1`;
-            const franchisesRes = await fetch(franchisesUrl);
+            const franchisesRes = await fetch(franchisesUrl, fetchOptions);
             if (!franchisesRes.ok) continue;
             
             const franchisesData = await franchisesRes.json();
@@ -117,7 +123,7 @@ async function handleMFL(franchiseName) {
                 franchiseIdResult = myFranchise.id;
                 
                 const draftUrl = `${CORS_PROXY}https://api.myfantasyleague.com/${MFL_YEAR}/export?TYPE=draft&LEAGUE_ID=${league.id}&JSON=1`;
-                const draftRes = await fetch(draftUrl);
+                const draftRes = await fetch(draftUrl, fetchOptions);
                 if (!draftRes.ok) return alert("Could not fetch draft data for " + league.name);
                 
                 const draftData = await draftRes.json();
